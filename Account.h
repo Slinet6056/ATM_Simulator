@@ -8,24 +8,31 @@ using std::string;
 using std::vector;
 
 class Account {
-
+public:
     //基本信息
     string id;                                                       //卡号
     string name;                                                     //姓名
     string password;                                                 //密码
-    double balance;                                                  //账户余额
+    double balance{};                                                //账户余额
 
     //单笔交易记录
     struct Transaction {
-        string id;                                                   //交易编号
-        string time;                                                 //交易时间
-        int type;                                                    //交易类型 1-存款 2-取款 3-转账
-        double money;                                                //交易金额
-        string counterpartyAccount;                                  //转账对方账户
+        string transactionId;                                        //交易编号
+        string transactionTime;                                      //交易时间
+        int transactionType;                                         //交易类型 1-存款 2-取款 3-转入 4-转出
+        double transactionMoney;                                     //交易金额
+        string counterpartyAccount;                                  //转账对方账户 若存取款则为自己账户
     };
 
     //历史交易记录
     vector<Transaction> transactionHistory;
+
+    Account() = default;
+
+    Account(string &id, string &name, string &password) : id(id), name(name), password(password), balance(0.0) {}
+
+    Account(string &id, string &name, string &password, double &balance, vector<Transaction> &transactionHistory) :
+            id(id), name(name), password(password), balance(balance), transactionHistory(transactionHistory) {}
 };
 
 

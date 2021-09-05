@@ -5,6 +5,10 @@
     <file url="file://$PROJECT_DIR$/Account.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/EasyX.cpp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/EasyX.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Record.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Record.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/System.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/System.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/main.cpp" charset="GBK" />
   </component>
 </project>
