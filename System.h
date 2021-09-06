@@ -4,6 +4,7 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include <iostream>
 #include "Account.h"
 #include "Record.h"
 
@@ -16,6 +17,7 @@ class System {
     unordered_map<string, Account *> accountIndex;                   //以卡号为键创建用户索引
     string currAccount;                                              //当前登录用户 为空则表示未登录
 
+public:
     System();
 
     int signIn();
@@ -23,6 +25,8 @@ class System {
     int signOut();
 
     int signUp();
+
+    int showRecord();
 };
 
 
