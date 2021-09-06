@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Account.h"
 #include "Record.h"
+#include "EasyX.h"
 
 using std::string;
 using std::vector;
@@ -15,10 +16,13 @@ using std::unordered_map;
 class System {
     vector<Account> accounts;                                        //记录所有用户数据
     unordered_map<string, Account *> accountIndex;                   //以卡号为键创建用户索引
-    string currAccount;                                              //当前登录用户 为空则表示未登录
+    Account *currAccount{nullptr};                                   //当前登录用户 为空则表示未登录
+    EasyX easyX;                                                     //图形界面类
 
 public:
     System();
+
+    void start();
 
     int signIn();
 
@@ -27,6 +31,11 @@ public:
     int signUp();
 
     int showRecord();
+
+    int changePassword();
+
+private:
+    void signInMenu();
 };
 
 

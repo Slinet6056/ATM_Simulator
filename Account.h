@@ -33,6 +33,8 @@ public:
 
     Account(string &id, string &name, string &password, double &balance, vector<Transaction> &transactionHistory) :
             id(id), name(name), password(password), balance(balance), transactionHistory(transactionHistory) {}
+
+    int changePassword(const string &newPassword);
 };
 
 
