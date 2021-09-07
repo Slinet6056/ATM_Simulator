@@ -13,6 +13,10 @@ using std::vector;
 #define myWHITE RGB(255, 253, 249)
 #define BKCOLOR RGB(247, 238, 214)
 
+#define MODE_ID 1
+#define MODE_PASSWORD 2
+#define MODE_MONEY 3
+
 class EasyX {
 
     LOGFONT f{};                                                     //用于设置字体样式
@@ -55,11 +59,20 @@ public:
     //绘制数字输入面板
     void showNumberInputPanel();
 
-    //输入数字 参数为输入模式 1-卡号输入 2-密码输入 3-金额输入
-    string inputNumber(int type);
+    //输入数字 第一个参数为输入模式 1-卡号输入 2-密码输入 3-金额输入 第二个参数为提示文字
+    string inputNumber(int type, LPCSTR prompt);
 
-    //显示各种错误信息
-    void error(LPCSTR errorMsg);
+    //显示错误信息
+    void error(LPCSTR errorMsg1, LPCSTR errorMsg2 = _T(""));
+
+    //显示提示信息
+    void tip(LPCSTR tipMsg1, LPCSTR tipMsg2 = _T(""));
+
+    //显示确认提示框
+    int confirm(LPCSTR confirmMsg1, LPCSTR confirmMsg2 = _T(""));
+
+    //使用对话框获取用户输入
+    static string inputBox(LPCTSTR prompt);
 
 private:
     //获取用户点击的数字

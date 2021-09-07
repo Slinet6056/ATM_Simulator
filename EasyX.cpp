@@ -12,18 +12,18 @@ void EasyX::showSignInMenu() {
     gettextstyle(&f);
     f.lfHeight = 100;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+    _tcscpy_s(f.lfFaceName, "微软雅黑");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 0, 400, 300};
-    drawtext(_T("A T M"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    drawtext("A T M", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
     //登录按钮
-    printButton(1, 120, 310, 280, 370, _T("登  录"));
+    printButton(1, 120, 310, 280, 370, "登  录");
 
     //退出按钮
-    printButton(1, 120, 400, 280, 460, _T("退  出"));
+    printButton(1, 120, 400, 280, 460, "退  出");
 }
 
 int EasyX::getSignInMenuSelection() {
@@ -34,22 +34,22 @@ int EasyX::getSignInMenuSelection() {
             case WM_LBUTTONDOWN:
                 if (m.x > 120 && m.y > 310 && m.x < 280 && m.y < 370) {
                     buttonDown[0] = true;
-                    printButton(2, 120, 310, 280, 370, _T("登  录"));
+                    printButton(2, 120, 310, 280, 370, "登  录");
                 } else if (m.x > 120 && m.y > 400 && m.x < 280 && m.y < 460) {
                     buttonDown[1] = true;
-                    printButton(2, 120, 400, 280, 460, _T("退  出"));
+                    printButton(2, 120, 400, 280, 460, "退  出");
                 }
                 break;
             case WM_LBUTTONUP:
                 if (buttonDown[0]) {
                     buttonDown[0] = false;
-                    printButton(1, 120, 310, 280, 370, _T("登  录"));
+                    printButton(1, 120, 310, 280, 370, "登  录");
                     if (m.x > 120 && m.y > 310 && m.x < 280 && m.y < 370) {
                         return 1;
                     }
                 } else if (buttonDown[1]) {
                     buttonDown[1] = false;
-                    printButton(1, 120, 400, 280, 460, _T("退  出"));
+                    printButton(1, 120, 400, 280, 460, "退  出");
                     if (m.x > 120 && m.y > 400 && m.x < 280 && m.y < 460) {
                         exit(0);
                     }
@@ -68,17 +68,17 @@ void EasyX::showMainMenu(const string &name, bool isAdmin) {
         gettextstyle(&f);
         f.lfHeight = 100;
         f.lfQuality = ANTIALIASED_QUALITY;
-        _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+        _tcscpy_s(f.lfFaceName, "微软雅黑");
         settextstyle(&f);
         settextcolor(myBLACK);
         setbkcolor(BKCOLOR);
         r = {0, 0, 400, 300};
-        drawtext(_T("Admin"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+        drawtext("Admin", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
     } else {
         gettextstyle(&f);
         f.lfHeight = 60;
         f.lfQuality = ANTIALIASED_QUALITY;
-        _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+        _tcscpy_s(f.lfFaceName, "微软雅黑");
         settextstyle(&f);
         settextcolor(myBLACK);
         setbkcolor(BKCOLOR);
@@ -87,16 +87,16 @@ void EasyX::showMainMenu(const string &name, bool isAdmin) {
     }
 
     //账号管理按钮
-    printButton(1, 25, 310, 185, 370, _T("账号管理"));
+    printButton(1, 25, 310, 185, 370, "账号管理");
 
     //金额操作按钮
-    printButton(1, 215, 310, 375, 370, _T("金额操作"));
+    printButton(1, 215, 310, 375, 370, "金额操作");
 
     //信息查询按钮
-    printButton(1, 25, 400, 185, 460, _T("信息查询"));
+    printButton(1, 25, 400, 185, 460, "信息查询");
 
     //退出登录按钮
-    printButton(1, 215, 400, 375, 460, _T("退出登录"));
+    printButton(1, 215, 400, 375, 460, "退出登录");
 }
 
 int EasyX::getMainMenuSelection() {
@@ -107,40 +107,40 @@ int EasyX::getMainMenuSelection() {
             case WM_LBUTTONDOWN:
                 if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                     buttonDown[0] = true;
-                    printButton(2, 25, 310, 185, 370, _T("账号管理"));
+                    printButton(2, 25, 310, 185, 370, "账号管理");
                 } else if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                     buttonDown[1] = true;
-                    printButton(2, 215, 310, 375, 370, _T("金额操作"));
+                    printButton(2, 215, 310, 375, 370, "金额操作");
                 } else if (m.x > 25 && m.y > 400 && m.x < 185 && m.y < 460) {
                     buttonDown[2] = true;
-                    printButton(2, 25, 400, 185, 460, _T("信息查询"));
+                    printButton(2, 25, 400, 185, 460, "信息查询");
                 } else if (m.x > 215 && m.y > 400 && m.x < 375 && m.y < 460) {
                     buttonDown[3] = true;
-                    printButton(2, 215, 400, 375, 460, _T("退出登录"));
+                    printButton(2, 215, 400, 375, 460, "退出登录");
                 }
                 break;
             case WM_LBUTTONUP:
                 if (buttonDown[0]) {
                     buttonDown[0] = false;
-                    printButton(1, 25, 310, 185, 370, _T("账号管理"));
+                    printButton(1, 25, 310, 185, 370, "账号管理");
                     if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                         return 1;
                     }
                 } else if (buttonDown[1]) {
                     buttonDown[1] = false;
-                    printButton(1, 215, 310, 375, 370, _T("金额操作"));
+                    printButton(1, 215, 310, 375, 370, "金额操作");
                     if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                         return 2;
                     }
                 } else if (buttonDown[2]) {
                     buttonDown[2] = false;
-                    printButton(1, 25, 400, 185, 460, _T("信息查询"));
+                    printButton(1, 25, 400, 185, 460, "信息查询");
                     if (m.x > 25 && m.y > 400 && m.x < 185 && m.y < 460) {
                         return 3;
                     }
                 } else if (buttonDown[3]) {
                     buttonDown[3] = false;
-                    printButton(1, 215, 400, 375, 460, _T("退出登录"));
+                    printButton(1, 215, 400, 375, 460, "退出登录");
                     if (m.x > 215 && m.y > 400 && m.x < 375 && m.y < 460) {
                         return 4;
                     }
@@ -158,28 +158,28 @@ void EasyX::showAccountMenu(bool isAdmin) {
     gettextstyle(&f);
     f.lfHeight = 60;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+    _tcscpy_s(f.lfFaceName, "微软雅黑");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 0, 400, 300};
-    drawtext(_T("账号管理"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    drawtext("账号管理", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
     //新建账户按钮（管理员）或升级账户按钮（用户）
     if (isAdmin) {
-        printButton(1, 25, 310, 185, 370, _T("新建账户"));
+        printButton(1, 25, 310, 185, 370, "新建账户");
     } else {
-        printButton(1, 25, 310, 185, 370, _T("升级账户"));
+        printButton(1, 25, 310, 185, 370, "升级账户");
     }
 
     //注销账户按钮
-    printButton(1, 215, 310, 375, 370, _T("注销账户"));
+    printButton(1, 215, 310, 375, 370, "注销账户");
 
     //修改密码按钮
-    printButton(1, 25, 400, 185, 460, _T("修改密码"));
+    printButton(1, 25, 400, 185, 460, "修改密码");
 
     //返回按钮
-    printButton(1, 215, 400, 375, 460, _T("返  回"));
+    printButton(1, 215, 400, 375, 460, "返  回");
 }
 
 int EasyX::getAccountMenuSelection(bool isAdmin) {
@@ -191,47 +191,47 @@ int EasyX::getAccountMenuSelection(bool isAdmin) {
                 if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                     buttonDown[0] = true;
                     if (isAdmin) {
-                        printButton(2, 25, 310, 185, 370, _T("新建账户"));
+                        printButton(2, 25, 310, 185, 370, "新建账户");
                     } else {
-                        printButton(2, 25, 310, 185, 370, _T("升级账户"));
+                        printButton(2, 25, 310, 185, 370, "升级账户");
                     }
                 } else if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                     buttonDown[1] = true;
-                    printButton(2, 215, 310, 375, 370, _T("注销账户"));
+                    printButton(2, 215, 310, 375, 370, "注销账户");
                 } else if (m.x > 25 && m.y > 400 && m.x < 185 && m.y < 460) {
                     buttonDown[2] = true;
-                    printButton(2, 25, 400, 185, 460, _T("修改密码"));
+                    printButton(2, 25, 400, 185, 460, "修改密码");
                 } else if (m.x > 215 && m.y > 400 && m.x < 375 && m.y < 460) {
                     buttonDown[3] = true;
-                    printButton(2, 215, 400, 375, 460, _T("返  回"));
+                    printButton(2, 215, 400, 375, 460, "返  回");
                 }
                 break;
             case WM_LBUTTONUP:
                 if (buttonDown[0]) {
                     buttonDown[0] = false;
                     if (isAdmin) {
-                        printButton(1, 25, 310, 185, 370, _T("新建账户"));
+                        printButton(1, 25, 310, 185, 370, "新建账户");
                     } else {
-                        printButton(1, 25, 310, 185, 370, _T("升级账户"));
+                        printButton(1, 25, 310, 185, 370, "升级账户");
                     }
                     if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                         return 1;
                     }
                 } else if (buttonDown[1]) {
                     buttonDown[1] = false;
-                    printButton(1, 215, 310, 375, 370, _T("注销账户"));
+                    printButton(1, 215, 310, 375, 370, "注销账户");
                     if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                         return 2;
                     }
                 } else if (buttonDown[2]) {
                     buttonDown[2] = false;
-                    printButton(1, 25, 400, 185, 460, _T("修改密码"));
+                    printButton(1, 25, 400, 185, 460, "修改密码");
                     if (m.x > 25 && m.y > 400 && m.x < 185 && m.y < 460) {
                         return 3;
                     }
                 } else if (buttonDown[3]) {
                     buttonDown[3] = false;
-                    printButton(1, 215, 400, 375, 460, _T("返  回"));
+                    printButton(1, 215, 400, 375, 460, "返  回");
                     if (m.x > 215 && m.y > 400 && m.x < 375 && m.y < 460) {
                         return 4;
                     }
@@ -249,24 +249,24 @@ void EasyX::showTransactionMenu() {
     gettextstyle(&f);
     f.lfHeight = 60;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+    _tcscpy_s(f.lfFaceName, "微软雅黑");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 0, 400, 300};
-    drawtext(_T("金额操作"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    drawtext("金额操作", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
     //存款按钮
-    printButton(1, 25, 310, 185, 370, _T("存  款"));
+    printButton(1, 25, 310, 185, 370, "存  款");
 
     //取款按钮
-    printButton(1, 215, 310, 375, 370, _T("取  款"));
+    printButton(1, 215, 310, 375, 370, "取  款");
 
     //转账按钮
-    printButton(1, 25, 400, 185, 460, _T("转  账"));
+    printButton(1, 25, 400, 185, 460, "转  账");
 
     //返回按钮
-    printButton(1, 215, 400, 375, 460, _T("返  回"));
+    printButton(1, 215, 400, 375, 460, "返  回");
 }
 
 int EasyX::getTransactionMenuSelection() {
@@ -277,40 +277,40 @@ int EasyX::getTransactionMenuSelection() {
             case WM_LBUTTONDOWN:
                 if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                     buttonDown[0] = true;
-                    printButton(2, 25, 310, 185, 370, _T("存  款"));
+                    printButton(2, 25, 310, 185, 370, "存  款");
                 } else if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                     buttonDown[1] = true;
-                    printButton(2, 215, 310, 375, 370, _T("取  款"));
+                    printButton(2, 215, 310, 375, 370, "取  款");
                 } else if (m.x > 25 && m.y > 400 && m.x < 185 && m.y < 460) {
                     buttonDown[2] = true;
-                    printButton(2, 25, 400, 185, 460, _T("转  账"));
+                    printButton(2, 25, 400, 185, 460, "转  账");
                 } else if (m.x > 215 && m.y > 400 && m.x < 375 && m.y < 460) {
                     buttonDown[3] = true;
-                    printButton(2, 215, 400, 375, 460, _T("返  回"));
+                    printButton(2, 215, 400, 375, 460, "返  回");
                 }
                 break;
             case WM_LBUTTONUP:
                 if (buttonDown[0]) {
                     buttonDown[0] = false;
-                    printButton(1, 25, 310, 185, 370, _T("存  款"));
+                    printButton(1, 25, 310, 185, 370, "存  款");
                     if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                         return 1;
                     }
                 } else if (buttonDown[1]) {
                     buttonDown[1] = false;
-                    printButton(1, 215, 310, 375, 370, _T("取  款"));
+                    printButton(1, 215, 310, 375, 370, "取  款");
                     if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                         return 2;
                     }
                 } else if (buttonDown[2]) {
                     buttonDown[2] = false;
-                    printButton(1, 25, 400, 185, 460, _T("转  账"));
+                    printButton(1, 25, 400, 185, 460, "转  账");
                     if (m.x > 25 && m.y > 400 && m.x < 185 && m.y < 460) {
                         return 3;
                     }
                 } else if (buttonDown[3]) {
                     buttonDown[3] = false;
-                    printButton(1, 215, 400, 375, 460, _T("返  回"));
+                    printButton(1, 215, 400, 375, 460, "返  回");
                     if (m.x > 215 && m.y > 400 && m.x < 375 && m.y < 460) {
                         return 4;
                     }
@@ -328,21 +328,21 @@ void EasyX::showInformationMenu() {
     gettextstyle(&f);
     f.lfHeight = 60;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+    _tcscpy_s(f.lfFaceName, "微软雅黑");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 0, 400, 300};
-    drawtext(_T("信息查询"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    drawtext("信息查询", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
     //余额查询按钮
-    printButton(1, 25, 310, 185, 370, _T("余额查询"));
+    printButton(1, 25, 310, 185, 370, "余额查询");
 
     //交易记录按钮
-    printButton(1, 215, 310, 375, 370, _T("交易记录"));
+    printButton(1, 215, 310, 375, 370, "交易记录");
 
     //返回按钮
-    printButton(1, 120, 400, 280, 460, _T("返  回"));
+    printButton(1, 120, 400, 280, 460, "返  回");
 }
 
 int EasyX::getInformationMenuSelection() {
@@ -353,31 +353,31 @@ int EasyX::getInformationMenuSelection() {
             case WM_LBUTTONDOWN:
                 if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                     buttonDown[0] = true;
-                    printButton(2, 25, 310, 185, 370, _T("余额查询"));
+                    printButton(2, 25, 310, 185, 370, "余额查询");
                 } else if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                     buttonDown[1] = true;
-                    printButton(2, 215, 310, 375, 370, _T("交易记录"));
+                    printButton(2, 215, 310, 375, 370, "交易记录");
                 } else if (m.x > 120 && m.y > 400 && m.x < 280 && m.y < 460) {
                     buttonDown[2] = true;
-                    printButton(2, 120, 400, 280, 460, _T("返  回"));
+                    printButton(2, 120, 400, 280, 460, "返  回");
                 }
                 break;
             case WM_LBUTTONUP:
                 if (buttonDown[0]) {
                     buttonDown[0] = false;
-                    printButton(1, 25, 310, 185, 370, _T("余额查询"));
+                    printButton(1, 25, 310, 185, 370, "余额查询");
                     if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                         return 1;
                     }
                 } else if (buttonDown[1]) {
                     buttonDown[1] = false;
-                    printButton(1, 215, 310, 375, 370, _T("交易记录"));
+                    printButton(1, 215, 310, 375, 370, "交易记录");
                     if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                         return 2;
                     }
                 } else if (buttonDown[2]) {
                     buttonDown[2] = false;
-                    printButton(1, 120, 400, 280, 460, _T("返  回"));
+                    printButton(1, 120, 400, 280, 460, "返  回");
                     if (m.x > 120 && m.y > 400 && m.x < 280 && m.y < 460) {
                         return 3;
                     }
@@ -400,28 +400,28 @@ void EasyX::showNumberInputPanel() {
     roundrect(21, 51, 379, 139, 25, 25);
 
     //绘制0~9数字按钮以及确定退格键
-    printButton(3, 30, 190, 130, 250, _T("1"));
-    printButton(3, 150, 190, 250, 250, _T("2"));
-    printButton(3, 270, 190, 370, 250, _T("3"));
-    printButton(3, 30, 265, 130, 325, _T("4"));
-    printButton(3, 150, 265, 250, 325, _T("5"));
-    printButton(3, 270, 265, 370, 325, _T("6"));
-    printButton(3, 30, 340, 130, 400, _T("7"));
-    printButton(3, 150, 340, 250, 400, _T("8"));
-    printButton(3, 270, 340, 370, 400, _T("9"));
-    printButton(3, 30, 415, 130, 475, _T("."));
-    printButton(3, 150, 415, 250, 475, _T("0"));
-    printButton(3, 270, 415, 370, 475, _T("X"));
-    printButton(3, 30, 490, 190, 550, _T("退格"));
-    printButton(3, 210, 490, 370, 550, _T("确定"));
+    printButton(3, 30, 190, 130, 250, "1");
+    printButton(3, 150, 190, 250, 250, "2");
+    printButton(3, 270, 190, 370, 250, "3");
+    printButton(3, 30, 265, 130, 325, "4");
+    printButton(3, 150, 265, 250, 325, "5");
+    printButton(3, 270, 265, 370, 325, "6");
+    printButton(3, 30, 340, 130, 400, "7");
+    printButton(3, 150, 340, 250, 400, "8");
+    printButton(3, 270, 340, 370, 400, "9");
+    printButton(3, 30, 415, 130, 475, ".");
+    printButton(3, 150, 415, 250, 475, "0");
+    printButton(3, 270, 415, 370, 475, "X");
+    printButton(3, 30, 490, 190, 550, "退格");
+    printButton(3, 210, 490, 370, 550, "确定");
 }
 
-string EasyX::inputNumber(const int type) {
+string EasyX::inputNumber(int type, LPCSTR prompt) {
     string ans;
     char selectedNum;
     switch (type) { // NOLINT(hicpp-multiway-paths-covered)
         case 1:
-            showNumber(50, _T("请输入卡号"));
+            showNumber(50, prompt);
             while (selectedNum = getNumberSelection(), selectedNum != 'c' || ans.empty()) {
                 if (selectedNum >= '0' && selectedNum <= '9' && ans.size() < 19) {
                     ans += selectedNum;
@@ -429,7 +429,7 @@ string EasyX::inputNumber(const int type) {
                 } else if (selectedNum == 'b' && !ans.empty()) {
                     ans.pop_back();
                     if (ans.empty()) {
-                        showNumber(50, _T("请输入卡号"));
+                        showNumber(50, prompt);
                     } else {
                         showNumber(40, ans.c_str());
                     }
@@ -437,7 +437,7 @@ string EasyX::inputNumber(const int type) {
             }
             return ans;
         case 2:
-            showNumber(50, _T("请输入密码"));
+            showNumber(50, prompt);
             while (selectedNum = getNumberSelection(), selectedNum != 'c' || ans.size() != 6) {
                 if (selectedNum >= '0' && selectedNum <= '9' && ans.size() < 6) {
                     ans += selectedNum;
@@ -448,7 +448,7 @@ string EasyX::inputNumber(const int type) {
                 } else if (selectedNum == 'b' && !ans.empty()) {
                     ans.pop_back();
                     if (ans.empty()) {
-                        showNumber(50, _T("请输入密码"));
+                        showNumber(50, prompt);
                     } else {
                         string display = "·";
                         for (int i = 0; i < ans.size() - 1; ++i)
@@ -462,7 +462,7 @@ string EasyX::inputNumber(const int type) {
     return {};
 }
 
-void EasyX::error(LPCSTR errorMsg) {
+void EasyX::error(LPCSTR errorMsg1, LPCSTR errorMsg2) {
     setbkcolor(BKCOLOR);
     cleardevice();
 
@@ -470,26 +470,37 @@ void EasyX::error(LPCSTR errorMsg) {
     gettextstyle(&f);
     f.lfHeight = 100;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+    _tcscpy_s(f.lfFaceName, "微软雅黑");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 0, 400, 200};
-    drawtext(_T("错误"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    drawtext("错误", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //错误信息
+    //错误信息文本1
     gettextstyle(&f);
     f.lfHeight = 50;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+    _tcscpy_s(f.lfFaceName, "微软雅黑");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 200, 400, 300};
-    drawtext(errorMsg, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    drawtext(errorMsg1, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+    //错误信息文本2
+    gettextstyle(&f);
+    f.lfHeight = 45;
+    f.lfQuality = ANTIALIASED_QUALITY;
+    _tcscpy_s(f.lfFaceName, "微软雅黑");
+    settextstyle(&f);
+    settextcolor(myBLACK);
+    setbkcolor(BKCOLOR);
+    r = {0, 300, 400, 350};
+    drawtext(errorMsg2, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
     //确定按钮
-    printButton(1, 120, 460, 280, 520, _T("确  定"));
+    printButton(1, 120, 460, 280, 520, "确  定");
 
     bool buttonDown = false;
     while (true) {
@@ -498,13 +509,13 @@ void EasyX::error(LPCSTR errorMsg) {
             case WM_LBUTTONDOWN:
                 if (m.x > 120 && m.y > 460 && m.x < 280 && m.y < 520) {
                     buttonDown = true;
-                    printButton(2, 120, 460, 280, 520, _T("确  定"));
+                    printButton(2, 120, 460, 280, 520, "确  定");
                 }
                 break;
             case WM_LBUTTONUP:
                 if (buttonDown) {
                     buttonDown = false;
-                    printButton(1, 120, 460, 280, 520, _T("确  定"));
+                    printButton(1, 120, 460, 280, 520, "确  定");
                     if (m.x > 120 && m.y > 460 && m.x < 280 && m.y < 520) {
                         return;
                     }
@@ -512,6 +523,150 @@ void EasyX::error(LPCSTR errorMsg) {
                 break;
         }
     }
+}
+
+void EasyX::tip(LPCSTR tipMsg1, LPCSTR tipMsg2) {
+    setbkcolor(BKCOLOR);
+    cleardevice();
+
+    //标题
+    gettextstyle(&f);
+    f.lfHeight = 100;
+    f.lfQuality = ANTIALIASED_QUALITY;
+    _tcscpy_s(f.lfFaceName, "微软雅黑");
+    settextstyle(&f);
+    settextcolor(myBLACK);
+    setbkcolor(BKCOLOR);
+    r = {0, 0, 400, 200};
+    drawtext("提示", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+    //提示信息文本1
+    gettextstyle(&f);
+    f.lfHeight = 50;
+    f.lfQuality = ANTIALIASED_QUALITY;
+    _tcscpy_s(f.lfFaceName, "微软雅黑");
+    settextstyle(&f);
+    settextcolor(myBLACK);
+    setbkcolor(BKCOLOR);
+    r = {0, 200, 400, 300};
+    drawtext(tipMsg1, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+    //提示信息文本2
+    gettextstyle(&f);
+    f.lfHeight = 45;
+    f.lfQuality = ANTIALIASED_QUALITY;
+    _tcscpy_s(f.lfFaceName, "微软雅黑");
+    settextstyle(&f);
+    settextcolor(myBLACK);
+    setbkcolor(BKCOLOR);
+    r = {0, 300, 400, 350};
+    drawtext(tipMsg2, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+    //确定按钮
+    printButton(1, 120, 460, 280, 520, "确  定");
+
+    bool buttonDown = false;
+    while (true) {
+        m = GetMouseMsg();
+        switch (m.uMsg) {
+            case WM_LBUTTONDOWN:
+                if (m.x > 120 && m.y > 460 && m.x < 280 && m.y < 520) {
+                    buttonDown = true;
+                    printButton(2, 120, 460, 280, 520, "确  定");
+                }
+                break;
+            case WM_LBUTTONUP:
+                if (buttonDown) {
+                    buttonDown = false;
+                    printButton(1, 120, 460, 280, 520, "确  定");
+                    if (m.x > 120 && m.y > 460 && m.x < 280 && m.y < 520) {
+                        return;
+                    }
+                }
+                break;
+        }
+    }
+}
+
+int EasyX::confirm(LPCSTR confirmMsg1, LPCSTR confirmMsg2) {
+    setbkcolor(BKCOLOR);
+    cleardevice();
+
+    //标题
+    gettextstyle(&f);
+    f.lfHeight = 100;
+    f.lfQuality = ANTIALIASED_QUALITY;
+    _tcscpy_s(f.lfFaceName, "微软雅黑");
+    settextstyle(&f);
+    settextcolor(myBLACK);
+    setbkcolor(BKCOLOR);
+    r = {0, 0, 400, 200};
+    drawtext("确认", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+    //提示信息文本1
+    gettextstyle(&f);
+    f.lfHeight = 50;
+    f.lfQuality = ANTIALIASED_QUALITY;
+    _tcscpy_s(f.lfFaceName, "微软雅黑");
+    settextstyle(&f);
+    settextcolor(myBLACK);
+    setbkcolor(BKCOLOR);
+    r = {0, 200, 400, 300};
+    drawtext(confirmMsg1, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+    //提示信息文本2
+    gettextstyle(&f);
+    f.lfHeight = 45;
+    f.lfQuality = ANTIALIASED_QUALITY;
+    _tcscpy_s(f.lfFaceName, "微软雅黑");
+    settextstyle(&f);
+    settextcolor(myBLACK);
+    setbkcolor(BKCOLOR);
+    r = {0, 300, 400, 350};
+    drawtext(confirmMsg2, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+    //取消按钮
+    printButton(1, 25, 460, 185, 520, "取  消");
+
+    //确定按钮
+    printButton(1, 215, 460, 375, 520, "确  定");
+
+    vector<bool> buttonDown(2, false);
+    while (true) {
+        m = GetMouseMsg();
+        switch (m.uMsg) {
+            case WM_LBUTTONDOWN:
+                if (m.x > 25 && m.y > 460 && m.x < 185 && m.y < 520) {
+                    buttonDown[0] = true;
+                    printButton(2, 25, 460, 185, 520, "取  消");
+                } else if (m.x > 215 && m.y > 460 && m.x < 375 && m.y < 520) {
+                    buttonDown[1] = true;
+                    printButton(2, 215, 460, 375, 520, "确  定");
+                }
+                break;
+            case WM_LBUTTONUP:
+                if (buttonDown[0]) {
+                    buttonDown[0] = false;
+                    printButton(1, 25, 460, 185, 520, "取  消");
+                    if (m.x > 25 && m.y > 460 && m.x < 185 && m.y < 520) {
+                        return 1;
+                    }
+                } else if (buttonDown[1]) {
+                    buttonDown[1] = false;
+                    printButton(1, 215, 460, 375, 520, "确  定");
+                    if (m.x > 215 && m.y > 460 && m.x < 375 && m.y < 520) {
+                        return 2;
+                    }
+                }
+                break;
+        }
+    }
+}
+
+string EasyX::inputBox(LPCTSTR prompt) {
+    char input[20];
+    InputBox(input, 20, prompt);
+    return input;
 }
 
 char EasyX::getNumberSelection() {
@@ -522,130 +677,130 @@ char EasyX::getNumberSelection() {
             case WM_LBUTTONDOWN:
                 if (m.x > 30 && m.y > 190 && m.x < 130 && m.y < 250) {
                     buttonDown[1] = true;
-                    printButton(4, 30, 190, 130, 250, _T("1"));
+                    printButton(4, 30, 190, 130, 250, "1");
                 } else if (m.x > 150 && m.y > 190 && m.x < 250 && m.y < 250) {
                     buttonDown[2] = true;
-                    printButton(4, 150, 190, 250, 250, _T("2"));
+                    printButton(4, 150, 190, 250, 250, "2");
                 } else if (m.x > 270 && m.y > 190 && m.x < 370 && m.y < 250) {
                     buttonDown[3] = true;
-                    printButton(4, 270, 190, 370, 250, _T("3"));
+                    printButton(4, 270, 190, 370, 250, "3");
                 } else if (m.x > 30 && m.y > 265 && m.x < 130 && m.y < 325) {
                     buttonDown[4] = true;
-                    printButton(4, 30, 265, 130, 325, _T("4"));
+                    printButton(4, 30, 265, 130, 325, "4");
                 } else if (m.x > 150 && m.y > 265 && m.x < 250 && m.y < 325) {
                     buttonDown[5] = true;
-                    printButton(4, 150, 265, 250, 325, _T("5"));
+                    printButton(4, 150, 265, 250, 325, "5");
                 } else if (m.x > 270 && m.y > 265 && m.x < 370 && m.y < 325) {
                     buttonDown[6] = true;
-                    printButton(4, 270, 265, 370, 325, _T("6"));
+                    printButton(4, 270, 265, 370, 325, "6");
                 } else if (m.x > 30 && m.y > 340 && m.x < 130 && m.y < 400) {
                     buttonDown[7] = true;
-                    printButton(4, 30, 340, 130, 400, _T("7"));
+                    printButton(4, 30, 340, 130, 400, "7");
                 } else if (m.x > 150 && m.y > 340 && m.x < 250 && m.y < 400) {
                     buttonDown[8] = true;
-                    printButton(4, 150, 340, 250, 400, _T("8"));
+                    printButton(4, 150, 340, 250, 400, "8");
                 } else if (m.x > 270 && m.y > 340 && m.x < 370 && m.y < 400) {
                     buttonDown[9] = true;
-                    printButton(4, 270, 340, 370, 400, _T("9"));
+                    printButton(4, 270, 340, 370, 400, "9");
                 } else if (m.x > 30 && m.y > 415 && m.x < 130 && m.y < 475) {
                     buttonDown[11] = true;
-                    printButton(4, 30, 415, 130, 475, _T("."));
+                    printButton(4, 30, 415, 130, 475, ".");
                 } else if (m.x > 150 && m.y > 415 && m.x < 250 && m.y < 475) {
                     buttonDown[0] = true;
-                    printButton(4, 150, 415, 250, 475, _T("0"));
+                    printButton(4, 150, 415, 250, 475, "0");
                 } else if (m.x > 270 && m.y > 415 && m.x < 370 && m.y < 475) {
                     buttonDown[10] = true;
-                    printButton(4, 270, 415, 370, 475, _T("X"));
+                    printButton(4, 270, 415, 370, 475, "X");
                 } else if (m.x > 30 && m.y > 490 && m.x < 190 && m.y < 550) {
                     buttonDown[12] = true;
-                    printButton(4, 30, 490, 190, 550, _T("退格"));
+                    printButton(4, 30, 490, 190, 550, "退格");
                 } else if (m.x > 210 && m.y > 490 && m.x < 370 && m.y < 550) {
                     buttonDown[13] = true;
-                    printButton(4, 210, 490, 370, 550, _T("确定"));
+                    printButton(4, 210, 490, 370, 550, "确定");
                 }
                 break;
             case WM_LBUTTONUP:
                 if (buttonDown[1]) {
                     buttonDown[1] = false;
-                    printButton(3, 30, 190, 130, 250, _T("1"));
+                    printButton(3, 30, 190, 130, 250, "1");
                     if (m.x > 30 && m.y > 190 && m.x < 130 && m.y < 250) {
                         return '1';
                     }
                 } else if (buttonDown[2]) {
                     buttonDown[2] = false;
-                    printButton(3, 150, 190, 250, 250, _T("2"));
+                    printButton(3, 150, 190, 250, 250, "2");
                     if (m.x > 150 && m.y > 190 && m.x < 250 && m.y < 250) {
                         return '2';
                     }
                 } else if (buttonDown[3]) {
                     buttonDown[3] = false;
-                    printButton(3, 270, 190, 370, 250, _T("3"));
+                    printButton(3, 270, 190, 370, 250, "3");
                     if (m.x > 270 && m.y > 190 && m.x < 370 && m.y < 250) {
                         return '3';
                     }
                 } else if (buttonDown[4]) {
                     buttonDown[4] = false;
-                    printButton(3, 30, 265, 130, 325, _T("4"));
+                    printButton(3, 30, 265, 130, 325, "4");
                     if (m.x > 30 && m.y > 265 && m.x < 130 && m.y < 325) {
                         return '4';
                     }
                 } else if (buttonDown[5]) {
                     buttonDown[5] = false;
-                    printButton(3, 150, 265, 250, 325, _T("5"));
+                    printButton(3, 150, 265, 250, 325, "5");
                     if (m.x > 150 && m.y > 265 && m.x < 250 && m.y < 325) {
                         return '5';
                     }
                 } else if (buttonDown[6]) {
                     buttonDown[6] = false;
-                    printButton(3, 270, 265, 370, 325, _T("6"));
+                    printButton(3, 270, 265, 370, 325, "6");
                     if (m.x > 270 && m.y > 265 && m.x < 370 && m.y < 325) {
                         return '6';
                     }
                 } else if (buttonDown[7]) {
                     buttonDown[7] = false;
-                    printButton(3, 30, 340, 130, 400, _T("7"));
+                    printButton(3, 30, 340, 130, 400, "7");
                     if (m.x > 30 && m.y > 340 && m.x < 130 && m.y < 400) {
                         return '7';
                     }
                 } else if (buttonDown[8]) {
                     buttonDown[8] = false;
-                    printButton(3, 150, 340, 250, 400, _T("8"));
+                    printButton(3, 150, 340, 250, 400, "8");
                     if (m.x > 150 && m.y > 340 && m.x < 250 && m.y < 400) {
                         return '8';
                     }
                 } else if (buttonDown[9]) {
                     buttonDown[9] = false;
-                    printButton(3, 270, 340, 370, 400, _T("9"));
+                    printButton(3, 270, 340, 370, 400, "9");
                     if (m.x > 270 && m.y > 340 && m.x < 370 && m.y < 400) {
                         return '9';
                     }
                 } else if (buttonDown[11]) {
                     buttonDown[11] = false;
-                    printButton(3, 30, 415, 130, 475, _T("."));
+                    printButton(3, 30, 415, 130, 475, ".");
                     if (m.x > 30 && m.y > 415 && m.x < 130 && m.y < 475) {
                         return '.';
                     }
                 } else if (buttonDown[0]) {
                     buttonDown[0] = false;
-                    printButton(3, 150, 415, 250, 475, _T("0"));
+                    printButton(3, 150, 415, 250, 475, "0");
                     if (m.x > 150 && m.y > 415 && m.x < 250 && m.y < 475) {
                         return '0';
                     }
                 } else if (buttonDown[10]) {
                     buttonDown[10] = false;
-                    printButton(3, 270, 415, 370, 475, _T("X"));
+                    printButton(3, 270, 415, 370, 475, "X");
                     if (m.x > 270 && m.y > 415 && m.x < 370 && m.y < 475) {
                         return 'X';
                     }
                 } else if (buttonDown[12]) {
                     buttonDown[12] = false;
-                    printButton(3, 30, 490, 190, 550, _T("退格"));
+                    printButton(3, 30, 490, 190, 550, "退格");
                     if (m.x > 30 && m.y > 490 && m.x < 190 && m.y < 550) {
                         return 'b';
                     }
                 } else if (buttonDown[13]) {
                     buttonDown[13] = false;
-                    printButton(3, 210, 490, 370, 550, _T("确定"));
+                    printButton(3, 210, 490, 370, 550, "确定");
                     if (m.x > 210 && m.y > 490 && m.x < 370 && m.y < 550) {
                         return 'c';
                     }
@@ -668,7 +823,7 @@ void EasyX::printButton(int style, int left, int top, int right, int bottom, LPC
             gettextstyle(&f);
             f.lfHeight = 35;
             f.lfQuality = ANTIALIASED_QUALITY;
-            _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+            _tcscpy_s(f.lfFaceName, "微软雅黑");
             settextstyle(&f);
             settextcolor(myBLACK);
             setbkcolor(myWHITE);
@@ -685,7 +840,7 @@ void EasyX::printButton(int style, int left, int top, int right, int bottom, LPC
             gettextstyle(&f);
             f.lfHeight = 35;
             f.lfQuality = ANTIALIASED_QUALITY;
-            _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+            _tcscpy_s(f.lfFaceName, "微软雅黑");
             settextstyle(&f);
             settextcolor(myWHITE);
             setbkcolor(myBLACK);
@@ -702,7 +857,7 @@ void EasyX::printButton(int style, int left, int top, int right, int bottom, LPC
             gettextstyle(&f);
             f.lfHeight = 35;
             f.lfQuality = ANTIALIASED_QUALITY;
-            _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+            _tcscpy_s(f.lfFaceName, "微软雅黑");
             settextstyle(&f);
             settextcolor(myBLACK);
             setbkcolor(myWHITE);
@@ -715,7 +870,7 @@ void EasyX::printButton(int style, int left, int top, int right, int bottom, LPC
             gettextstyle(&f);
             f.lfHeight = 35;
             f.lfQuality = ANTIALIASED_QUALITY;
-            _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+            _tcscpy_s(f.lfFaceName, "微软雅黑");
             settextstyle(&f);
             settextcolor(myWHITE);
             setbkcolor(myBLACK);
@@ -736,7 +891,7 @@ void EasyX::showNumber(int textHeight, LPCSTR str) {
     gettextstyle(&f);
     f.lfHeight = textHeight;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+    _tcscpy_s(f.lfFaceName, "微软雅黑");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(myWHITE);

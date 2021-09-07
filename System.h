@@ -4,7 +4,9 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
-#include <iostream>
+#include <algorithm>
+#include <iomanip>
+#include <sstream>
 #include "Account.h"
 #include "Record.h"
 #include "EasyX.h"
@@ -12,6 +14,12 @@
 using std::string;
 using std::vector;
 using std::unordered_map;
+using std::stringstream;
+using std::ios;
+using std::setiosflags;
+using std::setprecision;
+using std::to_string;
+using std::swap;
 
 class System {
     vector<Account> accounts;                                        //记录所有用户数据
@@ -23,22 +31,28 @@ class System {
 public:
     System();
 
-    void start();
+    [[noreturn]] void start();
 
+private:
     int signIn();
 
     int signOut();
 
     int signUp();
 
-    int showRecord();
-
     int changePassword();
 
-private:
+    int deleteAccount();
+
     void signInMenu();
 
     void mainMenu();
+
+    int accountMenu();
+
+    void transactionMenu();
+
+    void informationMenu();
 };
 
 

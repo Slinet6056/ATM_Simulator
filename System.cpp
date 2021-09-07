@@ -6,12 +6,11 @@ System::System() {
         accountIndex[account.id] = &account;
 }
 
-void System::start() {
-    easyX.showInformationMenu();
-    while (true) { easyX.getInformationMenuSelection(); }
-    system("pause");
-//    signInMenu();
-//    mainMenu();
+[[noreturn]] void System::start() {
+    while (true) {
+        signInMenu();
+        mainMenu();
+    }
 }
 
 int System::signIn() {
@@ -19,16 +18,16 @@ int System::signIn() {
     easyX.showNumberInputPanel();
 
     string id, password;
-    id = easyX.inputNumber(1);
+    id = easyX.inputNumber(MODE_ID, "«Î ‰»Îø®∫≈");
     if (id != "1234567890") {
         id = MD5(id).toStr();
         if (!accountIndex.count(id)) return -2;
-        password = easyX.inputNumber(2);
+        password = easyX.inputNumber(MODE_PASSWORD, "«Î ‰»Î√‹¬Î");
         password = MD5(password).toStr();
         if (accountIndex[id]->password != password) return -3;
         currAccount = accountIndex[id];
     } else {
-        password = easyX.inputNumber(2);
+        password = easyX.inputNumber(MODE_PASSWORD, "«Î ‰»Î√‹¬Î");
         if (password != "123456") return -3;
         isAdmin = true;
     }
@@ -37,15 +36,17 @@ int System::signIn() {
 }
 
 int System::signOut() {
-    if (!currAccount) return -1;
+    if (!currAccount && !isAdmin) return -1;
     currAccount = nullptr;
-    std::cout << "Gun" << std::endl;
+    isAdmin = false;
     return 0;
 }
 
 int System::signUp() {
     string id, name, password;
-    std::cin >> id >> name >> password;
+    id = EasyX::inputBox("ø®∫≈£∫");
+    name = EasyX::inputBox("–’√˚£∫");
+    password = EasyX::inputBox("√‹¬Î£∫");
     id = MD5(id).toStr();
     password = MD5(password).toStr();
     if (accountIndex.count(id)) return -1;
@@ -56,21 +57,59 @@ int System::signUp() {
     return 0;
 }
 
-int System::showRecord() {
-    std::cout << accounts.size() << std::endl;
-    for (const auto &account: accounts) {
-        std::cout << account.id << " " << account.name << " " << account.password << std::endl;
+int System::changePassword() {
+    if (!currAccount && !isAdmin) return -1;
+    int res = 0;
+    if (isAdmin) {
+        string id, newPassword;
+        id = EasyX::inputBox("ø®∫≈£∫");
+        id = MD5(id).toStr();
+        if (!accountIndex.count(id)) return -2;
+        newPassword = EasyX::inputBox("–¬√‹¬Î£∫");
+        newPassword = MD5(newPassword).toStr();
+        res = accountIndex[id]->changePassword(newPassword);
+    } else {
+        easyX.showNumberInputPanel();
+        string newPassword, confirmPassword;
+        newPassword = easyX.inputNumber(MODE_PASSWORD, "«Î ‰»Î–¬√‹¬Î");
+        confirmPassword = easyX.inputNumber(MODE_PASSWORD, "»∑»œ–¬√‹¬Î");
+        if (newPassword != confirmPassword) return -2;
+        newPassword = MD5(newPassword).toStr();
+        res = currAccount->changePassword(newPassword);
     }
+    if (res) return -3;
+    Record::saveRecord(accounts);
     return 0;
 }
 
-int System::changePassword() {
-    if (!currAccount) return -1;
-    string newPassword;
-    std::cin >> newPassword;
-    newPassword = MD5(newPassword).toStr();
-    currAccount->changePassword(newPassword);
-    signOut();
+int System::deleteAccount() {
+    if (!currAccount && !isAdmin) return -1;
+    int res = 0;
+    if (isAdmin) {
+        string id;
+        id = EasyX::inputBox("ø®∫≈£∫");
+        id = MD5(id).toStr();
+        if (!accountIndex.count(id)) return -2;
+        res = easyX.confirm("◊¢œ˙’Àªß");
+        if (res == 1) return -3;
+        swap(*accountIndex[id], *(accounts.end() - 1));
+        accounts.pop_back();
+        accountIndex.erase(id);
+    } else {
+        easyX.showNumberInputPanel();
+        string password;
+        password = easyX.inputNumber(MODE_PASSWORD, "«Î ‰»Î√‹¬Î");
+        password = MD5(password).toStr();
+        if (password != currAccount->password) return -2;
+        stringstream ss;
+        ss << setiosflags(ios::fixed) << setprecision(2) << currAccount->balance;
+        res = easyX.confirm("◊¢œ˙’Àªß", ("”‡∂Ó" + ss.str() + "‘™").c_str());
+        if (res == 1) return -3;
+        accountIndex.erase(currAccount->id);
+        swap(*currAccount, *(accounts.end() - 1));
+        accounts.pop_back();
+        currAccount = nullptr;
+    }
     Record::saveRecord(accounts);
     return 0;
 }
@@ -86,23 +125,128 @@ void System::signInMenu() {
                 case 0:
                     break;
                 case -1:
-                    easyX.error(_T("“—¥¶”⁄µ«¬º◊¥Ã¨"));
-                    signInMenu();
+                    easyX.error("“—¥¶”⁄µ«¬º◊¥Ã¨");
                     break;
                 case -2:
-                    easyX.error(_T("ø®∫≈≤ª¥Ê‘⁄"));
-                    signInMenu();
+                    easyX.error("ø®∫≈≤ª¥Ê‘⁄");
                     break;
                 case -3:
-                    easyX.error(_T("√‹¬Î¥ÌŒÛ"));
-                    signInMenu();
+                    easyX.error("√‹¬Î¥ÌŒÛ");
+                    break;
             }
         }
     }
 }
 
 void System::mainMenu() {
-    if (isAdmin) {
-        easyX.showMainMenu("Admin", true);
+    int mainMenuSelection = 0;
+    while (mainMenuSelection != 4) {
+        if (isAdmin) {
+            easyX.showMainMenu("Admin", true);
+        } else {
+            easyX.showMainMenu(currAccount->name, false);
+        }
+        mainMenuSelection = easyX.getMainMenuSelection();
+        switch (mainMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
+            case 1: {
+                int res = accountMenu();
+                if (res == -1) mainMenuSelection = 4;
+                break;
+            }
+            case 2:
+                transactionMenu();
+                break;
+            case 3:
+                informationMenu();
+                break;
+            case 4: {
+                int res = signOut();
+                if (res) {
+                    easyX.error("Œ¥µ«¬º’Àªß");
+                }
+                break;
+            }
+        }
     }
+}
+
+int System::accountMenu() {
+    int accountMenuSelection = 0;
+    while (accountMenuSelection < 4) {
+        easyX.showAccountMenu(isAdmin);
+        accountMenuSelection = easyX.getAccountMenuSelection(isAdmin);
+        if (isAdmin) {
+            switch (accountMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
+                case 1: {
+                    int res = signUp();
+                    if (res) {
+                        easyX.error("’À∫≈“—¥Ê‘⁄");
+                    }
+                    break;
+                }
+                case 2: {
+                    int res = deleteAccount();
+                    if (res == -1) {
+                        easyX.error("Œ¥µ«¬º’Àªß");
+                    } else if (res == -2) {
+                        easyX.error("ø®∫≈≤ª¥Ê‘⁄");
+                    }
+                    break;
+                }
+                case 3: {
+                    int res = changePassword();
+                    if (res == -1) {
+                        easyX.error("Œ¥µ«¬º’Àªß");
+                    } else if (res == -2) {
+                        easyX.error("ø®∫≈≤ª¥Ê‘⁄");
+                    } else if (res == -3) {
+                        easyX.error("–¬√‹¬Î”Î‘≠√‹¬Îœ‡Õ¨");
+                    }
+                    break;
+                }
+                case 4:
+                    break;
+            }
+        } else {
+            switch (accountMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
+                case 1:
+                    easyX.tip("«Î¡™œµπ‹¿Ì‘±QQ", "492829253");
+                    break;
+                case 2: {
+                    int res = deleteAccount();
+                    if (res == -1) {
+                        easyX.error("Œ¥µ«¬º’Àªß");
+                    } else if (res == -2) {
+                        easyX.error("√‹¬Î¥ÌŒÛ");
+                    } else if (res == 0) {
+                        accountMenuSelection = 5;
+                    }
+                    break;
+                }
+                case 3: {
+                    int res = changePassword();
+                    if (res == -1) {
+                        easyX.error("Œ¥µ«¬º’Àªß");
+                    } else if (res == -2) {
+                        easyX.error("¡Ω¥Œ ‰»Î√‹¬Î≤ª“ª÷¬");
+                    } else if (res == -3) {
+                        easyX.error("–¬√‹¬Î”Î‘≠√‹¬Îœ‡Õ¨");
+                    }
+                    break;
+                }
+                case 4:
+                    break;
+            }
+        }
+    }
+    if (accountMenuSelection == 5) return -1;
+    else return 0;
+}
+
+void System::transactionMenu() {
+
+}
+
+void System::informationMenu() {
+
 }
