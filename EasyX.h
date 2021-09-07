@@ -41,7 +41,7 @@ public:
     int getAccountMenuSelection(bool isAdmin);
 
     //绘制存取款与转账模块
-    void showTransactionMenu(bool isAdmin);
+    void showTransactionMenu();
 
     //获取存取款与转账模块用户选择
     int getTransactionMenuSelection();
