@@ -29,7 +29,7 @@ public:
     int getSignInMenuSelection();
 
     //绘制主菜单
-    void showMainMenu(string name, bool isAdmin);
+    void showMainMenu(const string& name, bool isAdmin);
 
     //获取主菜单用户选择
     int getMainMenuSelection();

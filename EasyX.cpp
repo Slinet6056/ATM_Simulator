@@ -27,30 +27,31 @@ void EasyX::showSignInMenu() {
 }
 
 int EasyX::getSignInMenuSelection() {
-    bool buttonDown = false;                                    //记录登录按钮显示状态 防止按下左键后移动鼠标产生显示问题
+    vector<bool> buttonDown(2, false);
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
             case WM_LBUTTONDOWN:
-                //在登录按钮上按下鼠标左键 按钮变成黑色
                 if (m.x > 120 && m.y > 310 && m.x < 280 && m.y < 370) {
-                    buttonDown = true;
+                    buttonDown[0] = true;
                     printButton(2, 120, 310, 280, 370, _T("登  录"));
-                }
-
-                //点击退出按钮
-                if (m.x > 120 && m.y > 400 && m.x < 280 && m.y < 460) {
-                    exit(0);
+                } else if (m.x > 120 && m.y > 400 && m.x < 280 && m.y < 460) {
+                    buttonDown[1] = true;
+                    printButton(2, 120, 400, 280, 460, _T("退  出"));
                 }
                 break;
             case WM_LBUTTONUP:
-                //登录按钮恢复白色
-                if (buttonDown) {
-                    buttonDown = false;
+                if (buttonDown[0]) {
+                    buttonDown[0] = false;
                     printButton(1, 120, 310, 280, 370, _T("登  录"));
-                    //在登录按钮上按下后松开鼠标左键
                     if (m.x > 120 && m.y > 310 && m.x < 280 && m.y < 370) {
                         return 1;
+                    }
+                } else if (buttonDown[1]) {
+                    buttonDown[1] = false;
+                    printButton(1, 120, 400, 280, 460, _T("退  出"));
+                    if (m.x > 120 && m.y > 400 && m.x < 280 && m.y < 460) {
+                        exit(0);
                     }
                 }
                 break;
@@ -58,12 +59,95 @@ int EasyX::getSignInMenuSelection() {
     }
 }
 
-void EasyX::showMainMenu(string name, bool isAdmin) {
+void EasyX::showMainMenu(const string &name, bool isAdmin) {
+    setbkcolor(BKCOLOR);
+    cleardevice();
 
+    //标题
+    if (isAdmin) {
+        gettextstyle(&f);
+        f.lfHeight = 100;
+        f.lfQuality = ANTIALIASED_QUALITY;
+        _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+        settextstyle(&f);
+        settextcolor(myBLACK);
+        setbkcolor(BKCOLOR);
+        r = {0, 0, 400, 300};
+        drawtext(_T("Admin"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    } else {
+        gettextstyle(&f);
+        f.lfHeight = 60;
+        f.lfQuality = ANTIALIASED_QUALITY;
+        _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+        settextstyle(&f);
+        settextcolor(myBLACK);
+        setbkcolor(BKCOLOR);
+        r = {0, 0, 400, 300};
+        drawtext(("您好，" + name).c_str(), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    }
+
+    //账号管理按钮
+    printButton(1, 25, 310, 185, 370, _T("账号管理"));
+
+    //金额操作按钮
+    printButton(1, 215, 310, 375, 370, _T("金额操作"));
+
+    //信息查询按钮
+    printButton(1, 25, 400, 185, 460, _T("信息查询"));
+
+    //退出登录按钮
+    printButton(1, 215, 400, 375, 460, _T("退出登录"));
 }
 
 int EasyX::getMainMenuSelection() {
-    return 0;
+    vector<bool> buttonDown(4, false);
+    while (true) {
+        m = GetMouseMsg();
+        switch (m.uMsg) {
+            case WM_LBUTTONDOWN:
+                if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
+                    buttonDown[0] = true;
+                    printButton(2, 25, 310, 185, 370, _T("账号管理"));
+                } else if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
+                    buttonDown[1] = true;
+                    printButton(2, 215, 310, 375, 370, _T("金额操作"));
+                } else if (m.x > 25 && m.y > 400 && m.x < 185 && m.y < 460) {
+                    buttonDown[2] = true;
+                    printButton(2, 25, 400, 185, 460, _T("信息查询"));
+                } else if (m.x > 215 && m.y > 400 && m.x < 375 && m.y < 460) {
+                    buttonDown[3] = true;
+                    printButton(2, 215, 400, 375, 460, _T("退出登录"));
+                }
+                break;
+            case WM_LBUTTONUP:
+                if (buttonDown[0]) {
+                    buttonDown[0] = false;
+                    printButton(1, 25, 310, 185, 370, _T("账号管理"));
+                    if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
+                        return 1;
+                    }
+                } else if (buttonDown[1]) {
+                    buttonDown[1] = false;
+                    printButton(1, 215, 310, 375, 370, _T("金额操作"));
+                    if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
+                        return 2;
+                    }
+                } else if (buttonDown[2]) {
+                    buttonDown[2] = false;
+                    printButton(1, 25, 400, 185, 460, _T("信息查询"));
+                    if (m.x > 25 && m.y > 400 && m.x < 185 && m.y < 460) {
+                        return 3;
+                    }
+                } else if (buttonDown[3]) {
+                    buttonDown[3] = false;
+                    printButton(1, 215, 400, 375, 460, _T("退出登录"));
+                    if (m.x > 215 && m.y > 400 && m.x < 375 && m.y < 460) {
+                        return 4;
+                    }
+                }
+                break;
+        }
+    }
 }
 
 void EasyX::showAccountMenu() {

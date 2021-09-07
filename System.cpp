@@ -7,8 +7,11 @@ System::System() {
 }
 
 void System::start() {
-    signInMenu();
-    mainMenu();
+    easyX.showMainMenu("Admin", true);
+    while (true) { easyX.getMainMenuSelection(); }
+    system("pause");
+//    signInMenu();
+//    mainMenu();
 }
 
 int System::signIn() {
@@ -99,7 +102,7 @@ void System::signInMenu() {
 }
 
 void System::mainMenu() {
-    if(isAdmin){
-
-    }else{}
+    if (isAdmin) {
+        easyX.showMainMenu("Admin", true);
+    }
 }
