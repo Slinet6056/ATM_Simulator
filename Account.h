@@ -13,7 +13,8 @@ public:
     string id;                                                       //卡号
     string name;                                                     //姓名
     string password;                                                 //密码
-    double balance{};                                                //账户余额
+    double balance{0};                                               //账户余额
+    int wrongPasswordLeft{3};                                        //还可输入错误密码次数
 
     //单笔交易记录
     struct Transaction {
@@ -29,10 +30,10 @@ public:
 
     Account() = default;
 
-    Account(string &id, string &name, string &password) : id(id), name(name), password(password), balance(0.0) {}
+    Account(string &id, string &name, string &password) : id(id), name(name), password(password) {}
 
-    Account(string &id, string &name, string &password, double &balance, vector<Transaction> &transactionHistory) :
-            id(id), name(name), password(password), balance(balance), transactionHistory(transactionHistory) {}
+    Account(string &id, string &name, string &password, double &balance, int &wrongPasswordLeft, vector<Transaction> &transactionHistory) :
+            id(id), name(name), password(password), balance(balance), wrongPasswordLeft(wrongPasswordLeft), transactionHistory(transactionHistory) {}
 
     int changePassword(const string &newPassword);
 };

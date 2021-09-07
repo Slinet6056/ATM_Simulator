@@ -8,22 +8,28 @@ System::System() {
 
 void System::start() {
     signInMenu();
+    mainMenu();
 }
 
 int System::signIn() {
     if (currAccount) return -1;
     easyX.showNumberInputPanel();
-    for(;;){
-        easyX.inputNumber(1);
-    }
+
     string id, password;
-    std::cin >> id >> password;
-    id = MD5(id).toStr();
-    password = MD5(password).toStr();
-    if (!accountIndex.count(id)) return -2;
-    if (accountIndex[id]->password != password) return -3;
-    currAccount = accountIndex[id];
-    std::cout << "Hello, " << accountIndex[id]->name << std::endl;
+    id = easyX.inputNumber(1);
+    if (id != "1234567890") {
+        id = MD5(id).toStr();
+        if (!accountIndex.count(id)) return -2;
+        password = easyX.inputNumber(2);
+        password = MD5(password).toStr();
+        if (accountIndex[id]->password != password) return -3;
+        currAccount = accountIndex[id];
+    } else {
+        password = easyX.inputNumber(2);
+        if (password != "123456") return -3;
+        isAdmin = true;
+    }
+
     return 0;
 }
 
@@ -67,9 +73,33 @@ int System::changePassword() {
 }
 
 void System::signInMenu() {
-    easyX.showSignInMenu();
-    int signInMenuSelection = easyX.getSignInMenuSelection();
-    if (signInMenuSelection == 1) {
-        int res = signIn();
+    int res = 1;
+    while (res) {
+        easyX.showSignInMenu();
+        int signInMenuSelection = easyX.getSignInMenuSelection();
+        if (signInMenuSelection == 1) {
+            res = signIn();
+            switch (res) { // NOLINT(hicpp-multiway-paths-covered)
+                case 0:
+                    break;
+                case -1:
+                    easyX.error(_T("ÒÑ´¦ÓÚµÇÂ¼×´Ì¬"));
+                    signInMenu();
+                    break;
+                case -2:
+                    easyX.error(_T("¿¨ºÅ²»´æÔÚ"));
+                    signInMenu();
+                    break;
+                case -3:
+                    easyX.error(_T("ÃÜÂë´íÎó"));
+                    signInMenu();
+            }
+        }
     }
+}
+
+void System::mainMenu() {
+    if(isAdmin){
+
+    }else{}
 }

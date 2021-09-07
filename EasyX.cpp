@@ -20,39 +20,22 @@ void EasyX::showSignInMenu() {
     drawtext(_T("A T M"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
     //µÇÂ¼°´Å¥
-    printButtonStyle1_white(120, 310, 280, 370, _T("µÇ  Â¼"));
+    printButton(1, 120, 310, 280, 370, _T("µÇ  Â¼"));
 
     //ÍË³ö°´Å¥
-    printButtonStyle1_white(120, 400, 280, 460, _T("ÍË  ³ö"));
-}
-
-void EasyX::showMainMenu() {
-
-}
-
-
-void EasyX::showAccountMenu() {
-
-}
-
-void EasyX::showTransactionMenu() {
-
-}
-
-void EasyX::showInformationMenu() {
-
+    printButton(1, 120, 400, 280, 460, _T("ÍË  ³ö"));
 }
 
 int EasyX::getSignInMenuSelection() {
-    bool SignInButtonDown = false;                                    //¼ÇÂ¼µÇÂ¼°´Å¥ÏÔÊ¾×´Ì¬ ·ÀÖ¹°´ÏÂ×ó¼üºóÒÆ¶¯Êó±ê²úÉúÏÔÊ¾ÎÊÌâ
+    bool buttonDown = false;                                    //¼ÇÂ¼µÇÂ¼°´Å¥ÏÔÊ¾×´Ì¬ ·ÀÖ¹°´ÏÂ×ó¼üºóÒÆ¶¯Êó±ê²úÉúÏÔÊ¾ÎÊÌâ
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
             case WM_LBUTTONDOWN:
                 //ÔÚµÇÂ¼°´Å¥ÉÏ°´ÏÂÊó±ê×ó¼ü °´Å¥±ä³ÉºÚÉ«
                 if (m.x > 120 && m.y > 310 && m.x < 280 && m.y < 370) {
-                    SignInButtonDown = true;
-                    printButtonStyle1_black(120, 310, 280, 370, _T("µÇ  Â¼"));
+                    buttonDown = true;
+                    printButton(2, 120, 310, 280, 370, _T("µÇ  Â¼"));
                 }
 
                 //µã»÷ÍË³ö°´Å¥
@@ -62,9 +45,9 @@ int EasyX::getSignInMenuSelection() {
                 break;
             case WM_LBUTTONUP:
                 //µÇÂ¼°´Å¥»Ö¸´°×É«
-                if (SignInButtonDown) {
-                    SignInButtonDown = false;
-                    printButtonStyle1_white(120, 310, 280, 370, _T("µÇ  Â¼"));
+                if (buttonDown) {
+                    buttonDown = false;
+                    printButton(1, 120, 310, 280, 370, _T("µÇ  Â¼"));
                     //ÔÚµÇÂ¼°´Å¥ÉÏ°´ÏÂºóËÉ¿ªÊó±ê×ó¼ü
                     if (m.x > 120 && m.y > 310 && m.x < 280 && m.y < 370) {
                         return 1;
@@ -75,16 +58,32 @@ int EasyX::getSignInMenuSelection() {
     }
 }
 
+void EasyX::showMainMenu(string name, bool isAdmin) {
+
+}
+
 int EasyX::getMainMenuSelection() {
     return 0;
+}
+
+void EasyX::showAccountMenu() {
+
 }
 
 int EasyX::getAccountMenuSelection() {
     return 0;
 }
 
+void EasyX::showTransactionMenu() {
+
+}
+
 int EasyX::getTransactionMenuSelection() {
     return 0;
+}
+
+void EasyX::showInformationMenu() {
+
 }
 
 int EasyX::getInformationMenuSelection() {
@@ -103,142 +102,114 @@ void EasyX::showNumberInputPanel() {
     setbkcolor(myWHITE);
     roundrect(21, 51, 379, 139, 25, 25);
 
-    //»æÖÆ0~9Êý×Ö°´Å¥ÒÔ¼°ÍË¸ñ¼ü
-    printButtonStyle2_white(30, 190, 130, 250, _T("1"));
-    printButtonStyle2_white(150, 190, 250, 250, _T("2"));
-    printButtonStyle2_white(270, 190, 370, 250, _T("3"));
-    printButtonStyle2_white(30, 290, 130, 350, _T("4"));
-    printButtonStyle2_white(150, 290, 250, 350, _T("5"));
-    printButtonStyle2_white(270, 290, 370, 350, _T("6"));
-    printButtonStyle2_white(30, 390, 130, 450, _T("7"));
-    printButtonStyle2_white(150, 390, 250, 450, _T("8"));
-    printButtonStyle2_white(270, 390, 370, 450, _T("9"));
-    printButtonStyle2_white(30, 490, 130, 550, _T("X"));
-    printButtonStyle2_white(150, 490, 250, 550, _T("0"));
-    printButtonStyle2_white(270, 490, 370, 550, _T("¡û"));
+    //»æÖÆ0~9Êý×Ö°´Å¥ÒÔ¼°È·¶¨ÍË¸ñ¼ü
+    printButton(3, 30, 190, 130, 250, _T("1"));
+    printButton(3, 150, 190, 250, 250, _T("2"));
+    printButton(3, 270, 190, 370, 250, _T("3"));
+    printButton(3, 30, 265, 130, 325, _T("4"));
+    printButton(3, 150, 265, 250, 325, _T("5"));
+    printButton(3, 270, 265, 370, 325, _T("6"));
+    printButton(3, 30, 340, 130, 400, _T("7"));
+    printButton(3, 150, 340, 250, 400, _T("8"));
+    printButton(3, 270, 340, 370, 400, _T("9"));
+    printButton(3, 30, 415, 130, 475, _T("."));
+    printButton(3, 150, 415, 250, 475, _T("0"));
+    printButton(3, 270, 415, 370, 475, _T("X"));
+    printButton(3, 30, 490, 190, 550, _T("ÍË¸ñ"));
+    printButton(3, 210, 490, 370, 550, _T("È·¶¨"));
 }
 
 string EasyX::inputNumber(const int type) {
-    getNumberSelection();
+    string ans;
+    char selectedNum;
+    switch (type) { // NOLINT(hicpp-multiway-paths-covered)
+        case 1:
+            showNumber(50, _T("ÇëÊäÈë¿¨ºÅ"));
+            while (selectedNum = getNumberSelection(), selectedNum != 'c' || ans.empty()) {
+                if (selectedNum >= '0' && selectedNum <= '9' && ans.size() < 19) {
+                    ans += selectedNum;
+                    showNumber(40, ans.c_str());
+                } else if (selectedNum == 'b' && !ans.empty()) {
+                    ans.pop_back();
+                    if (ans.empty()) {
+                        showNumber(50, _T("ÇëÊäÈë¿¨ºÅ"));
+                    } else {
+                        showNumber(40, ans.c_str());
+                    }
+                }
+            }
+            return ans;
+        case 2:
+            showNumber(50, _T("ÇëÊäÈëÃÜÂë"));
+            while (selectedNum = getNumberSelection(), selectedNum != 'c' || ans.size() != 6) {
+                if (selectedNum >= '0' && selectedNum <= '9' && ans.size() < 6) {
+                    ans += selectedNum;
+                    string display = "¡¤";
+                    for (int i = 0; i < ans.size() - 1; ++i)
+                        display += "  ¡¤";
+                    showNumber(80, display.c_str());
+                } else if (selectedNum == 'b' && !ans.empty()) {
+                    ans.pop_back();
+                    if (ans.empty()) {
+                        showNumber(50, _T("ÇëÊäÈëÃÜÂë"));
+                    } else {
+                        string display = "¡¤";
+                        for (int i = 0; i < ans.size() - 1; ++i)
+                            display += "  ¡¤";
+                        showNumber(80, display.c_str());
+                    }
+                }
+            }
+            return ans;
+    }
     return {};
 }
 
-string EasyX::getNumberSelection() {
-    vector<bool> buttonDown(12, false);
+void EasyX::error(LPCSTR errorMsg) {
+    setbkcolor(BKCOLOR);
+    cleardevice();
+
+    //±êÌâ
+    gettextstyle(&f);
+    f.lfHeight = 100;
+    f.lfQuality = ANTIALIASED_QUALITY;
+    _tcscpy_s(f.lfFaceName, _T("Î¢ÈíÑÅºÚ"));
+    settextstyle(&f);
+    settextcolor(myBLACK);
+    setbkcolor(BKCOLOR);
+    r = {0, 0, 400, 200};
+    drawtext(_T("´íÎó"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+    //´íÎóÐÅÏ¢
+    gettextstyle(&f);
+    f.lfHeight = 50;
+    f.lfQuality = ANTIALIASED_QUALITY;
+    _tcscpy_s(f.lfFaceName, _T("Î¢ÈíÑÅºÚ"));
+    settextstyle(&f);
+    settextcolor(myBLACK);
+    setbkcolor(BKCOLOR);
+    r = {0, 200, 400, 300};
+    drawtext(errorMsg, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+    //È·¶¨°´Å¥
+    printButton(1, 120, 460, 280, 520, _T("È·  ¶¨"));
+
+    bool buttonDown = false;
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
             case WM_LBUTTONDOWN:
-                if (m.x > 30 && m.y > 190 && m.x < 130 && m.y < 250) {
-                    buttonDown[1] = true;
-                    printButtonStyle2_black(30, 190, 130, 250, _T("1"));
-                } else if (m.x > 150 && m.y > 190 && m.x < 250 && m.y < 250) {
-                    buttonDown[2] = true;
-                    printButtonStyle2_black(150, 190, 250, 250, _T("2"));
-                } else if (m.x > 270 && m.y > 190 && m.x < 370 && m.y < 250) {
-                    buttonDown[3] = true;
-                    printButtonStyle2_black(270, 190, 370, 250, _T("3"));
-                } else if (m.x > 30 && m.y > 290 && m.x < 130 && m.y < 350) {
-                    buttonDown[4] = true;
-                    printButtonStyle2_black(30, 290, 130, 350, _T("4"));
-                } else if (m.x > 150 && m.y > 290 && m.x < 250 && m.y < 350) {
-                    buttonDown[5] = true;
-                    printButtonStyle2_black(150, 290, 250, 350, _T("5"));
-                } else if (m.x > 270 && m.y > 290 && m.x < 370 && m.y < 350) {
-                    buttonDown[6] = true;
-                    printButtonStyle2_black(270, 290, 370, 350, _T("6"));
-                } else if (m.x > 30 && m.y > 390 && m.x < 130 && m.y < 450) {
-                    buttonDown[7] = true;
-                    printButtonStyle2_black(30, 390, 130, 450, _T("7"));
-                } else if (m.x > 150 && m.y > 390 && m.x < 250 && m.y < 450) {
-                    buttonDown[8] = true;
-                    printButtonStyle2_black(150, 390, 250, 450, _T("8"));
-                } else if (m.x > 270 && m.y > 390 && m.x < 370 && m.y < 450) {
-                    buttonDown[9] = true;
-                    printButtonStyle2_black(270, 390, 370, 450, _T("9"));
-                } else if (m.x > 30 && m.y > 490 && m.x < 130 && m.y < 550) {
-                    buttonDown[10] = true;
-                    printButtonStyle2_black(30, 490, 130, 550, _T("X"));
-                } else if (m.x > 150 && m.y > 490 && m.x < 250 && m.y < 550) {
-                    buttonDown[0] = true;
-                    printButtonStyle2_black(150, 490, 250, 550, _T("0"));
-                } else if (m.x > 270 && m.y > 490 && m.x < 370 && m.y < 550) {
-                    buttonDown[11] = true;
-                    printButtonStyle2_black(270, 490, 370, 550, _T("¡û"));
+                if (m.x > 120 && m.y > 460 && m.x < 280 && m.y < 520) {
+                    buttonDown = true;
+                    printButton(2, 120, 460, 280, 520, _T("È·  ¶¨"));
                 }
                 break;
             case WM_LBUTTONUP:
-                if (buttonDown[1]) {
-                    buttonDown[1] = false;
-                    printButtonStyle2_white(30, 190, 130, 250, _T("1"));
-                    if (m.x > 30 && m.y > 190 && m.x < 130 && m.y < 250) {
-                        return "1";
-                    }
-                } else if (buttonDown[2]) {
-                    buttonDown[2] = false;
-                    printButtonStyle2_white(150, 190, 250, 250, _T("2"));
-                    if (m.x > 150 && m.y > 190 && m.x < 250 && m.y < 250) {
-                        return "2";
-                    }
-                } else if (buttonDown[3]) {
-                    buttonDown[3] = false;
-                    printButtonStyle2_white(270, 190, 370, 250, _T("3"));
-                    if (m.x > 270 && m.y > 190 && m.x < 370 && m.y < 250) {
-                        return "3";
-                    }
-                } else if (buttonDown[4]) {
-                    buttonDown[4] = false;
-                    printButtonStyle2_white(30, 290, 130, 350, _T("4"));
-                    if (m.x > 30 && m.y > 290 && m.x < 130 && m.y < 350) {
-                        return "4";
-                    }
-                } else if (buttonDown[5]) {
-                    buttonDown[5] = false;
-                    printButtonStyle2_white(150, 290, 250, 350, _T("5"));
-                    if (m.x > 150 && m.y > 290 && m.x < 250 && m.y < 350) {
-                        return "5";
-                    }
-                } else if (buttonDown[6]) {
-                    buttonDown[6] = false;
-                    printButtonStyle2_white(270, 290, 370, 350, _T("6"));
-                    if (m.x > 270 && m.y > 290 && m.x < 370 && m.y < 350) {
-                        return "6";
-                    }
-                } else if (buttonDown[7]) {
-                    buttonDown[7] = false;
-                    printButtonStyle2_white(30, 390, 130, 450, _T("7"));
-                    if (m.x > 30 && m.y > 390 && m.x < 130 && m.y < 450) {
-                        return "7";
-                    }
-                } else if (buttonDown[8]) {
-                    buttonDown[8] = false;
-                    printButtonStyle2_white(150, 390, 250, 450, _T("8"));
-                    if (m.x > 150 && m.y > 390 && m.x < 250 && m.y < 450) {
-                        return "8";
-                    }
-                } else if (buttonDown[9]) {
-                    buttonDown[9] = false;
-                    printButtonStyle2_white(270, 390, 370, 450, _T("9"));
-                    if (m.x > 270 && m.y > 390 && m.x < 370 && m.y < 450) {
-                        return "9";
-                    }
-                } else if (buttonDown[10]) {
-                    buttonDown[10] = false;
-                    printButtonStyle2_white(30, 490, 130, 550, _T("X"));
-                    if (m.x > 30 && m.y > 490 && m.x < 130 && m.y < 550) {
-                        return "X";
-                    }
-                } else if (buttonDown[0]) {
-                    buttonDown[0] = false;
-                    printButtonStyle2_white(150, 490, 250, 550, _T("0"));
-                    if (m.x > 150 && m.y > 490 && m.x < 250 && m.y < 550) {
-                        return "0";
-                    }
-                } else if (buttonDown[11]) {
-                    buttonDown[11] = false;
-                    printButtonStyle2_white(270, 490, 370, 550, _T("¡û"));
-                    if (m.x > 270 && m.y > 490 && m.x < 370 && m.y < 550) {
-                        return "-1";
+                if (buttonDown) {
+                    buttonDown = false;
+                    printButton(1, 120, 460, 280, 520, _T("È·  ¶¨"));
+                    if (m.x > 120 && m.y > 460 && m.x < 280 && m.y < 520) {
+                        return;
                     }
                 }
                 break;
@@ -246,71 +217,232 @@ string EasyX::getNumberSelection() {
     }
 }
 
-void EasyX::printButtonStyle1_white(int left, int top, int right, int bottom, LPCTSTR str) {
+char EasyX::getNumberSelection() {
+    vector<bool> buttonDown(14, false);
+    while (true) {
+        m = GetMouseMsg();
+        switch (m.uMsg) {
+            case WM_LBUTTONDOWN:
+                if (m.x > 30 && m.y > 190 && m.x < 130 && m.y < 250) {
+                    buttonDown[1] = true;
+                    printButton(4, 30, 190, 130, 250, _T("1"));
+                } else if (m.x > 150 && m.y > 190 && m.x < 250 && m.y < 250) {
+                    buttonDown[2] = true;
+                    printButton(4, 150, 190, 250, 250, _T("2"));
+                } else if (m.x > 270 && m.y > 190 && m.x < 370 && m.y < 250) {
+                    buttonDown[3] = true;
+                    printButton(4, 270, 190, 370, 250, _T("3"));
+                } else if (m.x > 30 && m.y > 265 && m.x < 130 && m.y < 325) {
+                    buttonDown[4] = true;
+                    printButton(4, 30, 265, 130, 325, _T("4"));
+                } else if (m.x > 150 && m.y > 265 && m.x < 250 && m.y < 325) {
+                    buttonDown[5] = true;
+                    printButton(4, 150, 265, 250, 325, _T("5"));
+                } else if (m.x > 270 && m.y > 265 && m.x < 370 && m.y < 325) {
+                    buttonDown[6] = true;
+                    printButton(4, 270, 265, 370, 325, _T("6"));
+                } else if (m.x > 30 && m.y > 340 && m.x < 130 && m.y < 400) {
+                    buttonDown[7] = true;
+                    printButton(4, 30, 340, 130, 400, _T("7"));
+                } else if (m.x > 150 && m.y > 340 && m.x < 250 && m.y < 400) {
+                    buttonDown[8] = true;
+                    printButton(4, 150, 340, 250, 400, _T("8"));
+                } else if (m.x > 270 && m.y > 340 && m.x < 370 && m.y < 400) {
+                    buttonDown[9] = true;
+                    printButton(4, 270, 340, 370, 400, _T("9"));
+                } else if (m.x > 30 && m.y > 415 && m.x < 130 && m.y < 475) {
+                    buttonDown[11] = true;
+                    printButton(4, 30, 415, 130, 475, _T("."));
+                } else if (m.x > 150 && m.y > 415 && m.x < 250 && m.y < 475) {
+                    buttonDown[0] = true;
+                    printButton(4, 150, 415, 250, 475, _T("0"));
+                } else if (m.x > 270 && m.y > 415 && m.x < 370 && m.y < 475) {
+                    buttonDown[10] = true;
+                    printButton(4, 270, 415, 370, 475, _T("X"));
+                } else if (m.x > 30 && m.y > 490 && m.x < 190 && m.y < 550) {
+                    buttonDown[12] = true;
+                    printButton(4, 30, 490, 190, 550, _T("ÍË¸ñ"));
+                } else if (m.x > 210 && m.y > 490 && m.x < 370 && m.y < 550) {
+                    buttonDown[13] = true;
+                    printButton(4, 210, 490, 370, 550, _T("È·¶¨"));
+                }
+                break;
+            case WM_LBUTTONUP:
+                if (buttonDown[1]) {
+                    buttonDown[1] = false;
+                    printButton(3, 30, 190, 130, 250, _T("1"));
+                    if (m.x > 30 && m.y > 190 && m.x < 130 && m.y < 250) {
+                        return '1';
+                    }
+                } else if (buttonDown[2]) {
+                    buttonDown[2] = false;
+                    printButton(3, 150, 190, 250, 250, _T("2"));
+                    if (m.x > 150 && m.y > 190 && m.x < 250 && m.y < 250) {
+                        return '2';
+                    }
+                } else if (buttonDown[3]) {
+                    buttonDown[3] = false;
+                    printButton(3, 270, 190, 370, 250, _T("3"));
+                    if (m.x > 270 && m.y > 190 && m.x < 370 && m.y < 250) {
+                        return '3';
+                    }
+                } else if (buttonDown[4]) {
+                    buttonDown[4] = false;
+                    printButton(3, 30, 265, 130, 325, _T("4"));
+                    if (m.x > 30 && m.y > 265 && m.x < 130 && m.y < 325) {
+                        return '4';
+                    }
+                } else if (buttonDown[5]) {
+                    buttonDown[5] = false;
+                    printButton(3, 150, 265, 250, 325, _T("5"));
+                    if (m.x > 150 && m.y > 265 && m.x < 250 && m.y < 325) {
+                        return '5';
+                    }
+                } else if (buttonDown[6]) {
+                    buttonDown[6] = false;
+                    printButton(3, 270, 265, 370, 325, _T("6"));
+                    if (m.x > 270 && m.y > 265 && m.x < 370 && m.y < 325) {
+                        return '6';
+                    }
+                } else if (buttonDown[7]) {
+                    buttonDown[7] = false;
+                    printButton(3, 30, 340, 130, 400, _T("7"));
+                    if (m.x > 30 && m.y > 340 && m.x < 130 && m.y < 400) {
+                        return '7';
+                    }
+                } else if (buttonDown[8]) {
+                    buttonDown[8] = false;
+                    printButton(3, 150, 340, 250, 400, _T("8"));
+                    if (m.x > 150 && m.y > 340 && m.x < 250 && m.y < 400) {
+                        return '8';
+                    }
+                } else if (buttonDown[9]) {
+                    buttonDown[9] = false;
+                    printButton(3, 270, 340, 370, 400, _T("9"));
+                    if (m.x > 270 && m.y > 340 && m.x < 370 && m.y < 400) {
+                        return '9';
+                    }
+                } else if (buttonDown[11]) {
+                    buttonDown[11] = false;
+                    printButton(3, 30, 415, 130, 475, _T("."));
+                    if (m.x > 30 && m.y > 415 && m.x < 130 && m.y < 475) {
+                        return '.';
+                    }
+                } else if (buttonDown[0]) {
+                    buttonDown[0] = false;
+                    printButton(3, 150, 415, 250, 475, _T("0"));
+                    if (m.x > 150 && m.y > 415 && m.x < 250 && m.y < 475) {
+                        return '0';
+                    }
+                } else if (buttonDown[10]) {
+                    buttonDown[10] = false;
+                    printButton(3, 270, 415, 370, 475, _T("X"));
+                    if (m.x > 270 && m.y > 415 && m.x < 370 && m.y < 475) {
+                        return 'X';
+                    }
+                } else if (buttonDown[12]) {
+                    buttonDown[12] = false;
+                    printButton(3, 30, 490, 190, 550, _T("ÍË¸ñ"));
+                    if (m.x > 30 && m.y > 490 && m.x < 190 && m.y < 550) {
+                        return 'b';
+                    }
+                } else if (buttonDown[13]) {
+                    buttonDown[13] = false;
+                    printButton(3, 210, 490, 370, 550, _T("È·¶¨"));
+                    if (m.x > 210 && m.y > 490 && m.x < 370 && m.y < 550) {
+                        return 'c';
+                    }
+                }
+                break;
+        }
+    }
+}
+
+void EasyX::printButton(int style, int left, int top, int right, int bottom, LPCSTR str) {
+    switch (style) { // NOLINT(hicpp-multiway-paths-covered)
+        case 1:
+            setfillcolor(myWHITE);
+            solidroundrect(left, top, right, bottom, 25, 25);
+            setlinecolor(myBLACK);
+            setlinestyle(PS_SOLID, 3);
+            setbkcolor(myWHITE);
+            roundrect(left + 1, top + 1, right - 1, bottom - 1, 24, 24);
+            roundrect(left + 7, top + 7, right - 7, bottom - 7, 18, 18);
+            gettextstyle(&f);
+            f.lfHeight = 35;
+            f.lfQuality = ANTIALIASED_QUALITY;
+            _tcscpy_s(f.lfFaceName, _T("Î¢ÈíÑÅºÚ"));
+            settextstyle(&f);
+            settextcolor(myBLACK);
+            setbkcolor(myWHITE);
+            r = {left, top, right, bottom};
+            drawtext(str, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+            break;
+        case 2:
+            setfillcolor(myBLACK);
+            solidroundrect(left, top, right, bottom, 25, 25);
+            setlinecolor(myWHITE);
+            setlinestyle(PS_SOLID, 3);
+            setbkcolor(myBLACK);
+            roundrect(left + 4, top + 4, right - 4, bottom - 4, 20, 20);
+            gettextstyle(&f);
+            f.lfHeight = 35;
+            f.lfQuality = ANTIALIASED_QUALITY;
+            _tcscpy_s(f.lfFaceName, _T("Î¢ÈíÑÅºÚ"));
+            settextstyle(&f);
+            settextcolor(myWHITE);
+            setbkcolor(myBLACK);
+            r = {left, top, right, bottom};
+            drawtext(str, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+            break;
+        case 3:
+            setfillcolor(myWHITE);
+            solidroundrect(left, top, right, bottom, 25, 25);
+            setlinecolor(myBLACK);
+            setlinestyle(PS_SOLID, 3);
+            setbkcolor(myWHITE);
+            roundrect(left + 1, top + 1, right - 1, bottom - 1, 25, 25);
+            gettextstyle(&f);
+            f.lfHeight = 35;
+            f.lfQuality = ANTIALIASED_QUALITY;
+            _tcscpy_s(f.lfFaceName, _T("Î¢ÈíÑÅºÚ"));
+            settextstyle(&f);
+            settextcolor(myBLACK);
+            setbkcolor(myWHITE);
+            r = {left, top, right, bottom};
+            drawtext(str, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+            break;
+        case 4:
+            setfillcolor(myBLACK);
+            solidroundrect(left, top, right, bottom, 25, 25);
+            gettextstyle(&f);
+            f.lfHeight = 35;
+            f.lfQuality = ANTIALIASED_QUALITY;
+            _tcscpy_s(f.lfFaceName, _T("Î¢ÈíÑÅºÚ"));
+            settextstyle(&f);
+            settextcolor(myWHITE);
+            setbkcolor(myBLACK);
+            r = {left, top, right, bottom};
+            drawtext(str, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+            break;
+    }
+}
+
+void EasyX::showNumber(int textHeight, LPCSTR str) {
     setfillcolor(myWHITE);
-    solidroundrect(left, top, right, bottom, 25, 25);
+    solidroundrect(20, 50, 380, 140, 25, 25);
     setlinecolor(myBLACK);
     setlinestyle(PS_SOLID, 3);
     setbkcolor(myWHITE);
-    roundrect(left + 1, top + 1, right - 1, bottom - 1, 24, 24);
-    roundrect(left + 7, top + 7, right - 7, bottom - 7, 18, 18);
+    roundrect(21, 51, 379, 139, 25, 25);
+
     gettextstyle(&f);
-    f.lfHeight = 35;
+    f.lfHeight = textHeight;
     f.lfQuality = ANTIALIASED_QUALITY;
     _tcscpy_s(f.lfFaceName, _T("Î¢ÈíÑÅºÚ"));
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(myWHITE);
-    r = {left, top, right, bottom};
-    drawtext(str, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-}
-
-void EasyX::printButtonStyle1_black(int left, int top, int right, int bottom, LPCTSTR str) {
-    setfillcolor(myBLACK);
-    solidroundrect(left, top, right, bottom, 25, 25);
-    setlinecolor(myWHITE);
-    setlinestyle(PS_SOLID, 3);
-    setbkcolor(myBLACK);
-    roundrect(left + 4, top + 4, right - 4, bottom - 4, 20, 20);
-    gettextstyle(&f);
-    f.lfHeight = 35;
-    f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, _T("Î¢ÈíÑÅºÚ"));
-    settextstyle(&f);
-    settextcolor(myWHITE);
-    setbkcolor(myBLACK);
-    r = {left, top, right, bottom};
-    drawtext(str, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-}
-
-void EasyX::printButtonStyle2_white(int left, int top, int right, int bottom, LPCTSTR str) {
-    setfillcolor(myWHITE);
-    solidroundrect(left, top, right, bottom, 25, 25);
-    setlinecolor(myBLACK);
-    setlinestyle(PS_SOLID, 3);
-    setbkcolor(myWHITE);
-    roundrect(left + 1, top + 1, right - 1, bottom - 1, 25, 25);
-    gettextstyle(&f);
-    f.lfHeight = 35;
-    f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, _T("Î¢ÈíÑÅºÚ"));
-    settextstyle(&f);
-    settextcolor(myBLACK);
-    setbkcolor(myWHITE);
-    r = {left, top, right, bottom};
-    drawtext(str, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-}
-
-void EasyX::printButtonStyle2_black(int left, int top, int right, int bottom, LPCTSTR str) {
-    setfillcolor(myBLACK);
-    solidroundrect(left, top, right, bottom, 25, 25);
-    gettextstyle(&f);
-    f.lfHeight = 35;
-    f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, _T("Î¢ÈíÑÅºÚ"));
-    settextstyle(&f);
-    settextcolor(myWHITE);
-    setbkcolor(myBLACK);
-    r = {left, top, right, bottom};
+    r = {20, 50, 380, 140};
     drawtext(str, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 }

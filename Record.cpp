@@ -37,6 +37,9 @@ void Record::loadRecord(vector<Account> &accounts) {
         double balance;
         fin.read((char *) &balance, 8);
 
+        int wrongPasswordLeft;
+        fin.read((char *) &wrongPasswordLeft, 4);
+
         int num;
         fin.read((char *) &num, 4);
 
@@ -61,7 +64,7 @@ void Record::loadRecord(vector<Account> &accounts) {
             transactionHistory.push_back({transactionId, transactionTime, transactionType, transactionMoney, counterpartyAccount});
         }
 
-        Account account(id, name, password, balance, transactionHistory);
+        Account account(id, name, password, balance, wrongPasswordLeft, transactionHistory);
         accounts.push_back(account);
     }
 
@@ -84,6 +87,8 @@ void Record::saveRecord(const vector<Account> &accounts) {
         writeString(fout, account.password);
 
         fout.write((const char *) &account.balance, 8);
+
+        fout.write((const char *) &account.wrongPasswordLeft, 4);
 
         auto num = account.transactionHistory.size();
         fout.write((const char *) &num, 4);
