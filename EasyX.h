@@ -29,25 +29,25 @@ public:
     int getSignInMenuSelection();
 
     //绘制主菜单
-    void showMainMenu(const string& name, bool isAdmin);
+    void showMainMenu(const string &name, bool isAdmin);
 
     //获取主菜单用户选择
     int getMainMenuSelection();
 
     //绘制账号管理模块
-    void showAccountMenu();
+    void showAccountMenu(bool isAdmin);
 
     //获取账号管理模块用户选择
-    int getAccountMenuSelection();
+    int getAccountMenuSelection(bool isAdmin);
 
     //绘制存取款与转账模块
-    void showTransactionMenu();
+    void showTransactionMenu(bool isAdmin);
 
     //获取存取款与转账模块用户选择
     int getTransactionMenuSelection();
 
     //绘制信息查询模块
-    void showInformationMenu();
+    void showInformationMenu(bool isAdmin);
 
     //获取信息查询模块用户选择
     int getInformationMenuSelection();
@@ -55,7 +55,7 @@ public:
     //绘制数字输入面板
     void showNumberInputPanel();
 
-    //输入数字 参数为输入模式 1-卡号输入 2-密码输入 3-金额输入 4-身份证号输入
+    //输入数字 参数为输入模式 1-卡号输入 2-密码输入 3-金额输入
     string inputNumber(int type);
 
     //显示各种错误信息
