@@ -256,16 +256,16 @@ void EasyX::showTransactionMenu() {
     r = {0, 0, 400, 300};
     drawtext(_T("金额操作"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //账号管理按钮
+    //存款按钮
     printButton(1, 25, 310, 185, 370, _T("存  款"));
 
-    //金额操作按钮
+    //取款按钮
     printButton(1, 215, 310, 375, 370, _T("取  款"));
 
-    //信息查询按钮
+    //转账按钮
     printButton(1, 25, 400, 185, 460, _T("转  账"));
 
-    //退出登录按钮
+    //返回按钮
     printButton(1, 215, 400, 375, 460, _T("返  回"));
 }
 
@@ -320,12 +320,71 @@ int EasyX::getTransactionMenuSelection() {
     }
 }
 
-void EasyX::showInformationMenu(bool isAdmin) {
+void EasyX::showInformationMenu() {
+    setbkcolor(BKCOLOR);
+    cleardevice();
 
+    //标题
+    gettextstyle(&f);
+    f.lfHeight = 60;
+    f.lfQuality = ANTIALIASED_QUALITY;
+    _tcscpy_s(f.lfFaceName, _T("微软雅黑"));
+    settextstyle(&f);
+    settextcolor(myBLACK);
+    setbkcolor(BKCOLOR);
+    r = {0, 0, 400, 300};
+    drawtext(_T("信息查询"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+    //余额查询按钮
+    printButton(1, 25, 310, 185, 370, _T("余额查询"));
+
+    //交易记录按钮
+    printButton(1, 215, 310, 375, 370, _T("交易记录"));
+
+    //返回按钮
+    printButton(1, 120, 400, 280, 460, _T("返  回"));
 }
 
 int EasyX::getInformationMenuSelection() {
-    return 0;
+    vector<bool> buttonDown(3, false);
+    while (true) {
+        m = GetMouseMsg();
+        switch (m.uMsg) {
+            case WM_LBUTTONDOWN:
+                if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
+                    buttonDown[0] = true;
+                    printButton(2, 25, 310, 185, 370, _T("余额查询"));
+                } else if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
+                    buttonDown[1] = true;
+                    printButton(2, 215, 310, 375, 370, _T("交易记录"));
+                } else if (m.x > 120 && m.y > 400 && m.x < 280 && m.y < 460) {
+                    buttonDown[2] = true;
+                    printButton(2, 120, 400, 280, 460, _T("返  回"));
+                }
+                break;
+            case WM_LBUTTONUP:
+                if (buttonDown[0]) {
+                    buttonDown[0] = false;
+                    printButton(1, 25, 310, 185, 370, _T("余额查询"));
+                    if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
+                        return 1;
+                    }
+                } else if (buttonDown[1]) {
+                    buttonDown[1] = false;
+                    printButton(1, 215, 310, 375, 370, _T("交易记录"));
+                    if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
+                        return 2;
+                    }
+                } else if (buttonDown[2]) {
+                    buttonDown[2] = false;
+                    printButton(1, 120, 400, 280, 460, _T("返  回"));
+                    if (m.x > 120 && m.y > 400 && m.x < 280 && m.y < 460) {
+                        return 3;
+                    }
+                }
+                break;
+        }
+    }
 }
 
 void EasyX::showNumberInputPanel() {

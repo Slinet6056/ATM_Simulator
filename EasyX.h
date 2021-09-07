@@ -47,7 +47,7 @@ public:
     int getTransactionMenuSelection();
 
     //绘制信息查询模块
-    void showInformationMenu(bool isAdmin);
+    void showInformationMenu();
 
     //获取信息查询模块用户选择
     int getInformationMenuSelection();

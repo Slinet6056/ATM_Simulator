@@ -7,8 +7,8 @@ System::System() {
 }
 
 void System::start() {
-    easyX.showTransactionMenu();
-    while (true) { easyX.getTransactionMenuSelection(); }
+    easyX.showInformationMenu();
+    while (true) { easyX.getInformationMenuSelection(); }
     system("pause");
 //    signInMenu();
 //    mainMenu();
