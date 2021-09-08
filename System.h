@@ -27,6 +27,8 @@ class System {
     Account *currAccount{nullptr};                                   //当前登录用户 为空则表示未登录
     EasyX easyX;                                                     //图形界面类
     bool isAdmin{false};                                             //是否为管理员账号
+    const string adminId{"1234567890"};                          //管理员账号ID
+    const string adminPassword{"123456"};                       //管理员账号密码
 
 public:
     System();

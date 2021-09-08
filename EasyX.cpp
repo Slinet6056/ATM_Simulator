@@ -86,8 +86,8 @@ void EasyX::showMainMenu(const string &name, bool isAdmin) {
         drawtext(("您好，" + name).c_str(), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
     }
 
-    //账号管理按钮
-    printButton(1, 25, 310, 185, 370, "账号管理");
+    //账户管理按钮
+    printButton(1, 25, 310, 185, 370, "账户管理");
 
     //金额操作按钮
     printButton(1, 215, 310, 375, 370, "金额操作");
@@ -107,7 +107,7 @@ int EasyX::getMainMenuSelection() {
             case WM_LBUTTONDOWN:
                 if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                     buttonDown[0] = true;
-                    printButton(2, 25, 310, 185, 370, "账号管理");
+                    printButton(2, 25, 310, 185, 370, "账户管理");
                 } else if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                     buttonDown[1] = true;
                     printButton(2, 215, 310, 375, 370, "金额操作");
@@ -122,7 +122,7 @@ int EasyX::getMainMenuSelection() {
             case WM_LBUTTONUP:
                 if (buttonDown[0]) {
                     buttonDown[0] = false;
-                    printButton(1, 25, 310, 185, 370, "账号管理");
+                    printButton(1, 25, 310, 185, 370, "账户管理");
                     if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                         return 1;
                     }
@@ -163,7 +163,7 @@ void EasyX::showAccountMenu(bool isAdmin) {
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 0, 400, 300};
-    drawtext("账号管理", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    drawtext("账户管理", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
     //新建账户按钮（管理员）或升级账户按钮（用户）
     if (isAdmin) {

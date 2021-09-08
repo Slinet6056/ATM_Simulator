@@ -38,10 +38,10 @@ public:
     //获取主菜单用户选择
     int getMainMenuSelection();
 
-    //绘制账号管理模块
+    //绘制账户管理模块
     void showAccountMenu(bool isAdmin);
 
-    //获取账号管理模块用户选择
+    //获取账户管理模块用户选择
     int getAccountMenuSelection(bool isAdmin);
 
     //绘制存取款与转账模块

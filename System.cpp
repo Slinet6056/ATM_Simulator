@@ -19,17 +19,22 @@ int System::signIn() {
 
     string id, password;
     id = easyX.inputNumber(MODE_ID, "请输入卡号");
-    if (id != "1234567890") {
+    if (id == adminId) {
+        password = easyX.inputNumber(MODE_PASSWORD, "请输入密码");
+        if (password != adminPassword) return -3;
+        isAdmin = true;
+    } else {
         id = MD5(id).toStr();
         if (!accountIndex.count(id)) return -2;
+        if (!accountIndex[id]->wrongPasswordLeft) return -4;
         password = easyX.inputNumber(MODE_PASSWORD, "请输入密码");
         password = MD5(password).toStr();
-        if (accountIndex[id]->password != password) return -3;
+        if (accountIndex[id]->password != password) {
+            --accountIndex[id]->wrongPasswordLeft;
+            Record::saveRecord(accounts);
+            return -30 - accountIndex[id]->wrongPasswordLeft;
+        }
         currAccount = accountIndex[id];
-    } else {
-        password = easyX.inputNumber(MODE_PASSWORD, "请输入密码");
-        if (password != "123456") return -3;
-        isAdmin = true;
     }
 
     return 0;
@@ -45,11 +50,11 @@ int System::signOut() {
 int System::signUp() {
     string id, name, password;
     id = EasyX::inputBox("卡号：");
+    id = MD5(id).toStr();
+    if (accountIndex.count(id)) return -1;
     name = EasyX::inputBox("姓名：");
     password = EasyX::inputBox("密码：");
-    id = MD5(id).toStr();
     password = MD5(password).toStr();
-    if (accountIndex.count(id)) return -1;
     Account account(id, name, password);
     accounts.push_back(account);
     accountIndex[id] = &accounts.back();
@@ -59,7 +64,7 @@ int System::signUp() {
 
 int System::changePassword() {
     if (!currAccount && !isAdmin) return -1;
-    int res = 0;
+    int res;
     if (isAdmin) {
         string id, newPassword;
         id = EasyX::inputBox("卡号：");
@@ -77,14 +82,14 @@ int System::changePassword() {
         newPassword = MD5(newPassword).toStr();
         res = currAccount->changePassword(newPassword);
     }
-    if (res) return -3;
     Record::saveRecord(accounts);
+    if (res) return -3;
     return 0;
 }
 
 int System::deleteAccount() {
     if (!currAccount && !isAdmin) return -1;
-    int res = 0;
+    int res;
     if (isAdmin) {
         string id;
         id = EasyX::inputBox("卡号：");
@@ -132,6 +137,18 @@ void System::signInMenu() {
                     break;
                 case -3:
                     easyX.error("密码错误");
+                    break;
+                case -4:
+                    easyX.error("账户已锁定");
+                    break;
+                case -30:
+                    easyX.error("密码错误", "账户已锁定");
+                    break;
+                case -31:
+                    easyX.error("密码错误", "还剩1次机会");
+                    break;
+                case -32:
+                    easyX.error("密码错误", "还剩2次机会");
                     break;
             }
         }
@@ -200,7 +217,7 @@ int System::accountMenu() {
                     } else if (res == -2) {
                         easyX.error("卡号不存在");
                     } else if (res == -3) {
-                        easyX.error("新密码与原密码相同");
+                        easyX.error("新密码与原密码相同", "密码错误次数已重置");
                     }
                     break;
                 }
