@@ -9,6 +9,7 @@
 using std::ifstream;
 using std::ofstream;
 using std::vector;
+using std::endl;
 
 class Record {
     //将字符串以二进制形式写入文件
@@ -23,6 +24,9 @@ public:
 
     //将数据写入文件
     static void saveRecord(const vector<Account> &);
+
+    //打印凭据
+    static void printVoucher(const Account::Transaction &transaction);
 };
 
 

@@ -55,13 +55,13 @@ void Record::loadRecord(vector<Account> &accounts) {
             int transactionType;
             fin.read((char *) &transactionType, 4);
 
-            double transactionMoney;
-            fin.read((char *) &transactionMoney, 8);
+            double transactionAmount;
+            fin.read((char *) &transactionAmount, 8);
 
             string counterpartyAccount;
             readString(fin, counterpartyAccount);
 
-            transactionHistory.push_back({transactionId, transactionTime, transactionType, transactionMoney, counterpartyAccount});
+            transactionHistory.push_back({transactionId, transactionTime, transactionType, transactionAmount, counterpartyAccount});
         }
 
         Account account(id, name, password, balance, wrongPasswordLeft, transactionHistory);
@@ -101,11 +101,34 @@ void Record::saveRecord(const vector<Account> &accounts) {
 
             fout.write((const char *) &transaction.transactionType, 4);
 
-            fout.write((const char *) &transaction.transactionMoney, 8);
+            fout.write((const char *) &transaction.transactionAmount, 8);
 
             writeString(fout, transaction.counterpartyAccount);
         }
     }
 
+    fout.close();
+}
+
+void Record::printVoucher(const Account::Transaction &transaction) {
+    ofstream fout(transaction.transactionId + ".txt");
+    fout << "交易编号：" << transaction.transactionId << endl;
+    fout << "交易时间：" << transaction.transactionTime << endl;
+    fout << "交易类型：";
+    if (transaction.transactionType == 1) {
+        fout << "存款" << endl;
+        fout << "存款金额：CNY " << transaction.transactionAmount;
+    } else if (transaction.transactionType == 2) {
+        fout << "取款" << endl;
+        fout << "取款金额：CNY " << transaction.transactionAmount;
+    } else if (transaction.transactionType == 3) {
+        fout << "转账收款" << endl;
+        fout << "收款金额：CNY " << transaction.transactionAmount << endl;
+        fout << "对方账号：" << transaction.counterpartyAccount;
+    } else if (transaction.transactionType == 4) {
+        fout << "转账付款" << endl;
+        fout << "付款金额：CNY " << transaction.transactionAmount << endl;
+        fout << "对方账号：" << transaction.counterpartyAccount;
+    }
     fout.close();
 }

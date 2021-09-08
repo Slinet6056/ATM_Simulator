@@ -21,8 +21,8 @@ public:
         string transactionId;                                        //交易编号
         string transactionTime;                                      //交易时间
         int transactionType;                                         //交易类型 1-存款 2-取款 3-转入 4-转出
-        double transactionMoney;                                     //交易金额
-        string counterpartyAccount;                                  //转账对方账户 若存取款则为自己账户
+        double transactionAmount;                                    //交易金额
+        string counterpartyAccount;                                  //转账对方账号 若存取款则为"this"
     };
 
     //历史交易记录
@@ -35,7 +35,13 @@ public:
     Account(string &id, string &name, string &password, double &balance, int &wrongPasswordLeft, vector<Transaction> &transactionHistory) :
             id(id), name(name), password(password), balance(balance), wrongPasswordLeft(wrongPasswordLeft), transactionHistory(transactionHistory) {}
 
-    int changePassword(const string &newPassword);
+    void deposit(double amount, const string &timestamp, const string &currTime);
+
+    void withdrawal(double amount, const string &timestamp, const string &currTime);
+
+    void transferIn(double amount, const string &counterpartyAccount, const string &timestamp, const string &currTime);
+
+    void transferOut(double amount, const string &counterpartyAccount, const string &timestamp, const string &currTime);
 };
 
 

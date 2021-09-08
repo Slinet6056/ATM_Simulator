@@ -470,6 +470,32 @@ string EasyX::inputNumber(int type, LPCSTR prompt) {
                 }
             }
             return ans;
+        case 3:
+            showNumber(50, prompt);
+            unsigned int pointPos = 0;
+            while (selectedNum = getNumberSelection(), selectedNum != 'c' || ans.back() == '.' || ans.empty()) {
+                if (selectedNum >= '0' && selectedNum <= '9' && ans != "0" && ans.size() < 8) {
+                    if (pointPos && ans.size() > pointPos + 2) continue;
+                    ans += selectedNum;
+                    showNumber(50, ("CNY " + ans).c_str());
+                } else if (selectedNum == '.' && !pointPos && !ans.empty()) {
+                    pointPos = ans.size();
+                    ans += selectedNum;
+                    showNumber(50, ("CNY " + ans).c_str());
+                } else if (selectedNum == 'b' && !ans.empty()) {
+                    char c = ans.back();
+                    if (c == '.') {
+                        pointPos = false;
+                    }
+                    ans.pop_back();
+                    if (ans.empty()) {
+                        showNumber(50, prompt);
+                    } else {
+                        showNumber(50, ("CNY " + ans).c_str());
+                    }
+                }
+            }
+            return ans;
     }
     return {};
 }

@@ -15,7 +15,7 @@ using std::vector;
 
 #define MODE_ID 1
 #define MODE_PASSWORD 2
-#define MODE_MONEY 3
+#define MODE_AMOUNT 3
 
 class EasyX {
 
@@ -81,7 +81,7 @@ private:
     //绘制预设格式的按钮
     void printButton(int style, int left, int top, int right, int bottom, LPCSTR str);
 
-    //控制数字输入面板中的数字显示
+    //控制数字输入面板中已输入数字显示
     void showNumber(int textHeight, LPCSTR str);
 };
 
