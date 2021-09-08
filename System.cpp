@@ -581,11 +581,21 @@ string System::getCurrentTime() {
     time_t timestamp = time(nullptr);
     localtime_s(&currTime, &timestamp);
     string ans;
+    stringstream ss;
     ans += to_string(1900 + currTime.tm_year) + "-";
-    ans += to_string(1 + currTime.tm_mon) + "-";
-    ans += to_string(currTime.tm_mday) + " ";
-    ans += to_string(currTime.tm_hour) + ":";
-    ans += to_string(currTime.tm_min) + ":";
-    ans += to_string(currTime.tm_sec);
+    ss << setw(2) << setfill('0') << 1 + currTime.tm_mon;
+    ans += ss.str() + "-";
+    ss.str("");
+    ss << setw(2) << setfill('0') << currTime.tm_mday;
+    ans += ss.str() + " ";
+    ss.str("");
+    ss << setw(2) << setfill('0') << currTime.tm_hour;
+    ans += ss.str() + ":";
+    ss.str("");
+    ss << setw(2) << setfill('0') << currTime.tm_min;
+    ans += ss.str() + ":";
+    ss.str("");
+    ss << setw(2) << setfill('0') << currTime.tm_sec;
+    ans += ss.str();
     return ans;
 }
