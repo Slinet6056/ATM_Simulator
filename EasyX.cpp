@@ -165,15 +165,19 @@ void EasyX::showAccountMenu(bool isAdmin) {
     r = {0, 0, 400, 300};
     drawtext("账户管理", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //新建账户按钮（管理员）或升级账户按钮（用户）
+    //新建账户（管理员）或升级账户（用户）按钮
     if (isAdmin) {
         printButton(1, 25, 310, 185, 370, "新建账户");
     } else {
         printButton(1, 25, 310, 185, 370, "升级账户");
     }
 
-    //注销账户按钮
-    printButton(1, 215, 310, 375, 370, "注销账户");
+    //删除账户（管理员）或注销账户（用户）按钮
+    if (isAdmin) {
+        printButton(1, 215, 310, 375, 370, "删除账户");
+    } else {
+        printButton(1, 215, 310, 375, 370, "注销账户");
+    }
 
     //修改密码按钮
     printButton(1, 25, 400, 185, 460, "修改密码");
@@ -197,7 +201,11 @@ int EasyX::getAccountMenuSelection(bool isAdmin) {
                     }
                 } else if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                     buttonDown[1] = true;
-                    printButton(2, 215, 310, 375, 370, "注销账户");
+                    if (isAdmin) {
+                        printButton(2, 215, 310, 375, 370, "删除账户");
+                    } else {
+                        printButton(2, 215, 310, 375, 370, "注销账户");
+                    }
                 } else if (m.x > 25 && m.y > 400 && m.x < 185 && m.y < 460) {
                     buttonDown[2] = true;
                     printButton(2, 25, 400, 185, 460, "修改密码");
@@ -219,7 +227,11 @@ int EasyX::getAccountMenuSelection(bool isAdmin) {
                     }
                 } else if (buttonDown[1]) {
                     buttonDown[1] = false;
-                    printButton(1, 215, 310, 375, 370, "注销账户");
+                    if (isAdmin) {
+                        printButton(1, 215, 310, 375, 370, "删除账户");
+                    } else {
+                        printButton(1, 215, 310, 375, 370, "注销账户");
+                    }
                     if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                         return 2;
                     }
