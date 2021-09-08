@@ -253,6 +253,40 @@ int System::transfer() {
     return 0;
 }
 
+int System::showBalance() {
+    if (!currAccount && !isAdmin) return ERR_NOTSIGNIN;
+    if (isAdmin) {
+        string id;
+        id = EasyX::inputBox("卡号：");
+        id = MD5(id).toStr();
+        if (!accountIndex.count(id)) return ERR_INVALIDID;
+        stringstream ss;
+        ss << setiosflags(ios::fixed) << setprecision(2) << accountIndex[id]->balance;
+        easyX.tip("余额", (ss.str() + "元").c_str());
+    } else {
+        stringstream ss;
+        ss << setiosflags(ios::fixed) << setprecision(2) << currAccount->balance;
+        easyX.tip("余额", (ss.str() + "元").c_str());
+    }
+    return 0;
+}
+
+int System::showTransactionHistory() {
+    if (!currAccount && !isAdmin) return ERR_NOTSIGNIN;
+    if (isAdmin) {
+        string id;
+        id = EasyX::inputBox("卡号：");
+        id = MD5(id).toStr();
+        if (!accountIndex.count(id)) return ERR_INVALIDID;
+        Record::exportTransactionHistory(accountIndex[id]->transactionHistory);
+        easyX.tip("交易历史记录已导出");
+    } else {
+        Record::exportTransactionHistory(currAccount->transactionHistory);
+        easyX.tip("交易历史记录已导出");
+    }
+    return 0;
+}
+
 void System::signInMenu() {
     int res = 1;
     while (res) {
@@ -484,7 +518,54 @@ void System::transactionMenu() {
 }
 
 void System::informationMenu() {
-
+    int informationMenuSelection = 0;
+    while (informationMenuSelection < 3) {
+        easyX.showInformationMenu();
+        informationMenuSelection = easyX.getInformationMenuSelection();
+        if (isAdmin) {
+            switch (informationMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
+                case 1: {
+                    int res = showBalance();
+                    if (res == ERR_NOTSIGNIN) {
+                        easyX.error("未登录账户");
+                    } else if (res == ERR_INVALIDID) {
+                        easyX.error("卡号不存在");
+                    }
+                    break;
+                }
+                case 2: {
+                    int res = showTransactionHistory();
+                    if (res == ERR_NOTSIGNIN) {
+                        easyX.error("未登录账户");
+                    }
+                    break;
+                }
+                case 3:
+                    break;
+            }
+        } else {
+            switch (informationMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
+                case 1: {
+                    int res = showBalance();
+                    if (res == ERR_NOTSIGNIN) {
+                        easyX.error("未登录账户");
+                    } else if (res == ERR_INVALIDID) {
+                        easyX.error("卡号不存在");
+                    }
+                    break;
+                }
+                case 2: {
+                    int res = showTransactionHistory();
+                    if (res == ERR_NOTSIGNIN) {
+                        easyX.error("未登录账户");
+                    }
+                    break;
+                }
+                case 3:
+                    break;
+            }
+        }
+    }
 }
 
 string System::getTimestamp() {

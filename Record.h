@@ -20,13 +20,16 @@ class Record {
 
 public:
     //从文件读取数据
-    static void loadRecord(vector<Account> &);
+    static void loadRecord(vector<Account> &accounts);
 
     //将数据写入文件
-    static void saveRecord(const vector<Account> &);
+    static void saveRecord(const vector<Account> &accounts);
 
     //打印凭据
     static void printVoucher(const Account::Transaction &transaction);
+
+    //导出交易历史记录
+    static void exportTransactionHistory(const vector<Account::Transaction> &transactionHistory);
 };
 
 

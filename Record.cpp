@@ -132,3 +132,29 @@ void Record::printVoucher(const Account::Transaction &transaction) {
     }
     fout.close();
 }
+
+void Record::exportTransactionHistory(const vector<Account::Transaction> &transactionHistory) {
+    ofstream fout("交易历史记录.txt");
+    for (const auto &transaction: transactionHistory) {
+        fout << "交易编号：" << transaction.transactionId << endl;
+        fout << "交易时间：" << transaction.transactionTime << endl;
+        fout << "交易类型：";
+        if (transaction.transactionType == 1) {
+            fout << "存款" << endl;
+            fout << "存款金额：CNY " << transaction.transactionAmount << endl;
+        } else if (transaction.transactionType == 2) {
+            fout << "取款" << endl;
+            fout << "取款金额：CNY " << transaction.transactionAmount << endl;
+        } else if (transaction.transactionType == 3) {
+            fout << "转账收款" << endl;
+            fout << "收款金额：CNY " << transaction.transactionAmount << endl;
+            fout << "对方账号：" << transaction.counterpartyAccount << endl;
+        } else if (transaction.transactionType == 4) {
+            fout << "转账付款" << endl;
+            fout << "付款金额：CNY " << transaction.transactionAmount << endl;
+            fout << "对方账号：" << transaction.counterpartyAccount << endl;
+        }
+        fout << endl;
+    }
+    fout.close();
+}

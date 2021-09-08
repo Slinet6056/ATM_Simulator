@@ -72,6 +72,10 @@ private:
 
     int transfer();
 
+    int showBalance();
+
+    int showTransactionHistory();
+
     void signInMenu();
 
     void mainMenu();
