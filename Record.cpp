@@ -1,13 +1,13 @@
-#include "Record.h"
+ï»¿#include "Record.h"
 
-//½«×Ö·û´®ÒÔ¶ş½øÖÆĞÎÊ½Ğ´ÈëÎÄ¼ş£¬²ÎÊıÎªÎÄ¼şÊä³öÁ÷ºÍÒªĞ´ÈëÎÄ¼şµÄ×Ö·û´®
+//å°†å­—ç¬¦ä¸²ä»¥äºŒè¿›åˆ¶å½¢å¼å†™å…¥æ–‡ä»¶ï¼Œå‚æ•°ä¸ºæ–‡ä»¶è¾“å‡ºæµå’Œè¦å†™å…¥æ–‡ä»¶çš„å­—ç¬¦ä¸²
 inline void Record::writeString(ofstream &fout, const string &s) {
     auto len = s.size();
     fout.write((const char *) &len, 4);
     fout.write(s.data(), s.size());
 }
 
-//¶ÁÈ¡ÒÔ¶ş½øÖÆĞÎÊ½Ğ´ÈëÎÄ¼şµÄ×Ö·û´®£¬²ÎÊıÎªÎÄ¼şÊäÈëÁ÷ºÍ½ÓÊÕ¶ÁÈ¡Êı¾İµÄ×Ö·û´®µÄÒıÓÃ
+//è¯»å–ä»¥äºŒè¿›åˆ¶å½¢å¼å†™å…¥æ–‡ä»¶çš„å­—ç¬¦ä¸²ï¼Œå‚æ•°ä¸ºæ–‡ä»¶è¾“å…¥æµå’Œæ¥æ”¶è¯»å–æ•°æ®çš„å­—ç¬¦ä¸²çš„å¼•ç”¨
 inline void Record::readString(ifstream &fin, string &s) {
     size_t len;
     fin.read((char *) &len, 4);
@@ -18,50 +18,50 @@ inline void Record::readString(ifstream &fin, string &s) {
     }
 }
 
-//´ÓÎÄ¼ş¶ÁÈ¡Êı¾İ£¬²ÎÊıÎª½ÓÊÕËùÓĞÊı¾İµÄÕËºÅÈİÆ÷µÄÒıÓÃ
+//ä»æ–‡ä»¶è¯»å–æ•°æ®ï¼Œå‚æ•°ä¸ºæ¥æ”¶æ‰€æœ‰æ•°æ®çš„è´¦å·å®¹å™¨çš„å¼•ç”¨
 void Record::loadRecord(vector<Account> &accounts) {
     ifstream fin("ATM_Simulator.dat", ifstream::in | ifstream::binary);
     if (!fin) return;
 
-    size_t n;                                                        //¶ÁÈ¡ÓÃ»§Êı
+    size_t n;                                                        //è¯»å–ç”¨æˆ·æ•°
     fin.read((char *) &n, 4);
 
     for (int i = 0; i < n; ++i) {
 
-        string id;                                                   //¶ÁÈ¡¿¨ºÅ
+        string id;                                                   //è¯»å–å¡å·
         readString(fin, id);
 
-        string name;                                                 //¶ÁÈ¡ĞÕÃû
+        string name;                                                 //è¯»å–å§“å
         readString(fin, name);
 
-        string password;                                             //¶ÁÈ¡ÃÜÂë
+        string password;                                             //è¯»å–å¯†ç 
         readString(fin, password);
 
-        double balance;                                              //¶ÁÈ¡Óà¶î
+        double balance;                                              //è¯»å–ä½™é¢
         fin.read((char *) &balance, 8);
 
-        int wrongPasswordLeft;                                       //¶ÁÈ¡Ê£ÓàÃÜÂëÊäÈë´íÎó´ÎÊı
+        int wrongPasswordLeft;                                       //è¯»å–å‰©ä½™å¯†ç è¾“å…¥é”™è¯¯æ¬¡æ•°
         fin.read((char *) &wrongPasswordLeft, 4);
 
-        int num;                                                     //¶ÁÈ¡ÓÃ»§½»Ò×¼ÇÂ¼ÌõÊı
+        int num;                                                     //è¯»å–ç”¨æˆ·äº¤æ˜“è®°å½•æ¡æ•°
         fin.read((char *) &num, 4);
 
-        vector<Account::Transaction> transactionHistory;             //ÓÃÓÚ±£´æ¶ÁÈ¡µÄ½»Ò×¼ÇÂ¼
+        vector<Account::Transaction> transactionHistory;             //ç”¨äºä¿å­˜è¯»å–çš„äº¤æ˜“è®°å½•
         for (int j = 0; j < num; ++j) {
 
-            string transactionId;                                    //¶ÁÈ¡½»Ò×±àºÅ
+            string transactionId;                                    //è¯»å–äº¤æ˜“ç¼–å·
             readString(fin, transactionId);
 
-            string transactionTime;                                  //¶ÁÈ¡½»Ò×Ê±¼ä
+            string transactionTime;                                  //è¯»å–äº¤æ˜“æ—¶é—´
             readString(fin, transactionTime);
 
-            int transactionType;                                     //¶ÁÈ¡½»Ò×ÀàĞÍ£¨´æ¿îÈ¡¿î»ò×ªÕË£©
+            int transactionType;                                     //è¯»å–äº¤æ˜“ç±»å‹ï¼ˆå­˜æ¬¾å–æ¬¾æˆ–è½¬è´¦ï¼‰
             fin.read((char *) &transactionType, 4);
 
-            double transactionAmount;                                //¶ÁÈ¡½»Ò×½ğ¶î
+            double transactionAmount;                                //è¯»å–äº¤æ˜“é‡‘é¢
             fin.read((char *) &transactionAmount, 8);
 
-            string counterpartyAccount;                              //¶ÁÈ¡½»Ò×¶Ô·½ÕËºÅ£¨ÈôÎªÀàĞÍÎª´æÈ¡¿îÔò¶Ô·½ÕËºÅÎª"this"£©
+            string counterpartyAccount;                              //è¯»å–äº¤æ˜“å¯¹æ–¹è´¦å·ï¼ˆè‹¥ä¸ºç±»å‹ä¸ºå­˜å–æ¬¾åˆ™å¯¹æ–¹è´¦å·ä¸º"this"ï¼‰
             readString(fin, counterpartyAccount);
 
             transactionHistory.push_back({transactionId, transactionTime, transactionType, transactionAmount, counterpartyAccount});
@@ -74,91 +74,91 @@ void Record::loadRecord(vector<Account> &accounts) {
     fin.close();
 }
 
-//½«Êı¾İĞ´ÈëÎÄ¼ş£¬²ÎÊıÎª´æ´¢ËùÓĞÊı¾İµÄÕËºÅÈİÆ÷µÄ³£Á¿ÒıÓÃ
+//å°†æ•°æ®å†™å…¥æ–‡ä»¶ï¼Œå‚æ•°ä¸ºå­˜å‚¨æ‰€æœ‰æ•°æ®çš„è´¦å·å®¹å™¨çš„å¸¸é‡å¼•ç”¨
 void Record::saveRecord(const vector<Account> &accounts) {
     ofstream fout("ATM_Simulator.dat", ofstream::out | ofstream::trunc | ofstream::binary);
     if (!fout) return;
 
-    auto n = accounts.size();                                        //Ğ´ÈëÓÃ»§Êı
+    auto n = accounts.size();                                        //å†™å…¥ç”¨æˆ·æ•°
     fout.write((const char *) &n, 4);
 
     for (const auto &account: accounts) {
 
-        writeString(fout, account.id);                               //Ğ´Èë¿¨ºÅ
+        writeString(fout, account.id);                               //å†™å…¥å¡å·
 
-        writeString(fout, account.name);                             //Ğ´ÈëĞÕÃû
+        writeString(fout, account.name);                             //å†™å…¥å§“å
 
-        writeString(fout, account.password);                         //Ğ´ÈëÃÜÂë
+        writeString(fout, account.password);                         //å†™å…¥å¯†ç 
 
-        fout.write((const char *) &account.balance, 8);              //Ğ´ÈëÓà¶î
+        fout.write((const char *) &account.balance, 8);              //å†™å…¥ä½™é¢
 
-        fout.write((const char *) &account.wrongPasswordLeft, 4);    //Ğ´ÈëÊ£ÓàÃÜÂëÊäÈë´íÎó´ÎÊı
+        fout.write((const char *) &account.wrongPasswordLeft, 4);    //å†™å…¥å‰©ä½™å¯†ç è¾“å…¥é”™è¯¯æ¬¡æ•°
 
-        auto num = account.transactionHistory.size();                //Ğ´ÈëÓÃ»§½»Ò×¼ÇÂ¼ÌõÊı
+        auto num = account.transactionHistory.size();                //å†™å…¥ç”¨æˆ·äº¤æ˜“è®°å½•æ¡æ•°
         fout.write((const char *) &num, 4);
 
         for (const auto &transaction: account.transactionHistory) {
 
-            writeString(fout, transaction.transactionId);            //Ğ´Èë½»Ò×±àºÅ
+            writeString(fout, transaction.transactionId);            //å†™å…¥äº¤æ˜“ç¼–å·
 
-            writeString(fout, transaction.transactionTime);          //Ğ´Èë½»Ò×Ê±¼ä
+            writeString(fout, transaction.transactionTime);          //å†™å…¥äº¤æ˜“æ—¶é—´
 
-            fout.write((const char *) &transaction.transactionType, 4);   //Ğ´Èë½»Ò×ÀàĞÍ
+            fout.write((const char *) &transaction.transactionType, 4);   //å†™å…¥äº¤æ˜“ç±»å‹
 
-            fout.write((const char *) &transaction.transactionAmount, 8); //Ğ´Èë½»Ò×½ğ¶î
+            fout.write((const char *) &transaction.transactionAmount, 8); //å†™å…¥äº¤æ˜“é‡‘é¢
 
-            writeString(fout, transaction.counterpartyAccount);           //Ğ´Èë½»Ò×¶Ô·½ÕËºÅ
+            writeString(fout, transaction.counterpartyAccount);           //å†™å…¥äº¤æ˜“å¯¹æ–¹è´¦å·
         }
     }
 
     fout.close();
 }
 
-//´òÓ¡Æ¾¾İ£¬²ÎÊıÎªÒª´òÓ¡µÄµ¥Ìõ½»Ò×¼ÇÂ¼
+//æ‰“å°å‡­æ®ï¼Œå‚æ•°ä¸ºè¦æ‰“å°çš„å•æ¡äº¤æ˜“è®°å½•
 void Record::printVoucher(const Account::Transaction &transaction) {
     ofstream fout(transaction.transactionId + ".txt");
-    fout << "½»Ò×±àºÅ£º" << transaction.transactionId << endl;
-    fout << "½»Ò×Ê±¼ä£º" << transaction.transactionTime << endl;
-    fout << "½»Ò×ÀàĞÍ£º";
+    fout << "äº¤æ˜“ç¼–å·ï¼š" << transaction.transactionId << endl;
+    fout << "äº¤æ˜“æ—¶é—´ï¼š" << transaction.transactionTime << endl;
+    fout << "äº¤æ˜“ç±»å‹ï¼š";
     if (transaction.transactionType == 1) {
-        fout << "´æ¿î" << endl;
-        fout << "´æ¿î½ğ¶î£ºCNY " << transaction.transactionAmount;
+        fout << "å­˜æ¬¾" << endl;
+        fout << "å­˜æ¬¾é‡‘é¢ï¼šCNY " << transaction.transactionAmount;
     } else if (transaction.transactionType == 2) {
-        fout << "È¡¿î" << endl;
-        fout << "È¡¿î½ğ¶î£ºCNY " << transaction.transactionAmount;
+        fout << "å–æ¬¾" << endl;
+        fout << "å–æ¬¾é‡‘é¢ï¼šCNY " << transaction.transactionAmount;
     } else if (transaction.transactionType == 3) {
-        fout << "×ªÕËÊÕ¿î" << endl;
-        fout << "ÊÕ¿î½ğ¶î£ºCNY " << transaction.transactionAmount << endl;
-        fout << "¶Ô·½ÕËºÅ£º" << transaction.counterpartyAccount;
+        fout << "è½¬è´¦æ”¶æ¬¾" << endl;
+        fout << "æ”¶æ¬¾é‡‘é¢ï¼šCNY " << transaction.transactionAmount << endl;
+        fout << "å¯¹æ–¹è´¦å·ï¼š" << transaction.counterpartyAccount;
     } else if (transaction.transactionType == 4) {
-        fout << "×ªÕË¸¶¿î" << endl;
-        fout << "¸¶¿î½ğ¶î£ºCNY " << transaction.transactionAmount << endl;
-        fout << "¶Ô·½ÕËºÅ£º" << transaction.counterpartyAccount;
+        fout << "è½¬è´¦ä»˜æ¬¾" << endl;
+        fout << "ä»˜æ¬¾é‡‘é¢ï¼šCNY " << transaction.transactionAmount << endl;
+        fout << "å¯¹æ–¹è´¦å·ï¼š" << transaction.counterpartyAccount;
     }
     fout.close();
 }
 
-//µ¼³ö½»Ò×ÀúÊ·¼ÇÂ¼£¬²ÎÊıÎªÒªµ¼³öµÄËùÓĞ½»Ò×¼ÇÂ¼
+//å¯¼å‡ºäº¤æ˜“å†å²è®°å½•ï¼Œå‚æ•°ä¸ºè¦å¯¼å‡ºçš„æ‰€æœ‰äº¤æ˜“è®°å½•
 void Record::exportTransactionHistory(const vector<Account::Transaction> &transactionHistory) {
-    ofstream fout("½»Ò×ÀúÊ·¼ÇÂ¼.txt");
+    ofstream fout("äº¤æ˜“å†å²è®°å½•.txt");
     for (const auto &transaction: transactionHistory) {
-        fout << "½»Ò×±àºÅ£º" << transaction.transactionId << endl;
-        fout << "½»Ò×Ê±¼ä£º" << transaction.transactionTime << endl;
-        fout << "½»Ò×ÀàĞÍ£º";
+        fout << "äº¤æ˜“ç¼–å·ï¼š" << transaction.transactionId << endl;
+        fout << "äº¤æ˜“æ—¶é—´ï¼š" << transaction.transactionTime << endl;
+        fout << "äº¤æ˜“ç±»å‹ï¼š";
         if (transaction.transactionType == 1) {
-            fout << "´æ¿î" << endl;
-            fout << "´æ¿î½ğ¶î£ºCNY " << transaction.transactionAmount << endl;
+            fout << "å­˜æ¬¾" << endl;
+            fout << "å­˜æ¬¾é‡‘é¢ï¼šCNY " << transaction.transactionAmount << endl;
         } else if (transaction.transactionType == 2) {
-            fout << "È¡¿î" << endl;
-            fout << "È¡¿î½ğ¶î£ºCNY " << transaction.transactionAmount << endl;
+            fout << "å–æ¬¾" << endl;
+            fout << "å–æ¬¾é‡‘é¢ï¼šCNY " << transaction.transactionAmount << endl;
         } else if (transaction.transactionType == 3) {
-            fout << "×ªÕËÊÕ¿î" << endl;
-            fout << "ÊÕ¿î½ğ¶î£ºCNY " << transaction.transactionAmount << endl;
-            fout << "¶Ô·½ÕËºÅ£º" << transaction.counterpartyAccount << endl;
+            fout << "è½¬è´¦æ”¶æ¬¾" << endl;
+            fout << "æ”¶æ¬¾é‡‘é¢ï¼šCNY " << transaction.transactionAmount << endl;
+            fout << "å¯¹æ–¹è´¦å·ï¼š" << transaction.counterpartyAccount << endl;
         } else if (transaction.transactionType == 4) {
-            fout << "×ªÕË¸¶¿î" << endl;
-            fout << "¸¶¿î½ğ¶î£ºCNY " << transaction.transactionAmount << endl;
-            fout << "¶Ô·½ÕËºÅ£º" << transaction.counterpartyAccount << endl;
+            fout << "è½¬è´¦ä»˜æ¬¾" << endl;
+            fout << "ä»˜æ¬¾é‡‘é¢ï¼šCNY " << transaction.transactionAmount << endl;
+            fout << "å¯¹æ–¹è´¦å·ï¼š" << transaction.counterpartyAccount << endl;
         }
         fout << endl;
     }

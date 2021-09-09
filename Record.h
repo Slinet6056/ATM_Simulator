@@ -1,4 +1,4 @@
-#ifndef ATM_SIMULATOR_RECORD_H
+ï»¿#ifndef ATM_SIMULATOR_RECORD_H
 #define ATM_SIMULATOR_RECORD_H
 
 #include <fstream>
@@ -10,31 +10,31 @@ using std::ofstream;
 using std::vector;
 using std::endl;
 
-//¸ÃÀà¸ºÔð´¦ÀíÎÄ¼þÊäÈëÊä³öµÄÏà¹Ø²Ù×÷
+//è¯¥ç±»è´Ÿè´£å¤„ç†æ–‡ä»¶è¾“å…¥è¾“å‡ºçš„ç›¸å…³æ“ä½œ
 class Record {
 
-    //C++ÖÐstringÀàÐÍµÄ×Ö·û´®Èç¹ûÖ±½ÓÊ¹ÓÃ³£¹æÊý¾ÝÀàÐÍµÄ·½Ê½½øÐÐ¶þ½øÖÆÎÄ¼þ¶ÁÈë¿ÉÄÜ»áÒý·¢Ò»Ð©´íÎó
-    //ÎÒ²ÉÓÃµÄ·½Ê½ÊÇÏÈ½«×Ö·û´®³¤¶È´æÈëÎÄ¼þ£¬ÔÙ½«stringÀàÐÍ×Ö·û´®×ª»¯³ÉC·ç¸ñ×Ö·û´®´æÈë
-    //¶ÁµÄÊ±ºòÏÈ¶ÁÈ¡×Ö·û´®³¤¶Èlen£¬ÔÙ¶ÁÈ¡len¸öcharÀàÐÍ×Ö·û£¬×îÖÕÆ´½Ó³ÉstringÀàÐÍ×Ö·û´®
-    //ÕâÖÖ·½·¨ÔÚÌØÊâÇé¿öÏÂ¿ÉÄÜÒÀÈ»»á²úÉú´íÎó£¬µ«ÔÚ±¾³ÌÐòÖÐ²¢²»»á·¢Éú£¨µ«Ô¸°É£©
+    //C++ä¸­stringç±»åž‹çš„å­—ç¬¦ä¸²å¦‚æžœç›´æŽ¥ä½¿ç”¨å¸¸è§„æ•°æ®ç±»åž‹çš„æ–¹å¼è¿›è¡ŒäºŒè¿›åˆ¶æ–‡ä»¶è¯»å…¥å¯èƒ½ä¼šå¼•å‘ä¸€äº›é”™è¯¯
+    //æˆ‘é‡‡ç”¨çš„æ–¹å¼æ˜¯å…ˆå°†å­—ç¬¦ä¸²é•¿åº¦å­˜å…¥æ–‡ä»¶ï¼Œå†å°†stringç±»åž‹å­—ç¬¦ä¸²è½¬åŒ–æˆCé£Žæ ¼å­—ç¬¦ä¸²å­˜å…¥
+    //è¯»çš„æ—¶å€™å…ˆè¯»å–å­—ç¬¦ä¸²é•¿åº¦lenï¼Œå†è¯»å–lenä¸ªcharç±»åž‹å­—ç¬¦ï¼Œæœ€ç»ˆæ‹¼æŽ¥æˆstringç±»åž‹å­—ç¬¦ä¸²
+    //è¿™ç§æ–¹æ³•åœ¨ç‰¹æ®Šæƒ…å†µä¸‹å¯èƒ½ä¾ç„¶ä¼šäº§ç”Ÿé”™è¯¯ï¼Œä½†åœ¨æœ¬ç¨‹åºä¸­å¹¶ä¸ä¼šå‘ç”Ÿï¼ˆä½†æ„¿å§ï¼‰
 
-    //½«×Ö·û´®ÒÔ¶þ½øÖÆÐÎÊ½Ð´ÈëÎÄ¼þ£¬²ÎÊýÎªÎÄ¼þÊä³öÁ÷ºÍÒªÐ´ÈëÎÄ¼þµÄ×Ö·û´®
+    //å°†å­—ç¬¦ä¸²ä»¥äºŒè¿›åˆ¶å½¢å¼å†™å…¥æ–‡ä»¶ï¼Œå‚æ•°ä¸ºæ–‡ä»¶è¾“å‡ºæµå’Œè¦å†™å…¥æ–‡ä»¶çš„å­—ç¬¦ä¸²
     static inline void writeString(ofstream &, const string &);
 
-    //¶ÁÈ¡ÒÔ¶þ½øÖÆÐÎÊ½Ð´ÈëÎÄ¼þµÄ×Ö·û´®£¬²ÎÊýÎªÎÄ¼þÊäÈëÁ÷ºÍ½ÓÊÕ¶ÁÈ¡Êý¾ÝµÄ×Ö·û´®µÄÒýÓÃ
+    //è¯»å–ä»¥äºŒè¿›åˆ¶å½¢å¼å†™å…¥æ–‡ä»¶çš„å­—ç¬¦ä¸²ï¼Œå‚æ•°ä¸ºæ–‡ä»¶è¾“å…¥æµå’ŒæŽ¥æ”¶è¯»å–æ•°æ®çš„å­—ç¬¦ä¸²çš„å¼•ç”¨
     static inline void readString(ifstream &, string &);
 
 public:
-    //´ÓÎÄ¼þ¶ÁÈ¡Êý¾Ý£¬²ÎÊýÎª½ÓÊÕËùÓÐÊý¾ÝµÄÕËºÅÈÝÆ÷µÄÒýÓÃ
+    //ä»Žæ–‡ä»¶è¯»å–æ•°æ®ï¼Œå‚æ•°ä¸ºæŽ¥æ”¶æ‰€æœ‰æ•°æ®çš„è´¦å·å®¹å™¨çš„å¼•ç”¨
     static void loadRecord(vector<Account> &accounts);
 
-    //½«Êý¾ÝÐ´ÈëÎÄ¼þ£¬²ÎÊýÎª´æ´¢ËùÓÐÊý¾ÝµÄÕËºÅÈÝÆ÷µÄ³£Á¿ÒýÓÃ
+    //å°†æ•°æ®å†™å…¥æ–‡ä»¶ï¼Œå‚æ•°ä¸ºå­˜å‚¨æ‰€æœ‰æ•°æ®çš„è´¦å·å®¹å™¨çš„å¸¸é‡å¼•ç”¨
     static void saveRecord(const vector<Account> &accounts);
 
-    //´òÓ¡Æ¾¾Ý£¬²ÎÊýÎªÒª´òÓ¡µÄµ¥Ìõ½»Ò×¼ÇÂ¼
+    //æ‰“å°å‡­æ®ï¼Œå‚æ•°ä¸ºè¦æ‰“å°çš„å•æ¡äº¤æ˜“è®°å½•
     static void printVoucher(const Account::Transaction &transaction);
 
-    //µ¼³ö½»Ò×ÀúÊ·¼ÇÂ¼£¬²ÎÊýÎªÒªµ¼³öµÄËùÓÐ½»Ò×¼ÇÂ¼
+    //å¯¼å‡ºäº¤æ˜“åŽ†å²è®°å½•ï¼Œå‚æ•°ä¸ºè¦å¯¼å‡ºçš„æ‰€æœ‰äº¤æ˜“è®°å½•
     static void exportTransactionHistory(const vector<Account::Transaction> &transactionHistory);
 };
 

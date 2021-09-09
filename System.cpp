@@ -1,13 +1,13 @@
-#include "System.h"
+ï»¿#include "System.h"
 
-//ÀàµÄ¹¹Ôìº¯Êı£¬´ÓÎÄ¼şÖĞ¼ÓÔØÕË»§ĞÅÏ¢
+//ç±»çš„æ„é€ å‡½æ•°ï¼Œä»æ–‡ä»¶ä¸­åŠ è½½è´¦æˆ·ä¿¡æ¯
 System::System() {
     Record::loadRecord(accounts);
     for (auto &account: accounts)
         accountIndex[account.id] = &account;
 }
 
-//Æô¶¯ATMÄ£ÄâÆ÷£¬Ö®ºóÎŞÏŞÑ­»·£¬Ö±µ½µã»÷ÍË³ö°´Å¥Ê¹ÓÃexit(0)½áÊø³ÌĞò
+//å¯åŠ¨ATMæ¨¡æ‹Ÿå™¨ï¼Œä¹‹åæ— é™å¾ªç¯ï¼Œç›´åˆ°ç‚¹å‡»é€€å‡ºæŒ‰é’®ä½¿ç”¨exit(0)ç»“æŸç¨‹åº
 [[noreturn]] void System::start() {
     while (true) {
         signInMenu();
@@ -15,19 +15,19 @@ System::System() {
     }
 }
 
-//¸ºÔğÊµÏÖÕË»§µÇÂ¼¹¦ÄÜ
+//è´Ÿè´£å®ç°è´¦æˆ·ç™»å½•åŠŸèƒ½
 int System::signIn() {
     if (currAccount || isAdmin) return ERR_ALREADYSIGNIN;
 
     easyX.showNumberInputPanel();
 
-    //ÓÃÓÚ½ÓÊÕÊäÈëµÄ¿¨ºÅÓëÃÜÂë
-    //ÓÉÓÚ¿¨ºÅÒª¾­¹ı¼ÓÃÜÔÙÓëÎÄ¼şÖĞ´æ´¢µÄĞÅÏ¢±È¶Ô£¬¹ÊÊ¹ÓÃid_copy±£ÁôÁËÒ»·İÎ´¾­¼ÓÃÜµÄ¸±±¾£¬ÒÔ±ãÊ¹ÓÃ
+    //ç”¨äºæ¥æ”¶è¾“å…¥çš„å¡å·ä¸å¯†ç 
+    //ç”±äºå¡å·è¦ç»è¿‡åŠ å¯†å†ä¸æ–‡ä»¶ä¸­å­˜å‚¨çš„ä¿¡æ¯æ¯”å¯¹ï¼Œæ•…ä½¿ç”¨id_copyä¿ç•™äº†ä¸€ä»½æœªç»åŠ å¯†çš„å‰¯æœ¬ï¼Œä»¥ä¾¿ä½¿ç”¨
     string id, id_copy, password;
 
-    id = easyX.inputNumber(MODE_ID, "ÇëÊäÈë¿¨ºÅ");
+    id = easyX.inputNumber(MODE_ID, "è¯·è¾“å…¥å¡å·");
     if (id == adminId) {
-        password = easyX.inputNumber(MODE_PASSWORD, "ÇëÊäÈëÃÜÂë");
+        password = easyX.inputNumber(MODE_PASSWORD, "è¯·è¾“å…¥å¯†ç ");
         if (password != adminPassword) return ERR_WRONGPASSWORD;
         isAdmin = true;
 
@@ -37,10 +37,10 @@ int System::signIn() {
         if (!accountIndex.count(id)) return ERR_INVALIDID;
         if (!accountIndex[id]->wrongPasswordLeft) return ERR_CARDLOCKED;
 
-        password = easyX.inputNumber(MODE_PASSWORD, "ÇëÊäÈëÃÜÂë");
+        password = easyX.inputNumber(MODE_PASSWORD, "è¯·è¾“å…¥å¯†ç ");
         password = MD5(password).toStr();
 
-        //ÈôÃÜÂëÊäÈë´íÎó£¬Ôò¼õÉÙÒ»´Î»ú»á
+        //è‹¥å¯†ç è¾“å…¥é”™è¯¯ï¼Œåˆ™å‡å°‘ä¸€æ¬¡æœºä¼š
         if (accountIndex[id]->password != password) {
             --accountIndex[id]->wrongPasswordLeft;
             Record::saveRecord(accounts);
@@ -54,7 +54,7 @@ int System::signIn() {
             }
         }
 
-        //µÇÂ¼³É¹¦
+        //ç™»å½•æˆåŠŸ
         currAccount = accountIndex[id];
         currAccountId = id_copy;
         currAccount->wrongPasswordLeft = 3;
@@ -62,32 +62,32 @@ int System::signIn() {
     return 0;
 }
 
-//¸ºÔğÊµÏÖÕË»§ÍË³ö¹¦ÄÜ
+//è´Ÿè´£å®ç°è´¦æˆ·é€€å‡ºåŠŸèƒ½
 int System::signOut() {
     if (!currAccount && !isAdmin) return ERR_NOTSIGNIN;
 
-    //ÍË³ö³É¹¦
+    //é€€å‡ºæˆåŠŸ
     currAccount = nullptr;
     currAccountId.clear();
     isAdmin = false;
     return 0;
 }
 
-//¸ºÔğÊµÏÖ¹ÜÀíÔ±Ôö¼ÓÕË»§¹¦ÄÜ
+//è´Ÿè´£å®ç°ç®¡ç†å‘˜å¢åŠ è´¦æˆ·åŠŸèƒ½
 int System::signUp() {
-    //ÓÃÓÚ½ÓÊÕ¹ÜÀíÔ±ÊäÈëµÄĞÂÕË»§¿¨ºÅ¡¢ĞÕÃûºÍÃÜÂë
+    //ç”¨äºæ¥æ”¶ç®¡ç†å‘˜è¾“å…¥çš„æ–°è´¦æˆ·å¡å·ã€å§“åå’Œå¯†ç 
     string id, name, password;
 
-    id = EasyX::inputBox("¿¨ºÅ£º");
+    id = EasyX::inputBox("å¡å·ï¼š");
     id = MD5(id).toStr();
     if (accountIndex.count(id)) return ERR_INVALIDID;
 
-    name = EasyX::inputBox("ĞÕÃû£º");
+    name = EasyX::inputBox("å§“åï¼š");
 
-    password = EasyX::inputBox("ÃÜÂë£º");
+    password = EasyX::inputBox("å¯†ç ï¼š");
     password = MD5(password).toStr();
 
-    //³É¹¦Ôö¼ÓÒ»¸öĞÂÕËºÅ
+    //æˆåŠŸå¢åŠ ä¸€ä¸ªæ–°è´¦å·
     Account account(id, name, password);
     accounts.push_back(account);
     accountIndex[id] = &accounts.back();
@@ -96,46 +96,46 @@ int System::signUp() {
     return 0;
 }
 
-//¸ºÔğÊµÏÖĞŞ¸ÄÃÜÂë¹¦ÄÜ
+//è´Ÿè´£å®ç°ä¿®æ”¹å¯†ç åŠŸèƒ½
 int System::changePassword() {
     if (!currAccount && !isAdmin) return ERR_NOTSIGNIN;
 
     if (isAdmin) {
-        //ÓÃÓÚ½ÓÊÕ¹ÜÀíÔ±ÊäÈëµÄÕËºÅºÍĞÂÃÜÂë
+        //ç”¨äºæ¥æ”¶ç®¡ç†å‘˜è¾“å…¥çš„è´¦å·å’Œæ–°å¯†ç 
         string id, newPassword;
 
-        id = EasyX::inputBox("¿¨ºÅ£º");
+        id = EasyX::inputBox("å¡å·ï¼š");
         id = MD5(id).toStr();
         if (!accountIndex.count(id)) return ERR_INVALIDID;
 
-        //½«Ê£ÓàÃÜÂëÊäÈë´íÎó´ÎÊıÖØÖÃÎª3
-        //×¢ÒâÕâÌõÓï¾äÖ´ĞĞÔçÓÚĞÂ¾ÉÃÜÂëÊÇ·ñÏàÍ¬µÄÅĞ¶Ï
-        //Ò²¾ÍÊÇËµ¼´Ê¹·¢ÏÖĞÂÃÜÂëºÍ¾ÉÃÜÂëÏàÍ¬£¬ÃÜÂëÃ»ÓĞĞŞ¸Ä³É¹¦£¬´ÎÊıÒ²»á±»ÖØÖÃ
-        //ÖØÖÃ´ÎÊıÕâ¸ö¹¦ÄÜÆäÊµµ¥¶À×öÒ»¸öÈë¿Ú±È½ÏºÃ£¬µ«ÊÇÒòÎª²»ÏëÔÙĞŞ¸ÄÍ¼ĞÎ½çÃæ£¬ËùÒÔ¾Í·ÅÔÚÕâÀïÁË
+        //å°†å‰©ä½™å¯†ç è¾“å…¥é”™è¯¯æ¬¡æ•°é‡ç½®ä¸º3
+        //æ³¨æ„è¿™æ¡è¯­å¥æ‰§è¡Œæ—©äºæ–°æ—§å¯†ç æ˜¯å¦ç›¸åŒçš„åˆ¤æ–­
+        //ä¹Ÿå°±æ˜¯è¯´å³ä½¿å‘ç°æ–°å¯†ç å’Œæ—§å¯†ç ç›¸åŒï¼Œå¯†ç æ²¡æœ‰ä¿®æ”¹æˆåŠŸï¼Œæ¬¡æ•°ä¹Ÿä¼šè¢«é‡ç½®
+        //é‡ç½®æ¬¡æ•°è¿™ä¸ªåŠŸèƒ½å…¶å®å•ç‹¬åšä¸€ä¸ªå…¥å£æ¯”è¾ƒå¥½ï¼Œä½†æ˜¯å› ä¸ºä¸æƒ³å†ä¿®æ”¹å›¾å½¢ç•Œé¢ï¼Œæ‰€ä»¥å°±æ”¾åœ¨è¿™é‡Œäº†
         accountIndex[id]->wrongPasswordLeft = 3;
 
-        newPassword = EasyX::inputBox("ĞÂÃÜÂë£º");
+        newPassword = EasyX::inputBox("æ–°å¯†ç ï¼š");
         newPassword = MD5(newPassword).toStr();
         if (newPassword == accountIndex[id]->password) return ERR_SAMEPASSWORD;
 
-        //ÃÜÂëĞŞ¸Ä³É¹¦
+        //å¯†ç ä¿®æ”¹æˆåŠŸ
         accountIndex[id]->password = newPassword;
 
     } else {
         easyX.showNumberInputPanel();
 
-        //ÓÃÓÚ½ÓÊÕÓÃ»§Á½´ÎÊäÈëµÄĞÂÃÜÂë
+        //ç”¨äºæ¥æ”¶ç”¨æˆ·ä¸¤æ¬¡è¾“å…¥çš„æ–°å¯†ç 
         string newPassword, confirmPassword;
 
-        newPassword = easyX.inputNumber(MODE_PASSWORD, "ÇëÊäÈëĞÂÃÜÂë");
-        confirmPassword = easyX.inputNumber(MODE_PASSWORD, "È·ÈÏĞÂÃÜÂë");
+        newPassword = easyX.inputNumber(MODE_PASSWORD, "è¯·è¾“å…¥æ–°å¯†ç ");
+        confirmPassword = easyX.inputNumber(MODE_PASSWORD, "ç¡®è®¤æ–°å¯†ç ");
 
         if (newPassword != confirmPassword) return ERR_DIFFERENTPASSWORD;
 
         newPassword = MD5(newPassword).toStr();
         if (newPassword == currAccount->password) return ERR_SAMEPASSWORD;
 
-        //ÃÜÂëĞŞ¸Ä³É¹¦
+        //å¯†ç ä¿®æ”¹æˆåŠŸ
         currAccount->password = newPassword;
     }
 
@@ -143,27 +143,27 @@ int System::changePassword() {
     return 0;
 }
 
-//¸ºÔğÊµÏÖÕË»§×¢Ïú¹¦ÄÜ
+//è´Ÿè´£å®ç°è´¦æˆ·æ³¨é”€åŠŸèƒ½
 int System::deleteAccount() {
     if (!currAccount && !isAdmin) return ERR_NOTSIGNIN;
 
-    //ÓÃÓÚ½ÓÊÕÉ¾³ıÕË»§È·ÈÏ´°¿ÚµÄ·µ»ØÖµ£¬¼´ÓÃ»§£¨»ò¹ÜÀíÔ±£©ÊÇ·ñÈ·ÈÏÉ¾³ıÕË»§
+    //ç”¨äºæ¥æ”¶åˆ é™¤è´¦æˆ·ç¡®è®¤çª—å£çš„è¿”å›å€¼ï¼Œå³ç”¨æˆ·ï¼ˆæˆ–ç®¡ç†å‘˜ï¼‰æ˜¯å¦ç¡®è®¤åˆ é™¤è´¦æˆ·
     int res;
     if (isAdmin) {
-        //ÓÃÓÚ½ÓÊÕ¹ÜÀíÔ±ÊäÈëµÄÒªÉ¾³ıµÄÕËºÅ
-        //ÓÉÓÚ¿¨ºÅÒª¾­¹ı¼ÓÃÜÔÙÓëÎÄ¼şÖĞ´æ´¢µÄĞÅÏ¢±È¶Ô£¬¹ÊÊ¹ÓÃid_copy±£ÁôÁËÒ»·İÎ´¾­¼ÓÃÜµÄ¸±±¾£¬ÒÔ±ãÊ¹ÓÃ
+        //ç”¨äºæ¥æ”¶ç®¡ç†å‘˜è¾“å…¥çš„è¦åˆ é™¤çš„è´¦å·
+        //ç”±äºå¡å·è¦ç»è¿‡åŠ å¯†å†ä¸æ–‡ä»¶ä¸­å­˜å‚¨çš„ä¿¡æ¯æ¯”å¯¹ï¼Œæ•…ä½¿ç”¨id_copyä¿ç•™äº†ä¸€ä»½æœªç»åŠ å¯†çš„å‰¯æœ¬ï¼Œä»¥ä¾¿ä½¿ç”¨
         string id, id_copy;
 
-        id = EasyX::inputBox("¿¨ºÅ£º");
+        id = EasyX::inputBox("å¡å·ï¼š");
         id_copy = id;
         id = MD5(id).toStr();
         if (!accountIndex.count(id)) return ERR_INVALIDID;
 
-        //È·ÈÏÊÇ·ñÉ¾³ıÕË»§
-        res = easyX.confirm("É¾³ıÕË»§", id_copy.c_str());
+        //ç¡®è®¤æ˜¯å¦åˆ é™¤è´¦æˆ·
+        res = easyX.confirm("åˆ é™¤è´¦æˆ·", id_copy.c_str());
         if (res == 1) return CANCEL;
 
-        //³É¹¦É¾³ıÕË»§
+        //æˆåŠŸåˆ é™¤è´¦æˆ·
         swap(*accountIndex[id], *(accounts.end() - 1));
         accounts.pop_back();
         accountIndex.erase(id);
@@ -171,27 +171,27 @@ int System::deleteAccount() {
     } else {
         easyX.showNumberInputPanel();
 
-        //ÓÃÓÚ½ÓÊÕÓÃ»§ÊäÈëµÄÃÜÂë
+        //ç”¨äºæ¥æ”¶ç”¨æˆ·è¾“å…¥çš„å¯†ç 
         string password;
 
-        password = easyX.inputNumber(MODE_PASSWORD, "ÇëÊäÈëÃÜÂë");
+        password = easyX.inputNumber(MODE_PASSWORD, "è¯·è¾“å…¥å¯†ç ");
         password = MD5(password).toStr();
         if (password != currAccount->password) return ERR_WRONGPASSWORD;
 
-        //½«doubleÀàĞÍµÄÓà¶î×ªÎªstringÀàĞÍ²¢Ö»ÏÔÊ¾×î¶àÁ½Î»Ğ¡Êı
+        //å°†doubleç±»å‹çš„ä½™é¢è½¬ä¸ºstringç±»å‹å¹¶åªæ˜¾ç¤ºæœ€å¤šä¸¤ä½å°æ•°
         stringstream ss;
         ss << setiosflags(ios::fixed) << setprecision(2) << currAccount->balance;
 
-        //È·ÈÏÊÇ·ñ×¢ÏúÕË»§£¬²¢ÌáÊ¾Ê£ÓàÓà¶î
-        res = easyX.confirm("×¢ÏúÕË»§", ("Óà¶î" + ss.str() + "Ôª").c_str());
+        //ç¡®è®¤æ˜¯å¦æ³¨é”€è´¦æˆ·ï¼Œå¹¶æç¤ºå‰©ä½™ä½™é¢
+        res = easyX.confirm("æ³¨é”€è´¦æˆ·", ("ä½™é¢" + ss.str() + "å…ƒ").c_str());
         if (res == 1) return CANCEL;
 
-        //³É¹¦×¢ÏúÕË»§
+        //æˆåŠŸæ³¨é”€è´¦æˆ·
         accountIndex.erase(currAccount->id);
         swap(*currAccount, *(accounts.end() - 1));
         accounts.pop_back();
 
-        //ÍË³öµÇÂ¼
+        //é€€å‡ºç™»å½•
         currAccount = nullptr;
         currAccountId.clear();
     }
@@ -200,56 +200,56 @@ int System::deleteAccount() {
     return 0;
 }
 
-//¸ºÔğÊµÏÖ´æ¿î¹¦ÄÜ
+//è´Ÿè´£å®ç°å­˜æ¬¾åŠŸèƒ½
 int System::deposit() {
     if (!currAccount && !isAdmin) return ERR_NOTSIGNIN;
 
-    //ÓÃÓÚ½ÓÊÕ´æ¿îÈ·ÈÏ´°¿ÚµÄ·µ»ØÖµ£¬¼´ÓÃ»§£¨»ò¹ÜÀíÔ±£©ÊÇ·ñÈ·ÈÏ´æ¿î
+    //ç”¨äºæ¥æ”¶å­˜æ¬¾ç¡®è®¤çª—å£çš„è¿”å›å€¼ï¼Œå³ç”¨æˆ·ï¼ˆæˆ–ç®¡ç†å‘˜ï¼‰æ˜¯å¦ç¡®è®¤å­˜æ¬¾
     int res;
     if (isAdmin) {
-        //ÓÃÓÚ½ÓÊÕ¹ÜÀíÔ±ÊäÈëµÄ¿¨ºÅÓë´æ¿î½ğ¶î£¨stringÀàĞÍ£©
+        //ç”¨äºæ¥æ”¶ç®¡ç†å‘˜è¾“å…¥çš„å¡å·ä¸å­˜æ¬¾é‡‘é¢ï¼ˆstringç±»å‹ï¼‰
         string id, amount_str;
 
-        id = EasyX::inputBox("¿¨ºÅ£º");
+        id = EasyX::inputBox("å¡å·ï¼š");
         id = MD5(id).toStr();
         if (!accountIndex.count(id)) return ERR_INVALIDID;
 
-        amount_str = EasyX::inputBox("´æ¿î½ğ¶î£º");
+        amount_str = EasyX::inputBox("å­˜æ¬¾é‡‘é¢ï¼š");
 
-        //´æ¿î½ğ¶î×î¶àÖ»ÏÔÊ¾Á½Î»Ğ¡Êı
+        //å­˜æ¬¾é‡‘é¢æœ€å¤šåªæ˜¾ç¤ºä¸¤ä½å°æ•°
         double amount = stod(amount_str);
         stringstream ss;
         ss << setiosflags(ios::fixed) << setprecision(2) << amount;
 
-        //È·ÈÏÊÇ·ñ´æ¿î
-        res = easyX.confirm("´æ¿î½ğ¶î", (ss.str() + "Ôª").c_str());
+        //ç¡®è®¤æ˜¯å¦å­˜æ¬¾
+        res = easyX.confirm("å­˜æ¬¾é‡‘é¢", (ss.str() + "å…ƒ").c_str());
         if (res == 1) return CANCEL;
 
-        //´æ¿î³É¹¦
+        //å­˜æ¬¾æˆåŠŸ
         accountIndex[id]->deposit(stod(ss.str()), getTimestamp(), getCurrentTime());
 
     } else {
         easyX.showNumberInputPanel();
 
-        //½ÓÊÕÓÃ»§ÊäÈëµÄ´æ¿î½ğ¶î£¨stringÀàĞÍ£©
-        //¸ñÊ½ÔÚÊäÈëµÄÊ±ºò¾ÍÒÑ¿ØÖÆ£¬¹Ê²»ĞèÒªÔÙµ÷Õû
+        //æ¥æ”¶ç”¨æˆ·è¾“å…¥çš„å­˜æ¬¾é‡‘é¢ï¼ˆstringç±»å‹ï¼‰
+        //æ ¼å¼åœ¨è¾“å…¥çš„æ—¶å€™å°±å·²æ§åˆ¶ï¼Œæ•…ä¸éœ€è¦å†è°ƒæ•´
         string amount_str;
-        amount_str = easyX.inputNumber(MODE_AMOUNT, "ÇëÊäÈë´æ¿î½ğ¶î");
+        amount_str = easyX.inputNumber(MODE_AMOUNT, "è¯·è¾“å…¥å­˜æ¬¾é‡‘é¢");
         if (stod(amount_str) == 0) return ERR_ZEROAMOUNT;
         if (stod(amount_str) > 10000) return ERR_AMOUNTLIMITEXCEED;
 
-        //È·ÈÏÊÇ·ñ´æ¿î
-        res = easyX.confirm("´æ¿î½ğ¶î", (amount_str + "Ôª").c_str());
+        //ç¡®è®¤æ˜¯å¦å­˜æ¬¾
+        res = easyX.confirm("å­˜æ¬¾é‡‘é¢", (amount_str + "å…ƒ").c_str());
         if (res == 1) return CANCEL;
 
-        //´æ¿î³É¹¦
+        //å­˜æ¬¾æˆåŠŸ
         currAccount->deposit(stod(amount_str), getTimestamp(), getCurrentTime());
 
-        //ÌáÊ¾ÊÇ·ñ´òÓ¡Æ¾Ö¤
-        res = easyX.confirm(("³É¹¦´æ¿î" + amount_str + "Ôª").c_str(), "ÊÇ·ñ´òÓ¡Æ¾Ö¤");
+        //æç¤ºæ˜¯å¦æ‰“å°å‡­è¯
+        res = easyX.confirm(("æˆåŠŸå­˜æ¬¾" + amount_str + "å…ƒ").c_str(), "æ˜¯å¦æ‰“å°å‡­è¯");
         if (res == 2) {
             Record::printVoucher(currAccount->transactionHistory.back());
-            easyX.tip("´òÓ¡³É¹¦");
+            easyX.tip("æ‰“å°æˆåŠŸ");
         }
     }
 
@@ -257,64 +257,64 @@ int System::deposit() {
     return 0;
 }
 
-//¸ºÔğÊµÏÖÈ¡¿î¹¦ÄÜ
+//è´Ÿè´£å®ç°å–æ¬¾åŠŸèƒ½
 int System::withdrawal() {
     if (!currAccount && !isAdmin) return ERR_NOTSIGNIN;
 
-    //ÓÃÓÚ½ÓÊÕÈ¡¿îÈ·ÈÏ´°¿ÚµÄ·µ»ØÖµ£¬¼´ÓÃ»§£¨»ò¹ÜÀíÔ±£©ÊÇ·ñÈ·ÈÏÈ¡¿î
+    //ç”¨äºæ¥æ”¶å–æ¬¾ç¡®è®¤çª—å£çš„è¿”å›å€¼ï¼Œå³ç”¨æˆ·ï¼ˆæˆ–ç®¡ç†å‘˜ï¼‰æ˜¯å¦ç¡®è®¤å–æ¬¾
     int res;
     if (isAdmin) {
-        //ÓÃÓÚ½ÓÊÕ¹ÜÀíÔ±ÊäÈëµÄ¿¨ºÅÓëÈ¡¿î½ğ¶î£¨stringÀàĞÍ£©
+        //ç”¨äºæ¥æ”¶ç®¡ç†å‘˜è¾“å…¥çš„å¡å·ä¸å–æ¬¾é‡‘é¢ï¼ˆstringç±»å‹ï¼‰
         string id, amount_str;
 
-        id = EasyX::inputBox("¿¨ºÅ£º");
+        id = EasyX::inputBox("å¡å·ï¼š");
         id = MD5(id).toStr();
         if (!accountIndex.count(id)) return ERR_INVALIDID;
 
-        amount_str = EasyX::inputBox("È¡¿î½ğ¶î£º");
+        amount_str = EasyX::inputBox("å–æ¬¾é‡‘é¢ï¼š");
 
-        //½«stringÀàĞÍµÄÈ¡¿î½ğ¶î×ª»¯ÎªdoubleÀàĞÍ
+        //å°†stringç±»å‹çš„å–æ¬¾é‡‘é¢è½¬åŒ–ä¸ºdoubleç±»å‹
         double amount = stod(amount_str);
 
-        //¼ì²éÊÇ·ñÓà¶î²»×ã
+        //æ£€æŸ¥æ˜¯å¦ä½™é¢ä¸è¶³
         if (amount > accountIndex[id]->balance) return ERR_INSUFFICIENTBALANCE;
 
-        //È¡¿î½ğ¶î×î¶àÖ»ÏÔÊ¾Á½Î»Ğ¡Êı
+        //å–æ¬¾é‡‘é¢æœ€å¤šåªæ˜¾ç¤ºä¸¤ä½å°æ•°
         stringstream ss;
         ss << setiosflags(ios::fixed) << setprecision(2) << amount;
 
-        //È·ÈÏÊÇ·ñÈ¡¿î
-        res = easyX.confirm("È¡¿î½ğ¶î", (ss.str() + "Ôª").c_str());
+        //ç¡®è®¤æ˜¯å¦å–æ¬¾
+        res = easyX.confirm("å–æ¬¾é‡‘é¢", (ss.str() + "å…ƒ").c_str());
         if (res == 1) return CANCEL;
 
-        //È¡¿î³É¹¦
+        //å–æ¬¾æˆåŠŸ
         accountIndex[id]->withdrawal(stod(ss.str()), getTimestamp(), getCurrentTime());
     } else {
 
         easyX.showNumberInputPanel();
 
-        //½ÓÊÕÓÃ»§ÊäÈëµÄÈ¡¿î½ğ¶î£¨stringÀàĞÍ£©
-        //¸ñÊ½ÔÚÊäÈëµÄÊ±ºò¾ÍÒÑ¿ØÖÆ£¬¹Ê²»ĞèÒªÔÙµ÷Õû
+        //æ¥æ”¶ç”¨æˆ·è¾“å…¥çš„å–æ¬¾é‡‘é¢ï¼ˆstringç±»å‹ï¼‰
+        //æ ¼å¼åœ¨è¾“å…¥çš„æ—¶å€™å°±å·²æ§åˆ¶ï¼Œæ•…ä¸éœ€è¦å†è°ƒæ•´
         string amount_str;
-        amount_str = easyX.inputNumber(MODE_AMOUNT, "ÇëÊäÈëÈ¡¿î½ğ¶î");
+        amount_str = easyX.inputNumber(MODE_AMOUNT, "è¯·è¾“å…¥å–æ¬¾é‡‘é¢");
         if (stod(amount_str) == 0) return ERR_ZEROAMOUNT;
         if (stod(amount_str) > 5000) return ERR_AMOUNTLIMITEXCEED;
 
-        //¼ì²éÊÇ·ñÓà¶î²»×ã
+        //æ£€æŸ¥æ˜¯å¦ä½™é¢ä¸è¶³
         if (stod(amount_str) > currAccount->balance) return ERR_INSUFFICIENTBALANCE;
 
-        //È·ÈÏÊÇ·ñÈ¡¿î
-        res = easyX.confirm("È¡¿î½ğ¶î", (amount_str + "Ôª").c_str());
+        //ç¡®è®¤æ˜¯å¦å–æ¬¾
+        res = easyX.confirm("å–æ¬¾é‡‘é¢", (amount_str + "å…ƒ").c_str());
         if (res == 1) return CANCEL;
 
-        //È¡¿î³É¹¦
+        //å–æ¬¾æˆåŠŸ
         currAccount->withdrawal(stod(amount_str), getTimestamp(), getCurrentTime());
 
-        //ÌáÊ¾ÊÇ·ñ´òÓ¡Æ¾Ö¤
-        res = easyX.confirm(("³É¹¦È¡¿î" + amount_str + "Ôª").c_str(), "ÊÇ·ñ´òÓ¡Æ¾Ö¤");
+        //æç¤ºæ˜¯å¦æ‰“å°å‡­è¯
+        res = easyX.confirm(("æˆåŠŸå–æ¬¾" + amount_str + "å…ƒ").c_str(), "æ˜¯å¦æ‰“å°å‡­è¯");
         if (res == 2) {
             Record::printVoucher(currAccount->transactionHistory.back());
-            easyX.tip("´òÓ¡³É¹¦");
+            easyX.tip("æ‰“å°æˆåŠŸ");
         }
     }
 
@@ -322,45 +322,45 @@ int System::withdrawal() {
     return 0;
 }
 
-//¸ºÔğÊµÏÖ×ªÕË¹¦ÄÜ
+//è´Ÿè´£å®ç°è½¬è´¦åŠŸèƒ½
 int System::transfer() {
     if (!currAccount && !isAdmin) return ERR_NOTSIGNIN;
 
-    //ÓÃÓÚ½ÓÊÕ×ªÕËÈ·ÈÏ´°¿ÚµÄ·µ»ØÖµ£¬¼´ÓÃ»§£¨»ò¹ÜÀíÔ±£©ÊÇ·ñÈ·ÈÏ×ªÕË
+    //ç”¨äºæ¥æ”¶è½¬è´¦ç¡®è®¤çª—å£çš„è¿”å›å€¼ï¼Œå³ç”¨æˆ·ï¼ˆæˆ–ç®¡ç†å‘˜ï¼‰æ˜¯å¦ç¡®è®¤è½¬è´¦
     int res;
     if (isAdmin) {
-        //ÓÃÓÚ½ÓÊÕ¹ÜÀíÔ±ÊäÈëµÄ×ª³öÕËºÅ¡¢×ªÈëÕËºÅºÍ×ªÕË½ğ¶î
-        //ÓÉÓÚ¿¨ºÅÒª¾­¹ı¼ÓÃÜÔÙÓëÎÄ¼şÖĞ´æ´¢µÄĞÅÏ¢±È¶Ô£¬¹ÊÊ¹ÓÃ_copy±£ÁôÁËÒ»·İÎ´¾­¼ÓÃÜµÄ¸±±¾£¬ÒÔ±ãÊ¹ÓÃ
+        //ç”¨äºæ¥æ”¶ç®¡ç†å‘˜è¾“å…¥çš„è½¬å‡ºè´¦å·ã€è½¬å…¥è´¦å·å’Œè½¬è´¦é‡‘é¢
+        //ç”±äºå¡å·è¦ç»è¿‡åŠ å¯†å†ä¸æ–‡ä»¶ä¸­å­˜å‚¨çš„ä¿¡æ¯æ¯”å¯¹ï¼Œæ•…ä½¿ç”¨_copyä¿ç•™äº†ä¸€ä»½æœªç»åŠ å¯†çš„å‰¯æœ¬ï¼Œä»¥ä¾¿ä½¿ç”¨
         string fromId, fromId_copy, toId, toId_copy, amount_str;
 
-        fromId = EasyX::inputBox("¸¶¿î¿¨ºÅ£º");
+        fromId = EasyX::inputBox("ä»˜æ¬¾å¡å·ï¼š");
         fromId_copy = fromId;
         fromId = MD5(fromId).toStr();
         if (!accountIndex.count(fromId)) return ERR_INVALIDID;
 
-        toId = EasyX::inputBox("ÊÕ¿î¿¨ºÅ£º");
+        toId = EasyX::inputBox("æ”¶æ¬¾å¡å·ï¼š");
         toId_copy = toId;
         toId = MD5(toId).toStr();
         if (!accountIndex.count(toId)) return ERR_INVALIDID;
 
-        amount_str = EasyX::inputBox("×ªÕË½ğ¶î£º");
+        amount_str = EasyX::inputBox("è½¬è´¦é‡‘é¢ï¼š");
 
-        //½«stringÀàĞÍµÄ×ªÕË½ğ¶î×ª»¯ÎªdoubleÀàĞÍ
+        //å°†stringç±»å‹çš„è½¬è´¦é‡‘é¢è½¬åŒ–ä¸ºdoubleç±»å‹
         double amount = stod(amount_str);
 
-        //¼ì²éÊÇ·ñÓà¶î²»×ã
+        //æ£€æŸ¥æ˜¯å¦ä½™é¢ä¸è¶³
         if (amount > accountIndex[fromId]->balance) return ERR_INSUFFICIENTBALANCE;
 
-        //×ªÕË½ğ¶î×î¶àÖ»ÏÔÊ¾Á½Î»Ğ¡Êı
+        //è½¬è´¦é‡‘é¢æœ€å¤šåªæ˜¾ç¤ºä¸¤ä½å°æ•°
         stringstream ss;
         ss << setiosflags(ios::fixed) << setprecision(2) << amount;
 
-        //È·ÈÏÊÇ·ñ×ªÕË
-        res = easyX.confirm("×ªÕË½ğ¶î", (ss.str() + "Ôª").c_str());
+        //ç¡®è®¤æ˜¯å¦è½¬è´¦
+        res = easyX.confirm("è½¬è´¦é‡‘é¢", (ss.str() + "å…ƒ").c_str());
         if (res == 1) return CANCEL;
 
-        //×ªÕË³É¹¦
-        //ÕâÀï»ñÈ¡µÄÊ±¼ä´ÁºÍ¸ñÊ½»¯Ê±¼ä¿ÉÄÜ»á²»Í¬£¬²»¹ıÎÊÌâ²»´ó£¬Ê±¼ä´ÁÖ»ÊÇ×ö±àºÅÓÃ£¬Á½Õß²¢ÎŞÌ«´ó¹ØÁª
+        //è½¬è´¦æˆåŠŸ
+        //è¿™é‡Œè·å–çš„æ—¶é—´æˆ³å’Œæ ¼å¼åŒ–æ—¶é—´å¯èƒ½ä¼šä¸åŒï¼Œä¸è¿‡é—®é¢˜ä¸å¤§ï¼Œæ—¶é—´æˆ³åªæ˜¯åšç¼–å·ç”¨ï¼Œä¸¤è€…å¹¶æ— å¤ªå¤§å…³è”
         auto timestamp = getTimestamp();
         auto currTime = getCurrentTime();
         accountIndex[fromId]->transferOut(stod(ss.str()), toId_copy, timestamp, currTime);
@@ -369,38 +369,38 @@ int System::transfer() {
     } else {
         easyX.showNumberInputPanel();
 
-        //ÓÃÓÚ½ÓÊÕÓÃ»§ÊäÈëµÄÊÕ¿îÕËºÅºÍ×ªÕË½ğ¶î£¨stringÀàĞÍ£©
-        //ÓÉÓÚ¿¨ºÅÒª¾­¹ı¼ÓÃÜÔÙÓëÎÄ¼şÖĞ´æ´¢µÄĞÅÏ¢±È¶Ô£¬¹ÊÊ¹ÓÃtoId_copy±£ÁôÁËÒ»·İÎ´¾­¼ÓÃÜµÄ¸±±¾£¬ÒÔ±ãÊ¹ÓÃ
+        //ç”¨äºæ¥æ”¶ç”¨æˆ·è¾“å…¥çš„æ”¶æ¬¾è´¦å·å’Œè½¬è´¦é‡‘é¢ï¼ˆstringç±»å‹ï¼‰
+        //ç”±äºå¡å·è¦ç»è¿‡åŠ å¯†å†ä¸æ–‡ä»¶ä¸­å­˜å‚¨çš„ä¿¡æ¯æ¯”å¯¹ï¼Œæ•…ä½¿ç”¨toId_copyä¿ç•™äº†ä¸€ä»½æœªç»åŠ å¯†çš„å‰¯æœ¬ï¼Œä»¥ä¾¿ä½¿ç”¨
         string toId, toId_copy, amount_str;
 
-        toId = easyX.inputNumber(1, "ÇëÊäÈë¶Ô·½ÕË»§");
+        toId = easyX.inputNumber(1, "è¯·è¾“å…¥å¯¹æ–¹è´¦æˆ·");
         toId_copy = toId;
         toId = MD5(toId).toStr();
         if (!accountIndex.count(toId)) return ERR_INVALIDID;
 
-        amount_str = easyX.inputNumber(MODE_AMOUNT, "ÇëÊäÈë×ªÕË½ğ¶î");
+        amount_str = easyX.inputNumber(MODE_AMOUNT, "è¯·è¾“å…¥è½¬è´¦é‡‘é¢");
         if (stod(amount_str) == 0) return ERR_ZEROAMOUNT;
         if (stod(amount_str) > 50000) return ERR_AMOUNTLIMITEXCEED;
 
-        //¼ì²éÊÇ·ñÓà¶î²»×ã
+        //æ£€æŸ¥æ˜¯å¦ä½™é¢ä¸è¶³
         if (stod(amount_str) > currAccount->balance) return ERR_INSUFFICIENTBALANCE;
 
-        //È·ÈÏÊÇ·ñ×ªÕË
-        res = easyX.confirm("×ªÕË½ğ¶î", (amount_str + "Ôª").c_str());
+        //ç¡®è®¤æ˜¯å¦è½¬è´¦
+        res = easyX.confirm("è½¬è´¦é‡‘é¢", (amount_str + "å…ƒ").c_str());
         if (res == 1) return CANCEL;
 
-        //×ªÕË³É¹¦
-        //ÕâÀï»ñÈ¡µÄÊ±¼ä´ÁºÍ¸ñÊ½»¯Ê±¼ä¿ÉÄÜ»á²»Í¬£¬²»¹ıÎÊÌâ²»´ó£¬Ê±¼ä´ÁÖ»ÊÇ×ö±àºÅÓÃ£¬Á½Õß²¢ÎŞÌ«´ó¹ØÁª
+        //è½¬è´¦æˆåŠŸ
+        //è¿™é‡Œè·å–çš„æ—¶é—´æˆ³å’Œæ ¼å¼åŒ–æ—¶é—´å¯èƒ½ä¼šä¸åŒï¼Œä¸è¿‡é—®é¢˜ä¸å¤§ï¼Œæ—¶é—´æˆ³åªæ˜¯åšç¼–å·ç”¨ï¼Œä¸¤è€…å¹¶æ— å¤ªå¤§å…³è”
         auto timestamp = getTimestamp();
         auto currTime = getCurrentTime();
         currAccount->transferOut(stod(amount_str), toId_copy, getTimestamp(), getCurrentTime());
         accountIndex[toId]->transferIn(stod(amount_str), currAccountId, timestamp, currTime);
 
-        //È·ÈÏÊÇ·ñ´òÓ¡Æ¾Ö¤
-        res = easyX.confirm(("³É¹¦×ªÕË" + amount_str + "Ôª").c_str(), "ÊÇ·ñ´òÓ¡Æ¾Ö¤");
+        //ç¡®è®¤æ˜¯å¦æ‰“å°å‡­è¯
+        res = easyX.confirm(("æˆåŠŸè½¬è´¦" + amount_str + "å…ƒ").c_str(), "æ˜¯å¦æ‰“å°å‡­è¯");
         if (res == 2) {
             Record::printVoucher(currAccount->transactionHistory.back());
-            easyX.tip("´òÓ¡³É¹¦");
+            easyX.tip("æ‰“å°æˆåŠŸ");
         }
     }
 
@@ -408,88 +408,88 @@ int System::transfer() {
     return 0;
 }
 
-//¸ºÔğÊµÏÖÓà¶î²éÑ¯¹¦ÄÜ
+//è´Ÿè´£å®ç°ä½™é¢æŸ¥è¯¢åŠŸèƒ½
 int System::showBalance() {
     if (!currAccount && !isAdmin) return ERR_NOTSIGNIN;
 
     if (isAdmin) {
-        //ÓÃÓÚ½ÓÊÕ¹ÜÀíÔ±ÊäÈëµÄ¿¨ºÅ
+        //ç”¨äºæ¥æ”¶ç®¡ç†å‘˜è¾“å…¥çš„å¡å·
         string id;
-        id = EasyX::inputBox("¿¨ºÅ£º");
+        id = EasyX::inputBox("å¡å·ï¼š");
         id = MD5(id).toStr();
         if (!accountIndex.count(id)) return ERR_INVALIDID;
 
-        //Óà¶î×î¶àÖ»ÏÔÊ¾Á½Î»Ğ¡Êı
+        //ä½™é¢æœ€å¤šåªæ˜¾ç¤ºä¸¤ä½å°æ•°
         stringstream ss;
         ss << setiosflags(ios::fixed) << setprecision(2) << accountIndex[id]->balance;
-        easyX.tip("Óà¶î", (ss.str() + "Ôª").c_str());
+        easyX.tip("ä½™é¢", (ss.str() + "å…ƒ").c_str());
 
     } else {
-        //Óà¶î×î¶àÖ»ÏÔÊ¾Á½Î»Ğ¡Êı
+        //ä½™é¢æœ€å¤šåªæ˜¾ç¤ºä¸¤ä½å°æ•°
         stringstream ss;
         ss << setiosflags(ios::fixed) << setprecision(2) << currAccount->balance;
-        easyX.tip("Óà¶î", (ss.str() + "Ôª").c_str());
+        easyX.tip("ä½™é¢", (ss.str() + "å…ƒ").c_str());
     }
     return 0;
 }
 
-//¸ºÔğÊµÏÖ½»Ò×¼ÇÂ¼²éÑ¯¹¦ÄÜ
-//ÕâÀïÔ­¼Æ»®ÊÇÒ»¸öÈ«ĞÂµÄ½çÃæ£¬¿ÉÒÔÓÃ¹öÂÖÉÏÏÂ¹ö¶¯²é¿´½»Ò×¼ÇÂ¼
-//ºóÀ´´úÂëĞ´ÀÛÁË£¬¾Í¿³µôÁËÕâ¸ö¹¦ÄÜ£¬±ä³ÉÖ±½ÓÓÃÎÄ¼şµ¼³öÁË
+//è´Ÿè´£å®ç°äº¤æ˜“è®°å½•æŸ¥è¯¢åŠŸèƒ½
+//è¿™é‡ŒåŸè®¡åˆ’æ˜¯ä¸€ä¸ªå…¨æ–°çš„ç•Œé¢ï¼Œå¯ä»¥ç”¨æ»šè½®ä¸Šä¸‹æ»šåŠ¨æŸ¥çœ‹äº¤æ˜“è®°å½•
+//åæ¥ä»£ç å†™ç´¯äº†ï¼Œå°±ç æ‰äº†è¿™ä¸ªåŠŸèƒ½ï¼Œå˜æˆç›´æ¥ç”¨æ–‡ä»¶å¯¼å‡ºäº†
 int System::showTransactionHistory() {
     if (!currAccount && !isAdmin) return ERR_NOTSIGNIN;
 
     if (isAdmin) {
-        //ÓÃÓÚ½ÓÊÕ¹ÜÀíÔ±ÊäÈëµÄ¿¨ºÅ
+        //ç”¨äºæ¥æ”¶ç®¡ç†å‘˜è¾“å…¥çš„å¡å·
         string id;
-        id = EasyX::inputBox("¿¨ºÅ£º");
+        id = EasyX::inputBox("å¡å·ï¼š");
         id = MD5(id).toStr();
         if (!accountIndex.count(id)) return ERR_INVALIDID;
 
-        //µ¼³ö½»Ò×¼ÇÂ¼³É¹¦
+        //å¯¼å‡ºäº¤æ˜“è®°å½•æˆåŠŸ
         Record::exportTransactionHistory(accountIndex[id]->transactionHistory);
-        easyX.tip("½»Ò×ÀúÊ·¼ÇÂ¼ÒÑµ¼³ö");
+        easyX.tip("äº¤æ˜“å†å²è®°å½•å·²å¯¼å‡º");
 
     } else {
-        //Ö±½Óµ¼³öµ±Ç°ÕË»§µÄ½»Ò×¼ÇÂ¼
+        //ç›´æ¥å¯¼å‡ºå½“å‰è´¦æˆ·çš„äº¤æ˜“è®°å½•
         Record::exportTransactionHistory(currAccount->transactionHistory);
-        easyX.tip("½»Ò×ÀúÊ·¼ÇÂ¼ÒÑµ¼³ö");
+        easyX.tip("äº¤æ˜“å†å²è®°å½•å·²å¯¼å‡º");
     }
     return 0;
 }
 
-//µ÷ÓÃEasyXÀàµÄ·½·¨ÏÔÊ¾µÇÂ¼½çÃæ£¬µã»÷°´Å¥¿ÉÒÔ½øĞĞµÇÂ¼ÓëÍË³ö£¬²¢´¦Àí¸÷ÖÖ¿ÉÄÜ·¢ÉúµÄ´íÎó
+//è°ƒç”¨EasyXç±»çš„æ–¹æ³•æ˜¾ç¤ºç™»å½•ç•Œé¢ï¼Œç‚¹å‡»æŒ‰é’®å¯ä»¥è¿›è¡Œç™»å½•ä¸é€€å‡ºï¼Œå¹¶å¤„ç†å„ç§å¯èƒ½å‘ç”Ÿçš„é”™è¯¯
 void System::signInMenu() {
-    //ÓÃÓÚ½ÓÊÕ½øĞĞµÇÂ¼²Ù×÷³ÌĞòºó·µ»ØµÄ½á¹û
+    //ç”¨äºæ¥æ”¶è¿›è¡Œç™»å½•æ“ä½œç¨‹åºåè¿”å›çš„ç»“æœ
     int res;
     do {
         easyX.showSignInMenu();
 
-        //»ñÈ¡±»µã»÷°´Å¥µÄ±àºÅ
+        //è·å–è¢«ç‚¹å‡»æŒ‰é’®çš„ç¼–å·
         int signInMenuSelection = easyX.getSignInMenuSelection();
         if (signInMenuSelection == 1) {
             res = signIn();
             switch (res) {
                 case ERR_ALREADYSIGNIN:
-                    easyX.error("ÒÑ´¦ÓÚµÇÂ¼×´Ì¬");
+                    easyX.error("å·²å¤„äºç™»å½•çŠ¶æ€");
                     break;
                 case ERR_INVALIDID:
-                    easyX.error("¿¨ºÅ²»´æÔÚ");
+                    easyX.error("å¡å·ä¸å­˜åœ¨");
                     break;
                 case ERR_WRONGPASSWORD:
-                    easyX.error("ÃÜÂë´íÎó");
+                    easyX.error("å¯†ç é”™è¯¯");
                     break;
                 case ERR_CARDLOCKED:
-                    easyX.error("ÕË»§ÒÑËø¶¨");
+                    easyX.error("è´¦æˆ·å·²é”å®š");
                     break;
                 case ERR_WRONGPASSWORD_NOCHANCELEFT:
-                    easyX.error("ÃÜÂë´íÎó", "ÕË»§ÒÑËø¶¨");
+                    easyX.error("å¯†ç é”™è¯¯", "è´¦æˆ·å·²é”å®š");
                     break;
                 case ERR_WRONGPASSWORD_ONECHANCELEFT:
-                    easyX.error("ÃÜÂë´íÎó", "»¹Ê£1´Î»ú»á");
+                    easyX.error("å¯†ç é”™è¯¯", "è¿˜å‰©1æ¬¡æœºä¼š");
                     break;
                 case ERR_WRONGPASSWORD_TWOCHANCESLEFT:
-                    easyX.error("ÃÜÂë´íÎó", "»¹Ê£2´Î»ú»á");
+                    easyX.error("å¯†ç é”™è¯¯", "è¿˜å‰©2æ¬¡æœºä¼š");
                     break;
                 default:
                     break;
@@ -498,12 +498,12 @@ void System::signInMenu() {
     } while (res);
 }
 
-//µ÷ÓÃEasyXÀàµÄ·½·¨ÏÔÊ¾Ö÷²Ëµ¥£¬µã»÷°´Å¥¿ÉÒÔ½øĞĞÏàÓ¦µÄ²Ù×÷£¬²¢´¦Àí¸÷ÖÖ¿ÉÄÜ·¢ÉúµÄ´íÎó
+//è°ƒç”¨EasyXç±»çš„æ–¹æ³•æ˜¾ç¤ºä¸»èœå•ï¼Œç‚¹å‡»æŒ‰é’®å¯ä»¥è¿›è¡Œç›¸åº”çš„æ“ä½œï¼Œå¹¶å¤„ç†å„ç§å¯èƒ½å‘ç”Ÿçš„é”™è¯¯
 void System::mainMenu() {
-    //»ñÈ¡±»µã»÷°´Å¥µÄ±àºÅ£¬4´ú±íµÇ³ö¼ü
+    //è·å–è¢«ç‚¹å‡»æŒ‰é’®çš„ç¼–å·ï¼Œ4ä»£è¡¨ç™»å‡ºé”®
     int mainMenuSelection = 0;
     while (mainMenuSelection != 4) {
-        //¹ÜÀíÔ±µÄ±êÌâÏÔÊ¾Îª"Admin"£¬¶øÓÃ»§ÔòÊÇ´øÓĞËûÃÇÃû×ÖµÄ»¶Ó­Óï
+        //ç®¡ç†å‘˜çš„æ ‡é¢˜æ˜¾ç¤ºä¸º"Admin"ï¼Œè€Œç”¨æˆ·åˆ™æ˜¯å¸¦æœ‰ä»–ä»¬åå­—çš„æ¬¢è¿è¯­
         if (isAdmin) {
             easyX.showMainMenu("Admin", true);
         } else {
@@ -513,10 +513,10 @@ void System::mainMenu() {
         mainMenuSelection = easyX.getMainMenuSelection();
         switch (mainMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
             case 1: {
-                //»ñÈ¡ÕË»§¹ÜÀíÄ£¿é·µ»ØµÄ½á¹û
+                //è·å–è´¦æˆ·ç®¡ç†æ¨¡å—è¿”å›çš„ç»“æœ
                 int res = accountMenu();
-                //ÕâÀïÖ÷Òª×÷ÓÃÊÇÔÚÓÃ»§×¢ÏúÕË»§ºó£¨res==-1£©·µ»ØµÇÂ¼½çÃæ
-                //ÈÃmainMenuSelection=4¾ÍÏàµ±ÓÚÊÖ¶¯µãÁËµÇ³ö°´Å¥
+                //è¿™é‡Œä¸»è¦ä½œç”¨æ˜¯åœ¨ç”¨æˆ·æ³¨é”€è´¦æˆ·åï¼ˆres==-1ï¼‰è¿”å›ç™»å½•ç•Œé¢
+                //è®©mainMenuSelection=4å°±ç›¸å½“äºæ‰‹åŠ¨ç‚¹äº†ç™»å‡ºæŒ‰é’®
                 if (res == -1) mainMenuSelection = 4;
                 break;
             }
@@ -527,11 +527,11 @@ void System::mainMenu() {
                 informationMenu();
                 break;
             case 4: {
-                //»ñÈ¡µÇ³öÕËºÅ²Ù×÷½á¹û
+                //è·å–ç™»å‡ºè´¦å·æ“ä½œç»“æœ
                 int res = signOut();
-                //Êµ¼ÊÉÏÕâÖÖÀàĞÍµÄ´íÎóÖ»·¢Éú¹ıÒ»´Î£¬ÊÇÔÚÎÒ´úÂëĞ´ÁËÒ»°ëÓĞbugµÄÊ±ºò£¬Æ½Ê±Ê¹ÓÃÓ¦¸ÃÅª²»³öÕâÖÖ´íÎóµÄ°É
+                //å®é™…ä¸Šè¿™ç§ç±»å‹çš„é”™è¯¯åªå‘ç”Ÿè¿‡ä¸€æ¬¡ï¼Œæ˜¯åœ¨æˆ‘ä»£ç å†™äº†ä¸€åŠæœ‰bugçš„æ—¶å€™ï¼Œå¹³æ—¶ä½¿ç”¨åº”è¯¥å¼„ä¸å‡ºè¿™ç§é”™è¯¯çš„å§
                 if (res) {
-                    easyX.error("Î´µÇÂ¼ÕË»§");
+                    easyX.error("æœªç™»å½•è´¦æˆ·");
                 }
                 break;
             }
@@ -539,9 +539,9 @@ void System::mainMenu() {
     }
 }
 
-//µ÷ÓÃEasyXÀàµÄ·½·¨ÏÔÊ¾ÕË»§¹ÜÀí²Ëµ¥£¬µã»÷°´Å¥¿ÉÒÔ½øĞĞÏàÓ¦µÄ²Ù×÷£¬²¢´¦Àí¸÷ÖÖ¿ÉÄÜ·¢ÉúµÄ´íÎó
+//è°ƒç”¨EasyXç±»çš„æ–¹æ³•æ˜¾ç¤ºè´¦æˆ·ç®¡ç†èœå•ï¼Œç‚¹å‡»æŒ‰é’®å¯ä»¥è¿›è¡Œç›¸åº”çš„æ“ä½œï¼Œå¹¶å¤„ç†å„ç§å¯èƒ½å‘ç”Ÿçš„é”™è¯¯
 int System::accountMenu() {
-    //»ñÈ¡±»µã»÷°´¼üµÄ±àºÅ£¬4´ú±í·µ»Ø¼ü£¬5¶ÔÓ¦µÄÊÇ×¢ÏúÕË»§ºóÒª»Øµ½µÇÂ¼½çÃæµÄÌØÊâÇé¿ö
+    //è·å–è¢«ç‚¹å‡»æŒ‰é”®çš„ç¼–å·ï¼Œ4ä»£è¡¨è¿”å›é”®ï¼Œ5å¯¹åº”çš„æ˜¯æ³¨é”€è´¦æˆ·åè¦å›åˆ°ç™»å½•ç•Œé¢çš„ç‰¹æ®Šæƒ…å†µ
     int accountMenuSelection = 0;
     while (accountMenuSelection < 4) {
         easyX.showAccountMenu(isAdmin);
@@ -550,83 +550,83 @@ int System::accountMenu() {
         if (isAdmin) {
             switch (accountMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
                 case 1: {
-                    //»ñÈ¡ĞÂ½¨ÕË»§²Ù×÷½á¹û
+                    //è·å–æ–°å»ºè´¦æˆ·æ“ä½œç»“æœ
                     int res = signUp();
                     if (res == ERR_INVALIDID) {
-                        easyX.error("ÕËºÅÒÑ´æÔÚ");
+                        easyX.error("è´¦å·å·²å­˜åœ¨");
                     }
                     break;
                 }
                 case 2: {
-                    //»ñÈ¡É¾³ıÕË»§²Ù×÷½á¹û
+                    //è·å–åˆ é™¤è´¦æˆ·æ“ä½œç»“æœ
                     int res = deleteAccount();
                     if (res == ERR_NOTSIGNIN) {
-                        easyX.error("Î´µÇÂ¼ÕË»§");
+                        easyX.error("æœªç™»å½•è´¦æˆ·");
                     } else if (res == ERR_INVALIDID) {
-                        easyX.error("¿¨ºÅ²»´æÔÚ");
+                        easyX.error("å¡å·ä¸å­˜åœ¨");
                     }
                     break;
                 }
                 case 3: {
-                    //»ñÈ¡ĞŞ¸ÄÃÜÂë²Ù×÷½á¹û
+                    //è·å–ä¿®æ”¹å¯†ç æ“ä½œç»“æœ
                     int res = changePassword();
                     if (res == ERR_NOTSIGNIN) {
-                        easyX.error("Î´µÇÂ¼ÕË»§");
+                        easyX.error("æœªç™»å½•è´¦æˆ·");
                     } else if (res == ERR_INVALIDID) {
-                        easyX.error("¿¨ºÅ²»´æÔÚ");
+                        easyX.error("å¡å·ä¸å­˜åœ¨");
                     } else if (res == ERR_SAMEPASSWORD) {
-                        easyX.error("ĞÂÃÜÂëÓëÔ­ÃÜÂëÏàÍ¬", "ÃÜÂë´íÎó´ÎÊıÒÑÖØÖÃ");
+                        easyX.error("æ–°å¯†ç ä¸åŸå¯†ç ç›¸åŒ", "å¯†ç é”™è¯¯æ¬¡æ•°å·²é‡ç½®");
                     }
                     break;
                 }
                 case 4:
-                    //µã»÷·µ»Ø¼ü£¬µÈÏÂÃæµ½whileÅĞ¶ÏµÄÊ±ºò¾ÍÌø³öÑ­»··µ»ØÁË
+                    //ç‚¹å‡»è¿”å›é”®ï¼Œç­‰ä¸‹é¢åˆ°whileåˆ¤æ–­çš„æ—¶å€™å°±è·³å‡ºå¾ªç¯è¿”å›äº†
                     break;
             }
         } else {
             switch (accountMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
                 case 1:
-                    //ÆäÊµÓÃ»§µÄÕâ¸öÉı¼¶ÕË»§°´Å¥ÊÇ´ÕÊıµÄ£¬Ïë²»³öÆäËû¹¦ÄÜÁË
-                    easyX.tip("ÇëÁªÏµ¹ÜÀíÔ±QQ", "492829253");
+                    //å…¶å®ç”¨æˆ·çš„è¿™ä¸ªå‡çº§è´¦æˆ·æŒ‰é’®æ˜¯å‡‘æ•°çš„ï¼Œæƒ³ä¸å‡ºå…¶ä»–åŠŸèƒ½äº†
+                    easyX.tip("è¯·è”ç³»ç®¡ç†å‘˜QQ", "492829253");
                     break;
                 case 2: {
-                    //»ñÈ¡×¢ÏúÕË»§²Ù×÷½á¹û
+                    //è·å–æ³¨é”€è´¦æˆ·æ“ä½œç»“æœ
                     int res = deleteAccount();
                     if (res == ERR_NOTSIGNIN) {
-                        easyX.error("Î´µÇÂ¼ÕË»§");
+                        easyX.error("æœªç™»å½•è´¦æˆ·");
                     } else if (res == ERR_WRONGPASSWORD) {
-                        easyX.error("ÃÜÂë´íÎó");
+                        easyX.error("å¯†ç é”™è¯¯");
                     } else if (res == 0) {
                         accountMenuSelection = 5;
                     }
                     break;
                 }
                 case 3: {
-                    //»ñÈ¡ĞŞ¸ÄÃÜÂë²Ù×÷½á¹û
+                    //è·å–ä¿®æ”¹å¯†ç æ“ä½œç»“æœ
                     int res = changePassword();
                     if (res == ERR_NOTSIGNIN) {
-                        easyX.error("Î´µÇÂ¼ÕË»§");
+                        easyX.error("æœªç™»å½•è´¦æˆ·");
                     } else if (res == ERR_DIFFERENTPASSWORD) {
-                        easyX.error("Á½´ÎÊäÈëÃÜÂë²»Ò»ÖÂ");
+                        easyX.error("ä¸¤æ¬¡è¾“å…¥å¯†ç ä¸ä¸€è‡´");
                     } else if (res == ERR_SAMEPASSWORD) {
-                        easyX.error("ĞÂÃÜÂëÓëÔ­ÃÜÂëÏàÍ¬");
+                        easyX.error("æ–°å¯†ç ä¸åŸå¯†ç ç›¸åŒ");
                     }
                     break;
                 }
                 case 4:
-                    //µã»÷·µ»Ø¼ü£¬ÂíÉÏµ½whileÅĞ¶ÏµÄÊ±ºò¾ÍÌø³öÑ­»··µ»ØÁË
+                    //ç‚¹å‡»è¿”å›é”®ï¼Œé©¬ä¸Šåˆ°whileåˆ¤æ–­çš„æ—¶å€™å°±è·³å‡ºå¾ªç¯è¿”å›äº†
                     break;
             }
         }
     }
-    //×¢ÏúÕË»§»Øµ½µÇÂ¼½çÃæµÄÌØÊâÇé¿ö
+    //æ³¨é”€è´¦æˆ·å›åˆ°ç™»å½•ç•Œé¢çš„ç‰¹æ®Šæƒ…å†µ
     if (accountMenuSelection == 5) return -1;
     else return 0;
 }
 
-//µ÷ÓÃEasyXÀàµÄ·½·¨ÏÔÊ¾½ğ¶î²Ù×÷²Ëµ¥£¬µã»÷°´Å¥¿ÉÒÔ½øĞĞÏàÓ¦µÄ²Ù×÷£¬²¢´¦Àí¸÷ÖÖ¿ÉÄÜ·¢ÉúµÄ´íÎó
+//è°ƒç”¨EasyXç±»çš„æ–¹æ³•æ˜¾ç¤ºé‡‘é¢æ“ä½œèœå•ï¼Œç‚¹å‡»æŒ‰é’®å¯ä»¥è¿›è¡Œç›¸åº”çš„æ“ä½œï¼Œå¹¶å¤„ç†å„ç§å¯èƒ½å‘ç”Ÿçš„é”™è¯¯
 void System::transactionMenu() {
-    //»ñÈ¡±»µã»÷°´Å¥µÄ±àºÅ£¬4´ú±í·µ»Ø¼ü
+    //è·å–è¢«ç‚¹å‡»æŒ‰é’®çš„ç¼–å·ï¼Œ4ä»£è¡¨è¿”å›é”®
     int transactionMenuSelection = 0;
     while (transactionMenuSelection != 4) {
         easyX.showTransactionMenu();
@@ -635,98 +635,98 @@ void System::transactionMenu() {
         if (isAdmin) {
             switch (transactionMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
                 case 1: {
-                    //»ñÈ¡´æ¿î²Ù×÷½á¹û
+                    //è·å–å­˜æ¬¾æ“ä½œç»“æœ
                     int res = deposit();
                     if (res == ERR_NOTSIGNIN) {
-                        easyX.error("Î´µÇÂ¼ÕË»§");
+                        easyX.error("æœªç™»å½•è´¦æˆ·");
                     } else if (res == ERR_INVALIDID) {
-                        easyX.error("¿¨ºÅ²»´æÔÚ");
+                        easyX.error("å¡å·ä¸å­˜åœ¨");
                     }
                     break;
                 }
                 case 2: {
-                    //»ñÈ¡È¡¿î²Ù×÷½á¹û
+                    //è·å–å–æ¬¾æ“ä½œç»“æœ
                     int res = withdrawal();
                     if (res == ERR_NOTSIGNIN) {
-                        easyX.error("Î´µÇÂ¼ÕË»§");
+                        easyX.error("æœªç™»å½•è´¦æˆ·");
                     } else if (res == ERR_INVALIDID) {
-                        easyX.error("¿¨ºÅ²»´æÔÚ");
+                        easyX.error("å¡å·ä¸å­˜åœ¨");
                     } else if (res == ERR_INSUFFICIENTBALANCE) {
-                        easyX.error("Óà¶î²»×ã");
+                        easyX.error("ä½™é¢ä¸è¶³");
                     }
                     break;
                 }
                 case 3: {
-                    //»ñÈ¡×ªÕË²Ù×÷½á¹û
+                    //è·å–è½¬è´¦æ“ä½œç»“æœ
                     int res = transfer();
                     if (res == ERR_NOTSIGNIN) {
-                        easyX.error("Î´µÇÂ¼ÕË»§");
+                        easyX.error("æœªç™»å½•è´¦æˆ·");
                     } else if (res == ERR_INVALIDID) {
-                        easyX.error("¿¨ºÅ²»´æÔÚ");
+                        easyX.error("å¡å·ä¸å­˜åœ¨");
                     } else if (res == ERR_INSUFFICIENTBALANCE) {
-                        easyX.error("Óà¶î²»×ã");
+                        easyX.error("ä½™é¢ä¸è¶³");
                     }
                     break;
                 }
                 case 4:
-                    //µã»÷·µ»Ø¼ü£¬µÈÏÂÃæµ½whileÅĞ¶ÏµÄÊ±ºò¾ÍÌø³öÑ­»··µ»ØÀ²
+                    //ç‚¹å‡»è¿”å›é”®ï¼Œç­‰ä¸‹é¢åˆ°whileåˆ¤æ–­çš„æ—¶å€™å°±è·³å‡ºå¾ªç¯è¿”å›å•¦
                     break;
             }
         } else {
             switch (transactionMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
                 case 1: {
-                    //»ñÈ¡´æ¿î²Ù×÷½á¹û
+                    //è·å–å­˜æ¬¾æ“ä½œç»“æœ
                     int res = deposit();
                     if (res == ERR_NOTSIGNIN) {
-                        easyX.error("Î´µÇÂ¼ÕË»§");
+                        easyX.error("æœªç™»å½•è´¦æˆ·");
                     } else if (res == ERR_AMOUNTLIMITEXCEED) {
-                        easyX.error("³¬³öµ¥´Î´æ¿î½ğ¶îÉÏÏŞ", "ÉÏÏŞÎª10000Ôª");
+                        easyX.error("è¶…å‡ºå•æ¬¡å­˜æ¬¾é‡‘é¢ä¸Šé™", "ä¸Šé™ä¸º10000å…ƒ");
                     } else if (res == ERR_ZEROAMOUNT) {
-                        easyX.error("´æ¿î½ğ¶î²»ÄÜÎª0");
+                        easyX.error("å­˜æ¬¾é‡‘é¢ä¸èƒ½ä¸º0");
                     }
                     break;
                 }
                 case 2: {
-                    //»ñÈ¡È¡¿î²Ù×÷½á¹û
+                    //è·å–å–æ¬¾æ“ä½œç»“æœ
                     int res = withdrawal();
                     if (res == ERR_NOTSIGNIN) {
-                        easyX.error("Î´µÇÂ¼ÕË»§");
+                        easyX.error("æœªç™»å½•è´¦æˆ·");
                     } else if (res == ERR_AMOUNTLIMITEXCEED) {
-                        easyX.error("³¬³öµ¥´ÎÈ¡¿î½ğ¶îÉÏÏŞ", "ÉÏÏŞÎª5000Ôª");
+                        easyX.error("è¶…å‡ºå•æ¬¡å–æ¬¾é‡‘é¢ä¸Šé™", "ä¸Šé™ä¸º5000å…ƒ");
                     } else if (res == ERR_INSUFFICIENTBALANCE) {
-                        easyX.error("Óà¶î²»×ã");
+                        easyX.error("ä½™é¢ä¸è¶³");
                     } else if (res == ERR_ZEROAMOUNT) {
-                        easyX.error("È¡¿î½ğ¶î²»ÄÜÎª0");
+                        easyX.error("å–æ¬¾é‡‘é¢ä¸èƒ½ä¸º0");
                     }
                     break;
                 }
                 case 3: {
-                    //»ñÈ¡×ªÕË²Ù×÷½á¹û
+                    //è·å–è½¬è´¦æ“ä½œç»“æœ
                     int res = transfer();
                     if (res == ERR_NOTSIGNIN) {
-                        easyX.error("Î´µÇÂ¼ÕË»§");
+                        easyX.error("æœªç™»å½•è´¦æˆ·");
                     } else if (res == ERR_INVALIDID) {
-                        easyX.error("¶Ô·½ÕË»§²»´æÔÚ");
+                        easyX.error("å¯¹æ–¹è´¦æˆ·ä¸å­˜åœ¨");
                     } else if (res == ERR_ZEROAMOUNT) {
-                        easyX.error("×ªÕË½ğ¶î²»ÄÜÎª0");
+                        easyX.error("è½¬è´¦é‡‘é¢ä¸èƒ½ä¸º0");
                     } else if (res == ERR_AMOUNTLIMITEXCEED) {
-                        easyX.error("³¬³öµ¥´Î×ªÕË½ğ¶îÉÏÏŞ", "ÉÏÏŞÎª50000");
+                        easyX.error("è¶…å‡ºå•æ¬¡è½¬è´¦é‡‘é¢ä¸Šé™", "ä¸Šé™ä¸º50000");
                     } else if (res == ERR_INSUFFICIENTBALANCE) {
-                        easyX.error("Óà¶î²»×ã");
+                        easyX.error("ä½™é¢ä¸è¶³");
                     }
                     break;
                 }
                 case 4:
-                    //µã»÷·µ»Ø¼ü£¬ÂíÉÏµ½whileÅĞ¶ÏµÄÊ±ºò¾ÍÌø³öÑ­»··µ»ØÀ²
+                    //ç‚¹å‡»è¿”å›é”®ï¼Œé©¬ä¸Šåˆ°whileåˆ¤æ–­çš„æ—¶å€™å°±è·³å‡ºå¾ªç¯è¿”å›å•¦
                     break;
             }
         }
     }
 }
 
-//µ÷ÓÃEasyXÀàµÄ·½·¨ÏÔÊ¾ĞÅÏ¢²éÑ¯²Ëµ¥£¬µã»÷°´Å¥¿ÉÒÔ½øĞĞÏàÓ¦µÄ²Ù×÷£¬²¢´¦Àí¸÷ÖÖ¿ÉÄÜ·¢ÉúµÄ´íÎó
+//è°ƒç”¨EasyXç±»çš„æ–¹æ³•æ˜¾ç¤ºä¿¡æ¯æŸ¥è¯¢èœå•ï¼Œç‚¹å‡»æŒ‰é’®å¯ä»¥è¿›è¡Œç›¸åº”çš„æ“ä½œï¼Œå¹¶å¤„ç†å„ç§å¯èƒ½å‘ç”Ÿçš„é”™è¯¯
 void System::informationMenu() {
-    //»ñÈ¡±»µã»÷°´Å¥µÄ±àºÅ£¬4´ú±í·µ»Ø¼ü
+    //è·å–è¢«ç‚¹å‡»æŒ‰é’®çš„ç¼–å·ï¼Œ4ä»£è¡¨è¿”å›é”®
     int informationMenuSelection = 0;
     while (informationMenuSelection != 3) {
         easyX.showInformationMenu();
@@ -735,104 +735,104 @@ void System::informationMenu() {
         if (isAdmin) {
             switch (informationMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
                 case 1: {
-                    //»ñÈ¡ÏÔÊ¾Óà¶î²Ù×÷½á¹û
+                    //è·å–æ˜¾ç¤ºä½™é¢æ“ä½œç»“æœ
                     int res = showBalance();
                     if (res == ERR_NOTSIGNIN) {
-                        easyX.error("Î´µÇÂ¼ÕË»§");
+                        easyX.error("æœªç™»å½•è´¦æˆ·");
                     } else if (res == ERR_INVALIDID) {
-                        easyX.error("¿¨ºÅ²»´æÔÚ");
+                        easyX.error("å¡å·ä¸å­˜åœ¨");
                     }
                     break;
                 }
                 case 2: {
-                    //»ñÈ¡½»Ò×¼ÇÂ¼²éÑ¯²Ù×÷½á¹û
+                    //è·å–äº¤æ˜“è®°å½•æŸ¥è¯¢æ“ä½œç»“æœ
                     int res = showTransactionHistory();
                     if (res == ERR_NOTSIGNIN) {
-                        easyX.error("Î´µÇÂ¼ÕË»§");
+                        easyX.error("æœªç™»å½•è´¦æˆ·");
                     }
                     break;
                 }
                 case 3:
-                    //µã»÷·µ»Ø¼ü£¬µÈÏÂÃæµ½whileÅĞ¶ÏµÄÊ±ºò¾ÍÌø³öÑ­»··µ»Ø
+                    //ç‚¹å‡»è¿”å›é”®ï¼Œç­‰ä¸‹é¢åˆ°whileåˆ¤æ–­çš„æ—¶å€™å°±è·³å‡ºå¾ªç¯è¿”å›
                     break;
             }
         } else {
             switch (informationMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
                 case 1: {
-                    //»ñÈ¡ÏÔÊ¾Óà¶î²Ù×÷½á¹û
+                    //è·å–æ˜¾ç¤ºä½™é¢æ“ä½œç»“æœ
                     int res = showBalance();
                     if (res == ERR_NOTSIGNIN) {
-                        easyX.error("Î´µÇÂ¼ÕË»§");
+                        easyX.error("æœªç™»å½•è´¦æˆ·");
                     } else if (res == ERR_INVALIDID) {
-                        easyX.error("¿¨ºÅ²»´æÔÚ");
+                        easyX.error("å¡å·ä¸å­˜åœ¨");
                     }
                     break;
                 }
                 case 2: {
-                    //»ñÈ¡ÏÔÊ¾½»Ò×ÀúÊ·¼ÇÂ¼²Ù×÷½á¹û
+                    //è·å–æ˜¾ç¤ºäº¤æ˜“å†å²è®°å½•æ“ä½œç»“æœ
                     int res = showTransactionHistory();
                     if (res == ERR_NOTSIGNIN) {
-                        easyX.error("Î´µÇÂ¼ÕË»§");
+                        easyX.error("æœªç™»å½•è´¦æˆ·");
                     }
                     break;
                 }
                 case 3:
-                    //µã»÷·µ»Ø¼ü¡­¡­
+                    //ç‚¹å‡»è¿”å›é”®â€¦â€¦
                     break;
             }
         }
     }
 }
 
-//»ñÈ¡Ê±¼ä´Á
+//è·å–æ—¶é—´æˆ³
 string System::getTimestamp() {
-    //¾ÍÊÇ»ñÈ¡Ê±¼ä´ÁÂï
+    //å°±æ˜¯è·å–æ—¶é—´æˆ³å˜›
     timeb timestamp{};
     ftime(&timestamp);
 
-    //ºÁÃëÊı¿ÉÄÜ²»×ãÈıÎ»£¬Òª²¹ÉÏ0
+    //æ¯«ç§’æ•°å¯èƒ½ä¸è¶³ä¸‰ä½ï¼Œè¦è¡¥ä¸Š0
     stringstream ss;
     ss << setw(3) << setfill('0') << timestamp.millitm;
 
     return to_string(timestamp.time) + ss.str();
 }
 
-//»ñÈ¡¸ñÊ½»¯µÄµ±Ç°Ê±¼ä£¨Èç£º"2021-09-09 22:02:35"£©
+//è·å–æ ¼å¼åŒ–çš„å½“å‰æ—¶é—´ï¼ˆå¦‚ï¼š"2021-09-09 22:02:35"ï¼‰
 string System::getCurrentTime() {
-    //ÕâÁ½¸ö±äÁ¿ÓÃÓÚ»ñÈ¡µ±Ç°Ê±¼äÓ´
+    //è¿™ä¸¤ä¸ªå˜é‡ç”¨äºè·å–å½“å‰æ—¶é—´å“Ÿ
     tm currTime{};
     time_t timestamp = time(nullptr);
 
     localtime_s(&currTime, &timestamp);
 
-    //ÓÃÓÚ´¢´æ×îÖÕ¸ñÊ½»¯µÄ½á¹û
+    //ç”¨äºå‚¨å­˜æœ€ç»ˆæ ¼å¼åŒ–çš„ç»“æœ
     string ans;
-    //ÓÃÓÚ¸ñÊ½»¯µ±Ç°Ê±¼ä
+    //ç”¨äºæ ¼å¼åŒ–å½“å‰æ—¶é—´
     stringstream ss;
 
-    //Äê
+    //å¹´
     ans += to_string(1900 + currTime.tm_year) + "-";
 
-    //ÔÂ
+    //æœˆ
     ss << setw(2) << setfill('0') << 1 + currTime.tm_mon;
     ans += ss.str() + "-";
 
-    //ÈÕ
+    //æ—¥
     ss.str("");
     ss << setw(2) << setfill('0') << currTime.tm_mday;
     ans += ss.str() + " ";
 
-    //Ê±
+    //æ—¶
     ss.str("");
     ss << setw(2) << setfill('0') << currTime.tm_hour;
     ans += ss.str() + ":";
 
-    //·Ö
+    //åˆ†
     ss.str("");
     ss << setw(2) << setfill('0') << currTime.tm_min;
     ans += ss.str() + ":";
 
-    //Ãë
+    //ç§’
     ss.str("");
     ss << setw(2) << setfill('0') << currTime.tm_sec;
     ans += ss.str();

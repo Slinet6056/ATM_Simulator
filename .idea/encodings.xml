@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/Account.cpp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/Account.h" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/EasyX.cpp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/EasyX.h" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/Record.cpp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/Record.h" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/System.cpp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/System.h" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/main.cpp" charset="GBK" />
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8" addBOMForNewFiles="with BOM">
+    <file url="file://$PROJECT_DIR$/Account.cpp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Account.h" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/EasyX.cpp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/EasyX.h" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Record.cpp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Record.h" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/System.cpp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/System.h" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/main.cpp" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

@@ -1,6 +1,6 @@
-#include "Account.h"
+ï»¿#include "Account.h"
 
-//´æ¿î¹¦ÄÜ£¬²ÎÊı·Ö±ğÎª´æ¿î½ğ¶î¡¢½»Ò×±àºÅ£¨ÓÃÊ±¼ä´Á´úÌæ£©¡¢½»Ò×Ê±¼ä
+//å­˜æ¬¾åŠŸèƒ½ï¼Œå‚æ•°åˆ†åˆ«ä¸ºå­˜æ¬¾é‡‘é¢ã€äº¤æ˜“ç¼–å·ï¼ˆç”¨æ—¶é—´æˆ³ä»£æ›¿ï¼‰ã€äº¤æ˜“æ—¶é—´
 void Account::deposit(double amount, const string &timestamp, const string &currTime) {
     balance += amount;
     Transaction transaction;
@@ -12,7 +12,7 @@ void Account::deposit(double amount, const string &timestamp, const string &curr
     transactionHistory.push_back(transaction);
 }
 
-//È¡¿î¹¦ÄÜ£¬²ÎÊı·Ö±ğÎªÈ¡¿î½ğ¶î¡¢½»Ò×±àºÅ£¨ÓÃÊ±¼ä´Á´úÌæ£©¡¢½»Ò×Ê±¼ä
+//å–æ¬¾åŠŸèƒ½ï¼Œå‚æ•°åˆ†åˆ«ä¸ºå–æ¬¾é‡‘é¢ã€äº¤æ˜“ç¼–å·ï¼ˆç”¨æ—¶é—´æˆ³ä»£æ›¿ï¼‰ã€äº¤æ˜“æ—¶é—´
 void Account::withdrawal(double amount, const string &timestamp, const string &currTime) {
     balance -= amount;
     Transaction transaction;
@@ -24,7 +24,7 @@ void Account::withdrawal(double amount, const string &timestamp, const string &c
     transactionHistory.push_back(transaction);
 }
 
-//×ªÕËÊÕ¿î¹¦ÄÜ£¨×ªÈëÕË»§µ÷ÓÃ£©£¬²ÎÊı·Ö±ğÎª×ªÕË½ğ¶î¡¢¶Ô·½ÕËºÅ¡¢½»Ò×±àºÅ£¨ÓÃÊ±¼ä´Á´úÌæ£©¡¢½»Ò×Ê±¼ä
+//è½¬è´¦æ”¶æ¬¾åŠŸèƒ½ï¼ˆè½¬å…¥è´¦æˆ·è°ƒç”¨ï¼‰ï¼Œå‚æ•°åˆ†åˆ«ä¸ºè½¬è´¦é‡‘é¢ã€å¯¹æ–¹è´¦å·ã€äº¤æ˜“ç¼–å·ï¼ˆç”¨æ—¶é—´æˆ³ä»£æ›¿ï¼‰ã€äº¤æ˜“æ—¶é—´
 void Account::transferIn(double amount, const string &counterpartyAccount, const string &timestamp, const string &currTime) {
     balance += amount;
     Transaction transaction;
@@ -36,7 +36,7 @@ void Account::transferIn(double amount, const string &counterpartyAccount, const
     transactionHistory.push_back(transaction);
 }
 
-//×ªÕË¸¶¿î¹¦ÄÜ£¨×ª³öÕË»§µ÷ÓÃ£©£¬²ÎÊı·Ö±ğÎª×ªÕË½ğ¶î¡¢¶Ô·½ÕËºÅ¡¢½»Ò×±àºÅ£¨ÓÃÊ±¼ä´Á´úÌæ£©¡¢½»Ò×Ê±¼ä
+//è½¬è´¦ä»˜æ¬¾åŠŸèƒ½ï¼ˆè½¬å‡ºè´¦æˆ·è°ƒç”¨ï¼‰ï¼Œå‚æ•°åˆ†åˆ«ä¸ºè½¬è´¦é‡‘é¢ã€å¯¹æ–¹è´¦å·ã€äº¤æ˜“ç¼–å·ï¼ˆç”¨æ—¶é—´æˆ³ä»£æ›¿ï¼‰ã€äº¤æ˜“æ—¶é—´
 void Account::transferOut(double amount, const string &counterpartyAccount, const string &timestamp, const string &currTime) {
     balance -= amount;
     Transaction transaction;

@@ -1,62 +1,62 @@
-#include "EasyX.h"
+ï»¿#include "EasyX.h"
 
-//ÀàµÄ¹¹Ôìº¯Êı
+//ç±»çš„æ„é€ å‡½æ•°
 EasyX::EasyX() {
     initgraph(400, 600);
 }
 
-//»æÖÆµÇÂ¼½çÃæ
+//ç»˜åˆ¶ç™»å½•ç•Œé¢
 void EasyX::showSignInMenu() {
-    //Çå¿Õ´°¿ÚÏÔÊ¾
+    //æ¸…ç©ºçª—å£æ˜¾ç¤º
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //»æÖÆÖ÷½çÃæ±êÌâ
+    //ç»˜åˆ¶ä¸»ç•Œé¢æ ‡é¢˜
     gettextstyle(&f);
     f.lfHeight = 100;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+    _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 0, 400, 300};
     drawtext("A T M", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //»æÖÆµÇÂ¼°´Å¥
-    printButton(1, 120, 310, 280, 370, "µÇ  Â¼");
+    //ç»˜åˆ¶ç™»å½•æŒ‰é’®
+    printButton(1, 120, 310, 280, 370, "ç™»  å½•");
 
-    //»æÖÆÍË³ö°´Å¥
-    printButton(1, 120, 400, 280, 460, "ÍË  ³ö");
+    //ç»˜åˆ¶é€€å‡ºæŒ‰é’®
+    printButton(1, 120, 400, 280, 460, "é€€  å‡º");
 }
 
-//»ñÈ¡µÇÂ¼½çÃæÓÃ»§Ñ¡Ôñ
+//è·å–ç™»å½•ç•Œé¢ç”¨æˆ·é€‰æ‹©
 int EasyX::getSignInMenuSelection() {
-    vector<bool> buttonDown(2, false);                               //¼ÇÂ¼¸÷¸ö°´Å¥ÊÇ·ñ°´ÏÂ
+    vector<bool> buttonDown(2, false);                               //è®°å½•å„ä¸ªæŒ‰é’®æ˜¯å¦æŒ‰ä¸‹
 
-    //»ñÈ¡Êó±ê²Ù×÷£¬°´Å¥±»°´ÏÂºó±äºÚ£¬Êó±êËÉ¿ªºó°´Å¥±ä°×²¢·µ»Ø±àºÅ£¬µ±ÇÒ½öµ±ÔÚÍ¬Ò»¸ö°´Å¥ÉÏ°´ÏÂºóËÉ¿ª²ÅÊÓÎªÓĞĞ§²Ù×÷
-    //ÈôÔÚ°´Å¥ÉÏ°´ÏÂÊó±êºóÒÆ¶¯µ½³ÌĞò´°¿ÚÍâËÉ¿ª£¬½«Òı·¢ÏÔÊ¾´íÎó£¬¿ÉÍ¨¹ıÔÚ¹Ì¶¨Ê±¼äºóÖØÖÃ°´Å¥ÑÕÉ«½â¾ö£¬¸ÃÎÊÌâÓĞ´ıĞŞ¸´
+    //è·å–é¼ æ ‡æ“ä½œï¼ŒæŒ‰é’®è¢«æŒ‰ä¸‹åå˜é»‘ï¼Œé¼ æ ‡æ¾å¼€åæŒ‰é’®å˜ç™½å¹¶è¿”å›ç¼–å·ï¼Œå½“ä¸”ä»…å½“åœ¨åŒä¸€ä¸ªæŒ‰é’®ä¸ŠæŒ‰ä¸‹åæ¾å¼€æ‰è§†ä¸ºæœ‰æ•ˆæ“ä½œ
+    //è‹¥åœ¨æŒ‰é’®ä¸ŠæŒ‰ä¸‹é¼ æ ‡åç§»åŠ¨åˆ°ç¨‹åºçª—å£å¤–æ¾å¼€ï¼Œå°†å¼•å‘æ˜¾ç¤ºé”™è¯¯ï¼Œå¯é€šè¿‡åœ¨å›ºå®šæ—¶é—´åé‡ç½®æŒ‰é’®é¢œè‰²è§£å†³ï¼Œè¯¥é—®é¢˜æœ‰å¾…ä¿®å¤
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
             case WM_LBUTTONDOWN:
                 if (m.x > 120 && m.y > 310 && m.x < 280 && m.y < 370) {
                     buttonDown[0] = true;
-                    printButton(2, 120, 310, 280, 370, "µÇ  Â¼");
+                    printButton(2, 120, 310, 280, 370, "ç™»  å½•");
                 } else if (m.x > 120 && m.y > 400 && m.x < 280 && m.y < 460) {
                     buttonDown[1] = true;
-                    printButton(2, 120, 400, 280, 460, "ÍË  ³ö");
+                    printButton(2, 120, 400, 280, 460, "é€€  å‡º");
                 }
                 break;
             case WM_LBUTTONUP:
                 if (buttonDown[0]) {
                     buttonDown[0] = false;
-                    printButton(1, 120, 310, 280, 370, "µÇ  Â¼");
+                    printButton(1, 120, 310, 280, 370, "ç™»  å½•");
                     if (m.x > 120 && m.y > 310 && m.x < 280 && m.y < 370) {
                         return 1;
                     }
                 } else if (buttonDown[1]) {
                     buttonDown[1] = false;
-                    printButton(1, 120, 400, 280, 460, "ÍË  ³ö");
+                    printButton(1, 120, 400, 280, 460, "é€€  å‡º");
                     if (m.x > 120 && m.y > 400 && m.x < 280 && m.y < 460) {
                         exit(0);
                     }
@@ -66,18 +66,18 @@ int EasyX::getSignInMenuSelection() {
     }
 }
 
-//»æÖÆÖ÷²Ëµ¥£¬²ÎÊı·Ö±ğÎªµ±Ç°ÓÃ»§ĞÕÃû¡¢ÊÇ·ñÎª¹ÜÀíÔ±ÕË»§
+//ç»˜åˆ¶ä¸»èœå•ï¼Œå‚æ•°åˆ†åˆ«ä¸ºå½“å‰ç”¨æˆ·å§“åã€æ˜¯å¦ä¸ºç®¡ç†å‘˜è´¦æˆ·
 void EasyX::showMainMenu(const string &name, bool isAdmin) {
-    //Çå¿Õ´°¿ÚÏÔÊ¾
+    //æ¸…ç©ºçª—å£æ˜¾ç¤º
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //»æÖÆ±êÌâ
+    //ç»˜åˆ¶æ ‡é¢˜
     if (isAdmin) {
         gettextstyle(&f);
         f.lfHeight = 100;
         f.lfQuality = ANTIALIASED_QUALITY;
-        _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+        _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
         settextstyle(&f);
         settextcolor(myBLACK);
         setbkcolor(BKCOLOR);
@@ -87,73 +87,73 @@ void EasyX::showMainMenu(const string &name, bool isAdmin) {
         gettextstyle(&f);
         f.lfHeight = 60;
         f.lfQuality = ANTIALIASED_QUALITY;
-        _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+        _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
         settextstyle(&f);
         settextcolor(myBLACK);
         setbkcolor(BKCOLOR);
         r = {0, 0, 400, 300};
-        drawtext(("ÄúºÃ£¬" + name).c_str(), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+        drawtext(("æ‚¨å¥½ï¼Œ" + name).c_str(), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
     }
 
-    //»æÖÆÕË»§¹ÜÀí°´Å¥
-    printButton(1, 25, 310, 185, 370, "ÕË»§¹ÜÀí");
+    //ç»˜åˆ¶è´¦æˆ·ç®¡ç†æŒ‰é’®
+    printButton(1, 25, 310, 185, 370, "è´¦æˆ·ç®¡ç†");
 
-    //»æÖÆ½ğ¶î²Ù×÷°´Å¥
-    printButton(1, 215, 310, 375, 370, "½ğ¶î²Ù×÷");
+    //ç»˜åˆ¶é‡‘é¢æ“ä½œæŒ‰é’®
+    printButton(1, 215, 310, 375, 370, "é‡‘é¢æ“ä½œ");
 
-    //»æÖÆĞÅÏ¢²éÑ¯°´Å¥
-    printButton(1, 25, 400, 185, 460, "ĞÅÏ¢²éÑ¯");
+    //ç»˜åˆ¶ä¿¡æ¯æŸ¥è¯¢æŒ‰é’®
+    printButton(1, 25, 400, 185, 460, "ä¿¡æ¯æŸ¥è¯¢");
 
-    //»æÖÆÍË³öµÇÂ¼°´Å¥
-    printButton(1, 215, 400, 375, 460, "ÍË³öµÇÂ¼");
+    //ç»˜åˆ¶é€€å‡ºç™»å½•æŒ‰é’®
+    printButton(1, 215, 400, 375, 460, "é€€å‡ºç™»å½•");
 }
 
-//»ñÈ¡Ö÷²Ëµ¥ÓÃ»§Ñ¡Ôñ
+//è·å–ä¸»èœå•ç”¨æˆ·é€‰æ‹©
 int EasyX::getMainMenuSelection() {
-    vector<bool> buttonDown(4, false);                               //¼ÇÂ¼¸÷¸ö°´Å¥ÊÇ·ñ°´ÏÂ
+    vector<bool> buttonDown(4, false);                               //è®°å½•å„ä¸ªæŒ‰é’®æ˜¯å¦æŒ‰ä¸‹
 
-    //»ñÈ¡Êó±ê²Ù×÷£¬°´Å¥±»°´ÏÂºó±äºÚ£¬Êó±êËÉ¿ªºó°´Å¥±ä°×²¢·µ»Ø±àºÅ£¬µ±ÇÒ½öµ±ÔÚÍ¬Ò»¸ö°´Å¥ÉÏ°´ÏÂºóËÉ¿ª²ÅÊÓÎªÓĞĞ§²Ù×÷
-    //ÈôÔÚ°´Å¥ÉÏ°´ÏÂÊó±êºóÒÆ¶¯µ½³ÌĞò´°¿ÚÍâËÉ¿ª£¬½«Òı·¢ÏÔÊ¾´íÎó£¬¿ÉÍ¨¹ıÔÚ¹Ì¶¨Ê±¼äºóÖØÖÃ°´Å¥ÑÕÉ«½â¾ö£¬¸ÃÎÊÌâÓĞ´ıĞŞ¸´
+    //è·å–é¼ æ ‡æ“ä½œï¼ŒæŒ‰é’®è¢«æŒ‰ä¸‹åå˜é»‘ï¼Œé¼ æ ‡æ¾å¼€åæŒ‰é’®å˜ç™½å¹¶è¿”å›ç¼–å·ï¼Œå½“ä¸”ä»…å½“åœ¨åŒä¸€ä¸ªæŒ‰é’®ä¸ŠæŒ‰ä¸‹åæ¾å¼€æ‰è§†ä¸ºæœ‰æ•ˆæ“ä½œ
+    //è‹¥åœ¨æŒ‰é’®ä¸ŠæŒ‰ä¸‹é¼ æ ‡åç§»åŠ¨åˆ°ç¨‹åºçª—å£å¤–æ¾å¼€ï¼Œå°†å¼•å‘æ˜¾ç¤ºé”™è¯¯ï¼Œå¯é€šè¿‡åœ¨å›ºå®šæ—¶é—´åé‡ç½®æŒ‰é’®é¢œè‰²è§£å†³ï¼Œè¯¥é—®é¢˜æœ‰å¾…ä¿®å¤
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
             case WM_LBUTTONDOWN:
                 if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                     buttonDown[0] = true;
-                    printButton(2, 25, 310, 185, 370, "ÕË»§¹ÜÀí");
+                    printButton(2, 25, 310, 185, 370, "è´¦æˆ·ç®¡ç†");
                 } else if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                     buttonDown[1] = true;
-                    printButton(2, 215, 310, 375, 370, "½ğ¶î²Ù×÷");
+                    printButton(2, 215, 310, 375, 370, "é‡‘é¢æ“ä½œ");
                 } else if (m.x > 25 && m.y > 400 && m.x < 185 && m.y < 460) {
                     buttonDown[2] = true;
-                    printButton(2, 25, 400, 185, 460, "ĞÅÏ¢²éÑ¯");
+                    printButton(2, 25, 400, 185, 460, "ä¿¡æ¯æŸ¥è¯¢");
                 } else if (m.x > 215 && m.y > 400 && m.x < 375 && m.y < 460) {
                     buttonDown[3] = true;
-                    printButton(2, 215, 400, 375, 460, "ÍË³öµÇÂ¼");
+                    printButton(2, 215, 400, 375, 460, "é€€å‡ºç™»å½•");
                 }
                 break;
             case WM_LBUTTONUP:
                 if (buttonDown[0]) {
                     buttonDown[0] = false;
-                    printButton(1, 25, 310, 185, 370, "ÕË»§¹ÜÀí");
+                    printButton(1, 25, 310, 185, 370, "è´¦æˆ·ç®¡ç†");
                     if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                         return 1;
                     }
                 } else if (buttonDown[1]) {
                     buttonDown[1] = false;
-                    printButton(1, 215, 310, 375, 370, "½ğ¶î²Ù×÷");
+                    printButton(1, 215, 310, 375, 370, "é‡‘é¢æ“ä½œ");
                     if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                         return 2;
                     }
                 } else if (buttonDown[2]) {
                     buttonDown[2] = false;
-                    printButton(1, 25, 400, 185, 460, "ĞÅÏ¢²éÑ¯");
+                    printButton(1, 25, 400, 185, 460, "ä¿¡æ¯æŸ¥è¯¢");
                     if (m.x > 25 && m.y > 400 && m.x < 185 && m.y < 460) {
                         return 3;
                     }
                 } else if (buttonDown[3]) {
                     buttonDown[3] = false;
-                    printButton(1, 215, 400, 375, 460, "ÍË³öµÇÂ¼");
+                    printButton(1, 215, 400, 375, 460, "é€€å‡ºç™»å½•");
                     if (m.x > 215 && m.y > 400 && m.x < 375 && m.y < 460) {
                         return 4;
                     }
@@ -163,50 +163,50 @@ int EasyX::getMainMenuSelection() {
     }
 }
 
-//»æÖÆÕË»§¹ÜÀíÄ£¿é²Ëµ¥£¬²ÎÊıÓÃÓÚÅĞ¶ÏÊÇ·ñÎª¹ÜÀíÔ±ÕË»§
+//ç»˜åˆ¶è´¦æˆ·ç®¡ç†æ¨¡å—èœå•ï¼Œå‚æ•°ç”¨äºåˆ¤æ–­æ˜¯å¦ä¸ºç®¡ç†å‘˜è´¦æˆ·
 void EasyX::showAccountMenu(bool isAdmin) {
-    //Çå¿Õ´°¿ÚÏÔÊ¾
+    //æ¸…ç©ºçª—å£æ˜¾ç¤º
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //»æÖÆ±êÌâ
+    //ç»˜åˆ¶æ ‡é¢˜
     gettextstyle(&f);
     f.lfHeight = 60;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+    _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 0, 400, 300};
-    drawtext("ÕË»§¹ÜÀí", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    drawtext("è´¦æˆ·ç®¡ç†", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //»æÖÆĞÂ½¨ÕË»§£¨¹ÜÀíÔ±£©»òÉı¼¶ÕË»§£¨ÓÃ»§£©°´Å¥
+    //ç»˜åˆ¶æ–°å»ºè´¦æˆ·ï¼ˆç®¡ç†å‘˜ï¼‰æˆ–å‡çº§è´¦æˆ·ï¼ˆç”¨æˆ·ï¼‰æŒ‰é’®
     if (isAdmin) {
-        printButton(1, 25, 310, 185, 370, "ĞÂ½¨ÕË»§");
+        printButton(1, 25, 310, 185, 370, "æ–°å»ºè´¦æˆ·");
     } else {
-        printButton(1, 25, 310, 185, 370, "Éı¼¶ÕË»§");
+        printButton(1, 25, 310, 185, 370, "å‡çº§è´¦æˆ·");
     }
 
-    //»æÖÆÉ¾³ıÕË»§£¨¹ÜÀíÔ±£©»ò×¢ÏúÕË»§£¨ÓÃ»§£©°´Å¥
+    //ç»˜åˆ¶åˆ é™¤è´¦æˆ·ï¼ˆç®¡ç†å‘˜ï¼‰æˆ–æ³¨é”€è´¦æˆ·ï¼ˆç”¨æˆ·ï¼‰æŒ‰é’®
     if (isAdmin) {
-        printButton(1, 215, 310, 375, 370, "É¾³ıÕË»§");
+        printButton(1, 215, 310, 375, 370, "åˆ é™¤è´¦æˆ·");
     } else {
-        printButton(1, 215, 310, 375, 370, "×¢ÏúÕË»§");
+        printButton(1, 215, 310, 375, 370, "æ³¨é”€è´¦æˆ·");
     }
 
-    //»æÖÆĞŞ¸ÄÃÜÂë°´Å¥
-    printButton(1, 25, 400, 185, 460, "ĞŞ¸ÄÃÜÂë");
+    //ç»˜åˆ¶ä¿®æ”¹å¯†ç æŒ‰é’®
+    printButton(1, 25, 400, 185, 460, "ä¿®æ”¹å¯†ç ");
 
-    //»æÖÆ·µ»Ø°´Å¥
-    printButton(1, 215, 400, 375, 460, "·µ  »Ø");
+    //ç»˜åˆ¶è¿”å›æŒ‰é’®
+    printButton(1, 215, 400, 375, 460, "è¿”  å›");
 }
 
-//»ñÈ¡ÕË»§¹ÜÀíÄ£¿é²Ëµ¥ÓÃ»§Ñ¡Ôñ£¬²ÎÊıÓÃÓÚÅĞ¶ÏÊÇ·ÇÎª¹ÜÀíÔ±ÕË»§
+//è·å–è´¦æˆ·ç®¡ç†æ¨¡å—èœå•ç”¨æˆ·é€‰æ‹©ï¼Œå‚æ•°ç”¨äºåˆ¤æ–­æ˜¯éä¸ºç®¡ç†å‘˜è´¦æˆ·
 int EasyX::getAccountMenuSelection(bool isAdmin) {
-    vector<bool> buttonDown(4, false);                               //¼ÇÂ¼¸÷¸ö°´Å¥ÊÇ·ñ°´ÏÂ
+    vector<bool> buttonDown(4, false);                               //è®°å½•å„ä¸ªæŒ‰é’®æ˜¯å¦æŒ‰ä¸‹
 
-    //»ñÈ¡Êó±ê²Ù×÷£¬°´Å¥±»°´ÏÂºó±äºÚ£¬Êó±êËÉ¿ªºó°´Å¥±ä°×²¢·µ»Ø±àºÅ£¬µ±ÇÒ½öµ±ÔÚÍ¬Ò»¸ö°´Å¥ÉÏ°´ÏÂºóËÉ¿ª²ÅÊÓÎªÓĞĞ§²Ù×÷
-    //ÈôÔÚ°´Å¥ÉÏ°´ÏÂÊó±êºóÒÆ¶¯µ½³ÌĞò´°¿ÚÍâËÉ¿ª£¬½«Òı·¢ÏÔÊ¾´íÎó£¬¿ÉÍ¨¹ıÔÚ¹Ì¶¨Ê±¼äºóÖØÖÃ°´Å¥ÑÕÉ«½â¾ö£¬¸ÃÎÊÌâÓĞ´ıĞŞ¸´
+    //è·å–é¼ æ ‡æ“ä½œï¼ŒæŒ‰é’®è¢«æŒ‰ä¸‹åå˜é»‘ï¼Œé¼ æ ‡æ¾å¼€åæŒ‰é’®å˜ç™½å¹¶è¿”å›ç¼–å·ï¼Œå½“ä¸”ä»…å½“åœ¨åŒä¸€ä¸ªæŒ‰é’®ä¸ŠæŒ‰ä¸‹åæ¾å¼€æ‰è§†ä¸ºæœ‰æ•ˆæ“ä½œ
+    //è‹¥åœ¨æŒ‰é’®ä¸ŠæŒ‰ä¸‹é¼ æ ‡åç§»åŠ¨åˆ°ç¨‹åºçª—å£å¤–æ¾å¼€ï¼Œå°†å¼•å‘æ˜¾ç¤ºé”™è¯¯ï¼Œå¯é€šè¿‡åœ¨å›ºå®šæ—¶é—´åé‡ç½®æŒ‰é’®é¢œè‰²è§£å†³ï¼Œè¯¥é—®é¢˜æœ‰å¾…ä¿®å¤
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
@@ -214,32 +214,32 @@ int EasyX::getAccountMenuSelection(bool isAdmin) {
                 if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                     buttonDown[0] = true;
                     if (isAdmin) {
-                        printButton(2, 25, 310, 185, 370, "ĞÂ½¨ÕË»§");
+                        printButton(2, 25, 310, 185, 370, "æ–°å»ºè´¦æˆ·");
                     } else {
-                        printButton(2, 25, 310, 185, 370, "Éı¼¶ÕË»§");
+                        printButton(2, 25, 310, 185, 370, "å‡çº§è´¦æˆ·");
                     }
                 } else if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                     buttonDown[1] = true;
                     if (isAdmin) {
-                        printButton(2, 215, 310, 375, 370, "É¾³ıÕË»§");
+                        printButton(2, 215, 310, 375, 370, "åˆ é™¤è´¦æˆ·");
                     } else {
-                        printButton(2, 215, 310, 375, 370, "×¢ÏúÕË»§");
+                        printButton(2, 215, 310, 375, 370, "æ³¨é”€è´¦æˆ·");
                     }
                 } else if (m.x > 25 && m.y > 400 && m.x < 185 && m.y < 460) {
                     buttonDown[2] = true;
-                    printButton(2, 25, 400, 185, 460, "ĞŞ¸ÄÃÜÂë");
+                    printButton(2, 25, 400, 185, 460, "ä¿®æ”¹å¯†ç ");
                 } else if (m.x > 215 && m.y > 400 && m.x < 375 && m.y < 460) {
                     buttonDown[3] = true;
-                    printButton(2, 215, 400, 375, 460, "·µ  »Ø");
+                    printButton(2, 215, 400, 375, 460, "è¿”  å›");
                 }
                 break;
             case WM_LBUTTONUP:
                 if (buttonDown[0]) {
                     buttonDown[0] = false;
                     if (isAdmin) {
-                        printButton(1, 25, 310, 185, 370, "ĞÂ½¨ÕË»§");
+                        printButton(1, 25, 310, 185, 370, "æ–°å»ºè´¦æˆ·");
                     } else {
-                        printButton(1, 25, 310, 185, 370, "Éı¼¶ÕË»§");
+                        printButton(1, 25, 310, 185, 370, "å‡çº§è´¦æˆ·");
                     }
                     if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                         return 1;
@@ -247,22 +247,22 @@ int EasyX::getAccountMenuSelection(bool isAdmin) {
                 } else if (buttonDown[1]) {
                     buttonDown[1] = false;
                     if (isAdmin) {
-                        printButton(1, 215, 310, 375, 370, "É¾³ıÕË»§");
+                        printButton(1, 215, 310, 375, 370, "åˆ é™¤è´¦æˆ·");
                     } else {
-                        printButton(1, 215, 310, 375, 370, "×¢ÏúÕË»§");
+                        printButton(1, 215, 310, 375, 370, "æ³¨é”€è´¦æˆ·");
                     }
                     if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                         return 2;
                     }
                 } else if (buttonDown[2]) {
                     buttonDown[2] = false;
-                    printButton(1, 25, 400, 185, 460, "ĞŞ¸ÄÃÜÂë");
+                    printButton(1, 25, 400, 185, 460, "ä¿®æ”¹å¯†ç ");
                     if (m.x > 25 && m.y > 400 && m.x < 185 && m.y < 460) {
                         return 3;
                     }
                 } else if (buttonDown[3]) {
                     buttonDown[3] = false;
-                    printButton(1, 215, 400, 375, 460, "·µ  »Ø");
+                    printButton(1, 215, 400, 375, 460, "è¿”  å›");
                     if (m.x > 215 && m.y > 400 && m.x < 375 && m.y < 460) {
                         return 4;
                     }
@@ -272,82 +272,82 @@ int EasyX::getAccountMenuSelection(bool isAdmin) {
     }
 }
 
-//»æÖÆ½ğ¶î²Ù×÷Ä£¿é²Ëµ¥
+//ç»˜åˆ¶é‡‘é¢æ“ä½œæ¨¡å—èœå•
 void EasyX::showTransactionMenu() {
-    //Çå¿Õ´°¿ÚÏÔÊ¾
+    //æ¸…ç©ºçª—å£æ˜¾ç¤º
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //»æÖÆ±êÌâ
+    //ç»˜åˆ¶æ ‡é¢˜
     gettextstyle(&f);
     f.lfHeight = 60;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+    _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 0, 400, 300};
-    drawtext("½ğ¶î²Ù×÷", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    drawtext("é‡‘é¢æ“ä½œ", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //»æÖÆ´æ¿î°´Å¥
-    printButton(1, 25, 310, 185, 370, "´æ  ¿î");
+    //ç»˜åˆ¶å­˜æ¬¾æŒ‰é’®
+    printButton(1, 25, 310, 185, 370, "å­˜  æ¬¾");
 
-    //»æÖÆÈ¡¿î°´Å¥
-    printButton(1, 215, 310, 375, 370, "È¡  ¿î");
+    //ç»˜åˆ¶å–æ¬¾æŒ‰é’®
+    printButton(1, 215, 310, 375, 370, "å–  æ¬¾");
 
-    //»æÖÆ×ªÕË°´Å¥
-    printButton(1, 25, 400, 185, 460, "×ª  ÕË");
+    //ç»˜åˆ¶è½¬è´¦æŒ‰é’®
+    printButton(1, 25, 400, 185, 460, "è½¬  è´¦");
 
-    //»æÖÆ·µ»Ø°´Å¥
-    printButton(1, 215, 400, 375, 460, "·µ  »Ø");
+    //ç»˜åˆ¶è¿”å›æŒ‰é’®
+    printButton(1, 215, 400, 375, 460, "è¿”  å›");
 }
 
-//»ñÈ¡½ğ¶î²Ù×÷Ä£¿é²Ëµ¥ÓÃ»§Ñ¡Ôñ
+//è·å–é‡‘é¢æ“ä½œæ¨¡å—èœå•ç”¨æˆ·é€‰æ‹©
 int EasyX::getTransactionMenuSelection() {
-    vector<bool> buttonDown(4, false);                               //¼ÇÂ¼¸÷¸ö°´Å¥ÊÇ·ñ°´ÏÂ
+    vector<bool> buttonDown(4, false);                               //è®°å½•å„ä¸ªæŒ‰é’®æ˜¯å¦æŒ‰ä¸‹
 
-    //»ñÈ¡Êó±ê²Ù×÷£¬°´Å¥±»°´ÏÂºó±äºÚ£¬Êó±êËÉ¿ªºó°´Å¥±ä°×²¢·µ»Ø±àºÅ£¬µ±ÇÒ½öµ±ÔÚÍ¬Ò»¸ö°´Å¥ÉÏ°´ÏÂºóËÉ¿ª²ÅÊÓÎªÓĞĞ§²Ù×÷
-    //ÈôÔÚ°´Å¥ÉÏ°´ÏÂÊó±êºóÒÆ¶¯µ½³ÌĞò´°¿ÚÍâËÉ¿ª£¬½«Òı·¢ÏÔÊ¾´íÎó£¬¿ÉÍ¨¹ıÔÚ¹Ì¶¨Ê±¼äºóÖØÖÃ°´Å¥ÑÕÉ«½â¾ö£¬¸ÃÎÊÌâÓĞ´ıĞŞ¸´
+    //è·å–é¼ æ ‡æ“ä½œï¼ŒæŒ‰é’®è¢«æŒ‰ä¸‹åå˜é»‘ï¼Œé¼ æ ‡æ¾å¼€åæŒ‰é’®å˜ç™½å¹¶è¿”å›ç¼–å·ï¼Œå½“ä¸”ä»…å½“åœ¨åŒä¸€ä¸ªæŒ‰é’®ä¸ŠæŒ‰ä¸‹åæ¾å¼€æ‰è§†ä¸ºæœ‰æ•ˆæ“ä½œ
+    //è‹¥åœ¨æŒ‰é’®ä¸ŠæŒ‰ä¸‹é¼ æ ‡åç§»åŠ¨åˆ°ç¨‹åºçª—å£å¤–æ¾å¼€ï¼Œå°†å¼•å‘æ˜¾ç¤ºé”™è¯¯ï¼Œå¯é€šè¿‡åœ¨å›ºå®šæ—¶é—´åé‡ç½®æŒ‰é’®é¢œè‰²è§£å†³ï¼Œè¯¥é—®é¢˜æœ‰å¾…ä¿®å¤
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
             case WM_LBUTTONDOWN:
                 if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                     buttonDown[0] = true;
-                    printButton(2, 25, 310, 185, 370, "´æ  ¿î");
+                    printButton(2, 25, 310, 185, 370, "å­˜  æ¬¾");
                 } else if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                     buttonDown[1] = true;
-                    printButton(2, 215, 310, 375, 370, "È¡  ¿î");
+                    printButton(2, 215, 310, 375, 370, "å–  æ¬¾");
                 } else if (m.x > 25 && m.y > 400 && m.x < 185 && m.y < 460) {
                     buttonDown[2] = true;
-                    printButton(2, 25, 400, 185, 460, "×ª  ÕË");
+                    printButton(2, 25, 400, 185, 460, "è½¬  è´¦");
                 } else if (m.x > 215 && m.y > 400 && m.x < 375 && m.y < 460) {
                     buttonDown[3] = true;
-                    printButton(2, 215, 400, 375, 460, "·µ  »Ø");
+                    printButton(2, 215, 400, 375, 460, "è¿”  å›");
                 }
                 break;
             case WM_LBUTTONUP:
                 if (buttonDown[0]) {
                     buttonDown[0] = false;
-                    printButton(1, 25, 310, 185, 370, "´æ  ¿î");
+                    printButton(1, 25, 310, 185, 370, "å­˜  æ¬¾");
                     if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                         return 1;
                     }
                 } else if (buttonDown[1]) {
                     buttonDown[1] = false;
-                    printButton(1, 215, 310, 375, 370, "È¡  ¿î");
+                    printButton(1, 215, 310, 375, 370, "å–  æ¬¾");
                     if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                         return 2;
                     }
                 } else if (buttonDown[2]) {
                     buttonDown[2] = false;
-                    printButton(1, 25, 400, 185, 460, "×ª  ÕË");
+                    printButton(1, 25, 400, 185, 460, "è½¬  è´¦");
                     if (m.x > 25 && m.y > 400 && m.x < 185 && m.y < 460) {
                         return 3;
                     }
                 } else if (buttonDown[3]) {
                     buttonDown[3] = false;
-                    printButton(1, 215, 400, 375, 460, "·µ  »Ø");
+                    printButton(1, 215, 400, 375, 460, "è¿”  å›");
                     if (m.x > 215 && m.y > 400 && m.x < 375 && m.y < 460) {
                         return 4;
                     }
@@ -357,70 +357,70 @@ int EasyX::getTransactionMenuSelection() {
     }
 }
 
-//»æÖÆĞÅÏ¢²éÑ¯Ä£¿é²Ëµ¥
+//ç»˜åˆ¶ä¿¡æ¯æŸ¥è¯¢æ¨¡å—èœå•
 void EasyX::showInformationMenu() {
-    //Çå¿Õ´°¿ÚÏÔÊ¾
+    //æ¸…ç©ºçª—å£æ˜¾ç¤º
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //»æÖÆ±êÌâ
+    //ç»˜åˆ¶æ ‡é¢˜
     gettextstyle(&f);
     f.lfHeight = 60;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+    _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 0, 400, 300};
-    drawtext("ĞÅÏ¢²éÑ¯", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    drawtext("ä¿¡æ¯æŸ¥è¯¢", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //»æÖÆÓà¶î²éÑ¯°´Å¥
-    printButton(1, 25, 310, 185, 370, "Óà¶î²éÑ¯");
+    //ç»˜åˆ¶ä½™é¢æŸ¥è¯¢æŒ‰é’®
+    printButton(1, 25, 310, 185, 370, "ä½™é¢æŸ¥è¯¢");
 
-    //»æÖÆ½»Ò×¼ÇÂ¼°´Å¥
-    printButton(1, 215, 310, 375, 370, "½»Ò×¼ÇÂ¼");
+    //ç»˜åˆ¶äº¤æ˜“è®°å½•æŒ‰é’®
+    printButton(1, 215, 310, 375, 370, "äº¤æ˜“è®°å½•");
 
-    //»æÖÆ·µ»Ø°´Å¥
-    printButton(1, 120, 400, 280, 460, "·µ  »Ø");
+    //ç»˜åˆ¶è¿”å›æŒ‰é’®
+    printButton(1, 120, 400, 280, 460, "è¿”  å›");
 }
 
-//»ñÈ¡ĞÅÏ¢²éÑ¯Ä£¿é²Ëµ¥ÓÃ»§Ñ¡Ôñ
+//è·å–ä¿¡æ¯æŸ¥è¯¢æ¨¡å—èœå•ç”¨æˆ·é€‰æ‹©
 int EasyX::getInformationMenuSelection() {
-    vector<bool> buttonDown(3, false);                               //¼ÇÂ¼¸÷¸ö°´Å¥ÊÇ·ñ°´ÏÂ
+    vector<bool> buttonDown(3, false);                               //è®°å½•å„ä¸ªæŒ‰é’®æ˜¯å¦æŒ‰ä¸‹
 
-    //»ñÈ¡Êó±ê²Ù×÷£¬°´Å¥±»°´ÏÂºó±äºÚ£¬Êó±êËÉ¿ªºó°´Å¥±ä°×²¢·µ»Ø±àºÅ£¬µ±ÇÒ½öµ±ÔÚÍ¬Ò»¸ö°´Å¥ÉÏ°´ÏÂºóËÉ¿ª²ÅÊÓÎªÓĞĞ§²Ù×÷
-    //ÈôÔÚ°´Å¥ÉÏ°´ÏÂÊó±êºóÒÆ¶¯µ½³ÌĞò´°¿ÚÍâËÉ¿ª£¬½«Òı·¢ÏÔÊ¾´íÎó£¬¿ÉÍ¨¹ıÔÚ¹Ì¶¨Ê±¼äºóÖØÖÃ°´Å¥ÑÕÉ«½â¾ö£¬¸ÃÎÊÌâÓĞ´ıĞŞ¸´
+    //è·å–é¼ æ ‡æ“ä½œï¼ŒæŒ‰é’®è¢«æŒ‰ä¸‹åå˜é»‘ï¼Œé¼ æ ‡æ¾å¼€åæŒ‰é’®å˜ç™½å¹¶è¿”å›ç¼–å·ï¼Œå½“ä¸”ä»…å½“åœ¨åŒä¸€ä¸ªæŒ‰é’®ä¸ŠæŒ‰ä¸‹åæ¾å¼€æ‰è§†ä¸ºæœ‰æ•ˆæ“ä½œ
+    //è‹¥åœ¨æŒ‰é’®ä¸ŠæŒ‰ä¸‹é¼ æ ‡åç§»åŠ¨åˆ°ç¨‹åºçª—å£å¤–æ¾å¼€ï¼Œå°†å¼•å‘æ˜¾ç¤ºé”™è¯¯ï¼Œå¯é€šè¿‡åœ¨å›ºå®šæ—¶é—´åé‡ç½®æŒ‰é’®é¢œè‰²è§£å†³ï¼Œè¯¥é—®é¢˜æœ‰å¾…ä¿®å¤
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
             case WM_LBUTTONDOWN:
                 if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                     buttonDown[0] = true;
-                    printButton(2, 25, 310, 185, 370, "Óà¶î²éÑ¯");
+                    printButton(2, 25, 310, 185, 370, "ä½™é¢æŸ¥è¯¢");
                 } else if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                     buttonDown[1] = true;
-                    printButton(2, 215, 310, 375, 370, "½»Ò×¼ÇÂ¼");
+                    printButton(2, 215, 310, 375, 370, "äº¤æ˜“è®°å½•");
                 } else if (m.x > 120 && m.y > 400 && m.x < 280 && m.y < 460) {
                     buttonDown[2] = true;
-                    printButton(2, 120, 400, 280, 460, "·µ  »Ø");
+                    printButton(2, 120, 400, 280, 460, "è¿”  å›");
                 }
                 break;
             case WM_LBUTTONUP:
                 if (buttonDown[0]) {
                     buttonDown[0] = false;
-                    printButton(1, 25, 310, 185, 370, "Óà¶î²éÑ¯");
+                    printButton(1, 25, 310, 185, 370, "ä½™é¢æŸ¥è¯¢");
                     if (m.x > 25 && m.y > 310 && m.x < 185 && m.y < 370) {
                         return 1;
                     }
                 } else if (buttonDown[1]) {
                     buttonDown[1] = false;
-                    printButton(1, 215, 310, 375, 370, "½»Ò×¼ÇÂ¼");
+                    printButton(1, 215, 310, 375, 370, "äº¤æ˜“è®°å½•");
                     if (m.x > 215 && m.y > 310 && m.x < 375 && m.y < 370) {
                         return 2;
                     }
                 } else if (buttonDown[2]) {
                     buttonDown[2] = false;
-                    printButton(1, 120, 400, 280, 460, "·µ  »Ø");
+                    printButton(1, 120, 400, 280, 460, "è¿”  å›");
                     if (m.x > 120 && m.y > 400 && m.x < 280 && m.y < 460) {
                         return 3;
                     }
@@ -430,13 +430,13 @@ int EasyX::getInformationMenuSelection() {
     }
 }
 
-//»æÖÆÊı×ÖÊäÈëÃæ°å£¨ÓÃÓÚÓÃ»§ÊäÈë¿¨ºÅ¡¢ÃÜÂë¡¢½ğ¶î£©
+//ç»˜åˆ¶æ•°å­—è¾“å…¥é¢æ¿ï¼ˆç”¨äºç”¨æˆ·è¾“å…¥å¡å·ã€å¯†ç ã€é‡‘é¢ï¼‰
 void EasyX::showNumberInputPanel() {
-    //Çå¿Õ´°¿ÚÏÔÊ¾
+    //æ¸…ç©ºçª—å£æ˜¾ç¤º
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //»æÖÆÊäÈëÏÔÊ¾¿ò
+    //ç»˜åˆ¶è¾“å…¥æ˜¾ç¤ºæ¡†
     setfillcolor(myWHITE);
     solidroundrect(20, 50, 380, 140, 25, 25);
     setlinecolor(myBLACK);
@@ -444,7 +444,7 @@ void EasyX::showNumberInputPanel() {
     setbkcolor(myWHITE);
     roundrect(21, 51, 379, 139, 25, 25);
 
-    //»æÖÆ0~9Êı×Ö°´Å¥¡¢Ğ¡Êıµã°´Å¥¡¢È·¶¨ÍË¸ñ¼üÒÔ¼°¡°X¡±°´Å¥£¨Ä¿Ç°²¢Î´Ê¹ÓÃ£¬Î´À´¿ÉÓÃÓÚÊäÈëÉí·İÖ¤ºÅÂë»ò×÷Îª·µ»Ø¼üÊ¹ÓÃ£©
+    //ç»˜åˆ¶0~9æ•°å­—æŒ‰é’®ã€å°æ•°ç‚¹æŒ‰é’®ã€ç¡®å®šé€€æ ¼é”®ä»¥åŠâ€œXâ€æŒ‰é’®ï¼ˆç›®å‰å¹¶æœªä½¿ç”¨ï¼Œæœªæ¥å¯ç”¨äºè¾“å…¥èº«ä»½è¯å·ç æˆ–ä½œä¸ºè¿”å›é”®ä½¿ç”¨ï¼‰
     printButton(3, 30, 190, 130, 250, "1");
     printButton(3, 150, 190, 250, 250, "2");
     printButton(3, 270, 190, 370, 250, "3");
@@ -457,20 +457,20 @@ void EasyX::showNumberInputPanel() {
     printButton(3, 30, 415, 130, 475, ".");
     printButton(3, 150, 415, 250, 475, "0");
     printButton(3, 270, 415, 370, 475, "X");
-    printButton(3, 30, 490, 190, 550, "ÍË¸ñ");
-    printButton(3, 210, 490, 370, 550, "È·¶¨");
+    printButton(3, 30, 490, 190, 550, "é€€æ ¼");
+    printButton(3, 210, 490, 370, 550, "ç¡®å®š");
 }
 
-//ÊäÈëÊı×Ö£¬²ÎÊı·Ö±ğÎªÊäÈëÄ£Ê½£¨MODE_ID / MODE_PASSWORD / MODE_AMOUNT£©¡¢Î´ÊäÈëÊ±ºò´°¿ÚÖĞµÄÌáÊ¾ÎÄ×Ö
-//¹¦ÄÜ²¢²»ÍêÉÆ£¬²»Í¬Ä£Ê½ÏÂ±»½ûÓÃµÄ°´¼üÓë¿ÉÓÃµÄ°´¼üÃ»ÓĞÏÔÊ¾ÉÏµÄÇø·Ö£¬ÓĞ´ı¸Ä½ø
+//è¾“å…¥æ•°å­—ï¼Œå‚æ•°åˆ†åˆ«ä¸ºè¾“å…¥æ¨¡å¼ï¼ˆMODE_ID / MODE_PASSWORD / MODE_AMOUNTï¼‰ã€æœªè¾“å…¥æ—¶å€™çª—å£ä¸­çš„æç¤ºæ–‡å­—
+//åŠŸèƒ½å¹¶ä¸å®Œå–„ï¼Œä¸åŒæ¨¡å¼ä¸‹è¢«ç¦ç”¨çš„æŒ‰é”®ä¸å¯ç”¨çš„æŒ‰é”®æ²¡æœ‰æ˜¾ç¤ºä¸Šçš„åŒºåˆ†ï¼Œæœ‰å¾…æ”¹è¿›
 string EasyX::inputNumber(int type, LPCSTR prompt) {
-    string ans;                                                      //ÓÃÓÚ´¢´æÓÃ»§ÊäÈëµÄÄÚÈİ£¬±äÁ¿ÃûËÆºõ²»ÊÇºÜÌùÇĞ
-    char selectedNum;                                                //ÓÃÓÚ½ÓÊÕgetNumberSelectionº¯Êı·µ»ØµÄÓÃ»§Ëù°´°´¼ü±àºÅ
+    string ans;                                                      //ç”¨äºå‚¨å­˜ç”¨æˆ·è¾“å…¥çš„å†…å®¹ï¼Œå˜é‡åä¼¼ä¹ä¸æ˜¯å¾ˆè´´åˆ‡
+    char selectedNum;                                                //ç”¨äºæ¥æ”¶getNumberSelectionå‡½æ•°è¿”å›çš„ç”¨æˆ·æ‰€æŒ‰æŒ‰é”®ç¼–å·
 
-    //¸ù¾İÊäÈëÄ£Ê½¶ÔÓÃ»§µÄÊäÈë½øĞĞÏŞÖÆ£¬Í¬Ê±µ÷ÓÃshowNumberº¯Êı¹ÜÀíÃæ°åÏÔÊ¾ÆÁÉÏµÄÄÚÈİ£¬×îÖÕ·µ»ØÊäÈë½á¹û
-    //¿¨ºÅÊäÈëÄ£Ê½£ºÖ»ÔÊĞíÊäÈëÊı×Ö£¬³¤¶È²»ÔÊĞí³¬¹ı19Î»
-    //ÃÜÂëÊäÈëÄ£Ê½£ºÖ»ÔÊĞíÊäÈëÊı×Ö£¬³¤¶È±ØĞëÎª6Î»²Å¿Éµã»÷È·¶¨£¬Í¬Ê±Ãæ°åÏÔÊ¾ÆÁÉÏÒÔÔ²µã´úÌæÊı×Ö£¬²»ÏÔÊ¾ÕæÊµÃÜÂë
-    //½ğ¶îÊäÈëÄ£Ê½£ºÔÊĞíÊäÈëÊı×ÖºÍĞ¡Êıµã£¬³¤¶È²»ÔÊĞí³¬¹ı8Î»£¬ÔÚÄ³Ğ©Çé¿öÏÂ½ûÓÃ²¿·Ö°´¼üÒÔÈ·±£ÊäÈëÕıÈ·µÄÊı×Ö¸ñÊ½
+    //æ ¹æ®è¾“å…¥æ¨¡å¼å¯¹ç”¨æˆ·çš„è¾“å…¥è¿›è¡Œé™åˆ¶ï¼ŒåŒæ—¶è°ƒç”¨showNumberå‡½æ•°ç®¡ç†é¢æ¿æ˜¾ç¤ºå±ä¸Šçš„å†…å®¹ï¼Œæœ€ç»ˆè¿”å›è¾“å…¥ç»“æœ
+    //å¡å·è¾“å…¥æ¨¡å¼ï¼šåªå…è®¸è¾“å…¥æ•°å­—ï¼Œé•¿åº¦ä¸å…è®¸è¶…è¿‡19ä½
+    //å¯†ç è¾“å…¥æ¨¡å¼ï¼šåªå…è®¸è¾“å…¥æ•°å­—ï¼Œé•¿åº¦å¿…é¡»ä¸º6ä½æ‰å¯ç‚¹å‡»ç¡®å®šï¼ŒåŒæ—¶é¢æ¿æ˜¾ç¤ºå±ä¸Šä»¥åœ†ç‚¹ä»£æ›¿æ•°å­—ï¼Œä¸æ˜¾ç¤ºçœŸå®å¯†ç 
+    //é‡‘é¢è¾“å…¥æ¨¡å¼ï¼šå…è®¸è¾“å…¥æ•°å­—å’Œå°æ•°ç‚¹ï¼Œé•¿åº¦ä¸å…è®¸è¶…è¿‡8ä½ï¼Œåœ¨æŸäº›æƒ…å†µä¸‹ç¦ç”¨éƒ¨åˆ†æŒ‰é”®ä»¥ç¡®ä¿è¾“å…¥æ­£ç¡®çš„æ•°å­—æ ¼å¼
     switch (type) { // NOLINT(hicpp-multiway-paths-covered)
         case 1:
             showNumber(50, prompt);
@@ -493,18 +493,18 @@ string EasyX::inputNumber(int type, LPCSTR prompt) {
             while (selectedNum = getNumberSelection(), selectedNum != 'c' || ans.size() != 6) {
                 if (selectedNum >= '0' && selectedNum <= '9' && ans.size() < 6) {
                     ans += selectedNum;
-                    string display = "¡¤";
+                    string display = "Â·";
                     for (int i = 0; i < ans.size() - 1; ++i)
-                        display += "  ¡¤";
+                        display += "  Â·";
                     showNumber(80, display.c_str());
                 } else if (selectedNum == 'b' && !ans.empty()) {
                     ans.pop_back();
                     if (ans.empty()) {
                         showNumber(50, prompt);
                     } else {
-                        string display = "¡¤";
+                        string display = "Â·";
                         for (int i = 0; i < ans.size() - 1; ++i)
-                            display += "  ¡¤";
+                            display += "  Â·";
                         showNumber(80, display.c_str());
                     }
                 }
@@ -540,65 +540,65 @@ string EasyX::inputNumber(int type, LPCSTR prompt) {
     return {};
 }
 
-//»æÖÆ´íÎó´°¿Ú£¬Á½¸ö²ÎÊıÎª´°¿ÚÖĞÏÔÊ¾µÄÁ½ĞĞÎÄ×Ö£¨µÚ¶şĞĞ×ÖºÅÂÔĞ¡ÓÚµÚÒ»ĞĞ£©
+//ç»˜åˆ¶é”™è¯¯çª—å£ï¼Œä¸¤ä¸ªå‚æ•°ä¸ºçª—å£ä¸­æ˜¾ç¤ºçš„ä¸¤è¡Œæ–‡å­—ï¼ˆç¬¬äºŒè¡Œå­—å·ç•¥å°äºç¬¬ä¸€è¡Œï¼‰
 void EasyX::error(LPCSTR errorMsg1, LPCSTR errorMsg2) {
-    //Çå¿Õ´°¿ÚÏÔÊ¾
+    //æ¸…ç©ºçª—å£æ˜¾ç¤º
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //»æÖÆ±êÌâ
+    //ç»˜åˆ¶æ ‡é¢˜
     gettextstyle(&f);
     f.lfHeight = 100;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+    _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 0, 400, 200};
-    drawtext("´íÎó", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    drawtext("é”™è¯¯", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //»æÖÆ´íÎóĞÅÏ¢ÎÄ±¾1
+    //ç»˜åˆ¶é”™è¯¯ä¿¡æ¯æ–‡æœ¬1
     gettextstyle(&f);
     f.lfHeight = 50;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+    _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 200, 400, 300};
     drawtext(errorMsg1, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //»æÖÆ´íÎóĞÅÏ¢ÎÄ±¾2
+    //ç»˜åˆ¶é”™è¯¯ä¿¡æ¯æ–‡æœ¬2
     gettextstyle(&f);
     f.lfHeight = 45;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+    _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 300, 400, 350};
     drawtext(errorMsg2, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //»æÖÆÈ·¶¨°´Å¥
-    printButton(1, 120, 460, 280, 520, "È·  ¶¨");
+    //ç»˜åˆ¶ç¡®å®šæŒ‰é’®
+    printButton(1, 120, 460, 280, 520, "ç¡®  å®š");
 
-    bool buttonDown = false;                                         //¼ÇÂ¼È·¶¨°´Å¥ÊÇ·ñ±»°´ÏÂ
+    bool buttonDown = false;                                         //è®°å½•ç¡®å®šæŒ‰é’®æ˜¯å¦è¢«æŒ‰ä¸‹
 
-    //»ñÈ¡Êó±ê²Ù×÷£¬°´Å¥±»°´ÏÂºó±äºÚ£¬Êó±êËÉ¿ªºó°´Å¥±ä°×²¢·µ»Ø±àºÅ£¬µ±ÇÒ½öµ±ÔÚÍ¬Ò»¸ö°´Å¥ÉÏ°´ÏÂºóËÉ¿ª²ÅÊÓÎªÓĞĞ§²Ù×÷
-    //ÈôÔÚ°´Å¥ÉÏ°´ÏÂÊó±êºóÒÆ¶¯µ½³ÌĞò´°¿ÚÍâËÉ¿ª£¬½«Òı·¢ÏÔÊ¾´íÎó£¬¿ÉÍ¨¹ıÔÚ¹Ì¶¨Ê±¼äºóÖØÖÃ°´Å¥ÑÕÉ«½â¾ö£¬¸ÃÎÊÌâÓĞ´ıĞŞ¸´
+    //è·å–é¼ æ ‡æ“ä½œï¼ŒæŒ‰é’®è¢«æŒ‰ä¸‹åå˜é»‘ï¼Œé¼ æ ‡æ¾å¼€åæŒ‰é’®å˜ç™½å¹¶è¿”å›ç¼–å·ï¼Œå½“ä¸”ä»…å½“åœ¨åŒä¸€ä¸ªæŒ‰é’®ä¸ŠæŒ‰ä¸‹åæ¾å¼€æ‰è§†ä¸ºæœ‰æ•ˆæ“ä½œ
+    //è‹¥åœ¨æŒ‰é’®ä¸ŠæŒ‰ä¸‹é¼ æ ‡åç§»åŠ¨åˆ°ç¨‹åºçª—å£å¤–æ¾å¼€ï¼Œå°†å¼•å‘æ˜¾ç¤ºé”™è¯¯ï¼Œå¯é€šè¿‡åœ¨å›ºå®šæ—¶é—´åé‡ç½®æŒ‰é’®é¢œè‰²è§£å†³ï¼Œè¯¥é—®é¢˜æœ‰å¾…ä¿®å¤
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
             case WM_LBUTTONDOWN:
                 if (m.x > 120 && m.y > 460 && m.x < 280 && m.y < 520) {
                     buttonDown = true;
-                    printButton(2, 120, 460, 280, 520, "È·  ¶¨");
+                    printButton(2, 120, 460, 280, 520, "ç¡®  å®š");
                 }
                 break;
             case WM_LBUTTONUP:
                 if (buttonDown) {
                     buttonDown = false;
-                    printButton(1, 120, 460, 280, 520, "È·  ¶¨");
+                    printButton(1, 120, 460, 280, 520, "ç¡®  å®š");
                     if (m.x > 120 && m.y > 460 && m.x < 280 && m.y < 520) {
                         return;
                     }
@@ -608,65 +608,65 @@ void EasyX::error(LPCSTR errorMsg1, LPCSTR errorMsg2) {
     }
 }
 
-//»æÖÆÌáÊ¾´°¿Ú£¬Á½¸ö²ÎÊıÎª´°¿ÚÖĞÏÔÊ¾µÄÁ½ĞĞÎÄ×Ö£¨µÚ¶şĞĞ×ÖºÅÂÔĞ¡ÓÚµÚÒ»ĞĞ£©
+//ç»˜åˆ¶æç¤ºçª—å£ï¼Œä¸¤ä¸ªå‚æ•°ä¸ºçª—å£ä¸­æ˜¾ç¤ºçš„ä¸¤è¡Œæ–‡å­—ï¼ˆç¬¬äºŒè¡Œå­—å·ç•¥å°äºç¬¬ä¸€è¡Œï¼‰
 void EasyX::tip(LPCSTR tipMsg1, LPCSTR tipMsg2) {
-    //Çå¿Õ´°¿ÚÏÔÊ¾
+    //æ¸…ç©ºçª—å£æ˜¾ç¤º
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //»æÖÆ±êÌâ
+    //ç»˜åˆ¶æ ‡é¢˜
     gettextstyle(&f);
     f.lfHeight = 100;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+    _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 0, 400, 200};
-    drawtext("ÌáÊ¾", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    drawtext("æç¤º", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //»æÖÆÌáÊ¾ĞÅÏ¢ÎÄ±¾1
+    //ç»˜åˆ¶æç¤ºä¿¡æ¯æ–‡æœ¬1
     gettextstyle(&f);
     f.lfHeight = 50;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+    _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 200, 400, 300};
     drawtext(tipMsg1, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //»æÖÆÌáÊ¾ĞÅÏ¢ÎÄ±¾2
+    //ç»˜åˆ¶æç¤ºä¿¡æ¯æ–‡æœ¬2
     gettextstyle(&f);
     f.lfHeight = 45;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+    _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 300, 400, 350};
     drawtext(tipMsg2, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //»æÖÆÈ·¶¨°´Å¥
-    printButton(1, 120, 460, 280, 520, "È·  ¶¨");
+    //ç»˜åˆ¶ç¡®å®šæŒ‰é’®
+    printButton(1, 120, 460, 280, 520, "ç¡®  å®š");
 
-    bool buttonDown = false;                                         //¼ÇÂ¼È·¶¨°´Å¥ÊÇ·ñ°´ÏÂ
+    bool buttonDown = false;                                         //è®°å½•ç¡®å®šæŒ‰é’®æ˜¯å¦æŒ‰ä¸‹
 
-    //»ñÈ¡Êó±ê²Ù×÷£¬°´Å¥±»°´ÏÂºó±äºÚ£¬Êó±êËÉ¿ªºó°´Å¥±ä°×²¢·µ»Ø±àºÅ£¬µ±ÇÒ½öµ±ÔÚÍ¬Ò»¸ö°´Å¥ÉÏ°´ÏÂºóËÉ¿ª²ÅÊÓÎªÓĞĞ§²Ù×÷
-    //ÈôÔÚ°´Å¥ÉÏ°´ÏÂÊó±êºóÒÆ¶¯µ½³ÌĞò´°¿ÚÍâËÉ¿ª£¬½«Òı·¢ÏÔÊ¾´íÎó£¬¿ÉÍ¨¹ıÔÚ¹Ì¶¨Ê±¼äºóÖØÖÃ°´Å¥ÑÕÉ«½â¾ö£¬¸ÃÎÊÌâÓĞ´ıĞŞ¸´
+    //è·å–é¼ æ ‡æ“ä½œï¼ŒæŒ‰é’®è¢«æŒ‰ä¸‹åå˜é»‘ï¼Œé¼ æ ‡æ¾å¼€åæŒ‰é’®å˜ç™½å¹¶è¿”å›ç¼–å·ï¼Œå½“ä¸”ä»…å½“åœ¨åŒä¸€ä¸ªæŒ‰é’®ä¸ŠæŒ‰ä¸‹åæ¾å¼€æ‰è§†ä¸ºæœ‰æ•ˆæ“ä½œ
+    //è‹¥åœ¨æŒ‰é’®ä¸ŠæŒ‰ä¸‹é¼ æ ‡åç§»åŠ¨åˆ°ç¨‹åºçª—å£å¤–æ¾å¼€ï¼Œå°†å¼•å‘æ˜¾ç¤ºé”™è¯¯ï¼Œå¯é€šè¿‡åœ¨å›ºå®šæ—¶é—´åé‡ç½®æŒ‰é’®é¢œè‰²è§£å†³ï¼Œè¯¥é—®é¢˜æœ‰å¾…ä¿®å¤
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
             case WM_LBUTTONDOWN:
                 if (m.x > 120 && m.y > 460 && m.x < 280 && m.y < 520) {
                     buttonDown = true;
-                    printButton(2, 120, 460, 280, 520, "È·  ¶¨");
+                    printButton(2, 120, 460, 280, 520, "ç¡®  å®š");
                 }
                 break;
             case WM_LBUTTONUP:
                 if (buttonDown) {
                     buttonDown = false;
-                    printButton(1, 120, 460, 280, 520, "È·  ¶¨");
+                    printButton(1, 120, 460, 280, 520, "ç¡®  å®š");
                     if (m.x > 120 && m.y > 460 && m.x < 280 && m.y < 520) {
                         return;
                     }
@@ -676,77 +676,77 @@ void EasyX::tip(LPCSTR tipMsg1, LPCSTR tipMsg2) {
     }
 }
 
-//»æÖÆÈ·ÈÏ´°¿Ú£¬Á½¸ö²ÎÊıÎª´°¿ÚÖĞÏÔÊ¾µÄÁ½ĞĞÎÄ×Ö£¨µÚ¶şĞĞ×ÖºÅÂÔĞ¡ÓÚµÚÒ»ĞĞ£©
+//ç»˜åˆ¶ç¡®è®¤çª—å£ï¼Œä¸¤ä¸ªå‚æ•°ä¸ºçª—å£ä¸­æ˜¾ç¤ºçš„ä¸¤è¡Œæ–‡å­—ï¼ˆç¬¬äºŒè¡Œå­—å·ç•¥å°äºç¬¬ä¸€è¡Œï¼‰
 int EasyX::confirm(LPCSTR confirmMsg1, LPCSTR confirmMsg2) {
-    //Çå¿Õ´°¿ÚÏÔÊ¾
+    //æ¸…ç©ºçª—å£æ˜¾ç¤º
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //»æÖÆ±êÌâ
+    //ç»˜åˆ¶æ ‡é¢˜
     gettextstyle(&f);
     f.lfHeight = 100;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+    _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 0, 400, 200};
-    drawtext("È·ÈÏ", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    drawtext("ç¡®è®¤", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //»æÖÆÌáÊ¾ĞÅÏ¢ÎÄ±¾1
+    //ç»˜åˆ¶æç¤ºä¿¡æ¯æ–‡æœ¬1
     gettextstyle(&f);
     f.lfHeight = 50;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+    _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 200, 400, 300};
     drawtext(confirmMsg1, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //»æÖÆÌáÊ¾ĞÅÏ¢ÎÄ±¾2
+    //ç»˜åˆ¶æç¤ºä¿¡æ¯æ–‡æœ¬2
     gettextstyle(&f);
     f.lfHeight = 45;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+    _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(BKCOLOR);
     r = {0, 300, 400, 350};
     drawtext(confirmMsg2, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //»æÖÆÈ¡Ïû°´Å¥
-    printButton(1, 25, 460, 185, 520, "È¡  Ïû");
+    //ç»˜åˆ¶å–æ¶ˆæŒ‰é’®
+    printButton(1, 25, 460, 185, 520, "å–  æ¶ˆ");
 
-    //»æÖÆÈ·¶¨°´Å¥
-    printButton(1, 215, 460, 375, 520, "È·  ¶¨");
+    //ç»˜åˆ¶ç¡®å®šæŒ‰é’®
+    printButton(1, 215, 460, 375, 520, "ç¡®  å®š");
 
-    vector<bool> buttonDown(2, false);                               //¼ÇÂ¼È¡ÏûÓëÈ·¶¨°´Å¥ÊÇ·ñ°´ÏÂ
+    vector<bool> buttonDown(2, false);                               //è®°å½•å–æ¶ˆä¸ç¡®å®šæŒ‰é’®æ˜¯å¦æŒ‰ä¸‹
 
-    //»ñÈ¡Êó±ê²Ù×÷£¬°´Å¥±»°´ÏÂºó±äºÚ£¬Êó±êËÉ¿ªºó°´Å¥±ä°×²¢·µ»Ø±àºÅ£¬µ±ÇÒ½öµ±ÔÚÍ¬Ò»¸ö°´Å¥ÉÏ°´ÏÂºóËÉ¿ª²ÅÊÓÎªÓĞĞ§²Ù×÷
-    //ÈôÔÚ°´Å¥ÉÏ°´ÏÂÊó±êºóÒÆ¶¯µ½³ÌĞò´°¿ÚÍâËÉ¿ª£¬½«Òı·¢ÏÔÊ¾´íÎó£¬¿ÉÍ¨¹ıÔÚ¹Ì¶¨Ê±¼äºóÖØÖÃ°´Å¥ÑÕÉ«½â¾ö£¬¸ÃÎÊÌâÓĞ´ıĞŞ¸´
+    //è·å–é¼ æ ‡æ“ä½œï¼ŒæŒ‰é’®è¢«æŒ‰ä¸‹åå˜é»‘ï¼Œé¼ æ ‡æ¾å¼€åæŒ‰é’®å˜ç™½å¹¶è¿”å›ç¼–å·ï¼Œå½“ä¸”ä»…å½“åœ¨åŒä¸€ä¸ªæŒ‰é’®ä¸ŠæŒ‰ä¸‹åæ¾å¼€æ‰è§†ä¸ºæœ‰æ•ˆæ“ä½œ
+    //è‹¥åœ¨æŒ‰é’®ä¸ŠæŒ‰ä¸‹é¼ æ ‡åç§»åŠ¨åˆ°ç¨‹åºçª—å£å¤–æ¾å¼€ï¼Œå°†å¼•å‘æ˜¾ç¤ºé”™è¯¯ï¼Œå¯é€šè¿‡åœ¨å›ºå®šæ—¶é—´åé‡ç½®æŒ‰é’®é¢œè‰²è§£å†³ï¼Œè¯¥é—®é¢˜æœ‰å¾…ä¿®å¤
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
             case WM_LBUTTONDOWN:
                 if (m.x > 25 && m.y > 460 && m.x < 185 && m.y < 520) {
                     buttonDown[0] = true;
-                    printButton(2, 25, 460, 185, 520, "È¡  Ïû");
+                    printButton(2, 25, 460, 185, 520, "å–  æ¶ˆ");
                 } else if (m.x > 215 && m.y > 460 && m.x < 375 && m.y < 520) {
                     buttonDown[1] = true;
-                    printButton(2, 215, 460, 375, 520, "È·  ¶¨");
+                    printButton(2, 215, 460, 375, 520, "ç¡®  å®š");
                 }
                 break;
             case WM_LBUTTONUP:
                 if (buttonDown[0]) {
                     buttonDown[0] = false;
-                    printButton(1, 25, 460, 185, 520, "È¡  Ïû");
+                    printButton(1, 25, 460, 185, 520, "å–  æ¶ˆ");
                     if (m.x > 25 && m.y > 460 && m.x < 185 && m.y < 520) {
                         return 1;
                     }
                 } else if (buttonDown[1]) {
                     buttonDown[1] = false;
-                    printButton(1, 215, 460, 375, 520, "È·  ¶¨");
+                    printButton(1, 215, 460, 375, 520, "ç¡®  å®š");
                     if (m.x > 215 && m.y > 460 && m.x < 375 && m.y < 520) {
                         return 2;
                     }
@@ -756,19 +756,19 @@ int EasyX::confirm(LPCSTR confirmMsg1, LPCSTR confirmMsg2) {
     }
 }
 
-//Ê¹ÓÃµ¯³öÊ½¶Ô»°¿ò»ñÈ¡ÓÃ»§ÊäÈë£¨ÓÃÓÚ¹ÜÀíÔ±ÊäÈë¿¨ºÅ¡¢ÃÜÂë¡¢½ğ¶î£©£¬²ÎÊıÎªÊäÈë¶Ô»°¿òÖĞµÄÌáÊ¾ÎÄ×Ö
+//ä½¿ç”¨å¼¹å‡ºå¼å¯¹è¯æ¡†è·å–ç”¨æˆ·è¾“å…¥ï¼ˆç”¨äºç®¡ç†å‘˜è¾“å…¥å¡å·ã€å¯†ç ã€é‡‘é¢ï¼‰ï¼Œå‚æ•°ä¸ºè¾“å…¥å¯¹è¯æ¡†ä¸­çš„æç¤ºæ–‡å­—
 string EasyX::inputBox(LPCTSTR prompt) {
-    char input[20];                                                      //½ÓÊÕÊäÈëµÄÄÚÈİ
+    char input[20];                                                      //æ¥æ”¶è¾“å…¥çš„å†…å®¹
     InputBox(input, 20, prompt);
     return input;
 }
 
-//»ñÈ¡ÓÃ»§ÔÚÊı×ÖÊäÈëÃæ°åÖĞµã»÷µÄ°´Å¥´úºÅ
+//è·å–ç”¨æˆ·åœ¨æ•°å­—è¾“å…¥é¢æ¿ä¸­ç‚¹å‡»çš„æŒ‰é’®ä»£å·
 char EasyX::getNumberSelection() {
-    vector<bool> buttonDown(14, false);                              //¼ÇÂ¼¸÷¸ö°´Å¥ÊÇ·ñ°´ÏÂ
+    vector<bool> buttonDown(14, false);                              //è®°å½•å„ä¸ªæŒ‰é’®æ˜¯å¦æŒ‰ä¸‹
 
-    //»ñÈ¡Êó±ê²Ù×÷£¬°´Å¥±»°´ÏÂºó±äºÚ£¬Êó±êËÉ¿ªºó°´Å¥±ä°×²¢·µ»Ø´úºÅ£¬µ±ÇÒ½öµ±ÔÚÍ¬Ò»¸ö°´Å¥ÉÏ°´ÏÂºóËÉ¿ª²ÅÊÓÎªÓĞĞ§²Ù×÷
-    //ÈôÔÚ°´Å¥ÉÏ°´ÏÂÊó±êºóÒÆ¶¯µ½³ÌĞò´°¿ÚÍâËÉ¿ª£¬½«Òı·¢ÏÔÊ¾´íÎó£¬¿ÉÍ¨¹ıÔÚ¹Ì¶¨Ê±¼äºóÖØÖÃ°´Å¥ÑÕÉ«½â¾ö£¬¸ÃÎÊÌâÓĞ´ıĞŞ¸´
+    //è·å–é¼ æ ‡æ“ä½œï¼ŒæŒ‰é’®è¢«æŒ‰ä¸‹åå˜é»‘ï¼Œé¼ æ ‡æ¾å¼€åæŒ‰é’®å˜ç™½å¹¶è¿”å›ä»£å·ï¼Œå½“ä¸”ä»…å½“åœ¨åŒä¸€ä¸ªæŒ‰é’®ä¸ŠæŒ‰ä¸‹åæ¾å¼€æ‰è§†ä¸ºæœ‰æ•ˆæ“ä½œ
+    //è‹¥åœ¨æŒ‰é’®ä¸ŠæŒ‰ä¸‹é¼ æ ‡åç§»åŠ¨åˆ°ç¨‹åºçª—å£å¤–æ¾å¼€ï¼Œå°†å¼•å‘æ˜¾ç¤ºé”™è¯¯ï¼Œå¯é€šè¿‡åœ¨å›ºå®šæ—¶é—´åé‡ç½®æŒ‰é’®é¢œè‰²è§£å†³ï¼Œè¯¥é—®é¢˜æœ‰å¾…ä¿®å¤
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
@@ -811,10 +811,10 @@ char EasyX::getNumberSelection() {
                     printButton(4, 270, 415, 370, 475, "X");
                 } else if (m.x > 30 && m.y > 490 && m.x < 190 && m.y < 550) {
                     buttonDown[12] = true;
-                    printButton(4, 30, 490, 190, 550, "ÍË¸ñ");
+                    printButton(4, 30, 490, 190, 550, "é€€æ ¼");
                 } else if (m.x > 210 && m.y > 490 && m.x < 370 && m.y < 550) {
                     buttonDown[13] = true;
-                    printButton(4, 210, 490, 370, 550, "È·¶¨");
+                    printButton(4, 210, 490, 370, 550, "ç¡®å®š");
                 }
                 break;
             case WM_LBUTTONUP:
@@ -892,13 +892,13 @@ char EasyX::getNumberSelection() {
                     }
                 } else if (buttonDown[12]) {
                     buttonDown[12] = false;
-                    printButton(3, 30, 490, 190, 550, "ÍË¸ñ");
+                    printButton(3, 30, 490, 190, 550, "é€€æ ¼");
                     if (m.x > 30 && m.y > 490 && m.x < 190 && m.y < 550) {
                         return 'b';
                     }
                 } else if (buttonDown[13]) {
                     buttonDown[13] = false;
-                    printButton(3, 210, 490, 370, 550, "È·¶¨");
+                    printButton(3, 210, 490, 370, 550, "ç¡®å®š");
                     if (m.x > 210 && m.y > 490 && m.x < 370 && m.y < 550) {
                         return 'c';
                     }
@@ -908,9 +908,9 @@ char EasyX::getNumberSelection() {
     }
 }
 
-//ÓÃÓÚÔÚÊı×ÖÊäÈëÃæ°åµÄÏÔÊ¾ÆÁÖĞÏÔÊ¾Êı×Ö£¨»òÎÄ×Ö£©£¬²ÎÊı·Ö±ğÎªÎÄ×Ö×ÖºÅºÍÒªÏÔÊ¾µÄÄÚÈİ
+//ç”¨äºåœ¨æ•°å­—è¾“å…¥é¢æ¿çš„æ˜¾ç¤ºå±ä¸­æ˜¾ç¤ºæ•°å­—ï¼ˆæˆ–æ–‡å­—ï¼‰ï¼Œå‚æ•°åˆ†åˆ«ä¸ºæ–‡å­—å­—å·å’Œè¦æ˜¾ç¤ºçš„å†…å®¹
 void EasyX::showNumber(int textHeight, LPCSTR str) {
-    //»æÖÆÏÔÊ¾ÆÁÍâ¿ò
+    //ç»˜åˆ¶æ˜¾ç¤ºå±å¤–æ¡†
     setfillcolor(myWHITE);
     solidroundrect(20, 50, 380, 140, 25, 25);
     setlinecolor(myBLACK);
@@ -918,11 +918,11 @@ void EasyX::showNumber(int textHeight, LPCSTR str) {
     setbkcolor(myWHITE);
     roundrect(21, 51, 379, 139, 25, 25);
 
-    //»æÖÆÏÔÊ¾ÆÁÖĞµÄÎÄ×Ö
+    //ç»˜åˆ¶æ˜¾ç¤ºå±ä¸­çš„æ–‡å­—
     gettextstyle(&f);
     f.lfHeight = textHeight;
     f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+    _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
     settextstyle(&f);
     settextcolor(myBLACK);
     setbkcolor(myWHITE);
@@ -930,8 +930,8 @@ void EasyX::showNumber(int textHeight, LPCSTR str) {
     drawtext(str, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 }
 
-//»æÖÆÔ¤ÉèÑùÊ½µÄ°´Å¥£¬²ÎÊı·Ö±ğÎª°´Å¥ÑùÊ½±àºÅ¡¢°´Å¥×ó²¿x×ø±ê¡¢°´Å¥¶¥²¿y×ø±ê¡¢°´Å¥ÓÒ²¿x×ø±ê¡¢°´Å¥µ×²¿y×ø±ê¡¢°´Å¥ÖĞµÄÎÄ×Ö
-//°´Å¥±àºÅ£º1-Ë«ÊµÏß±ß¿ò°×É«°´Å¥£»2-Ë«ÊµÏß±ß¿òºÚÉ«°´Å¥£»3-µ¥ÊµÏß±ß¿ò°×É«°´Å¥£»4-µ¥ÊµÏß±ß¿òºÚÉ«°´Å¥
+//ç»˜åˆ¶é¢„è®¾æ ·å¼çš„æŒ‰é’®ï¼Œå‚æ•°åˆ†åˆ«ä¸ºæŒ‰é’®æ ·å¼ç¼–å·ã€æŒ‰é’®å·¦éƒ¨xåæ ‡ã€æŒ‰é’®é¡¶éƒ¨yåæ ‡ã€æŒ‰é’®å³éƒ¨xåæ ‡ã€æŒ‰é’®åº•éƒ¨yåæ ‡ã€æŒ‰é’®ä¸­çš„æ–‡å­—
+//æŒ‰é’®ç¼–å·ï¼š1-åŒå®çº¿è¾¹æ¡†ç™½è‰²æŒ‰é’®ï¼›2-åŒå®çº¿è¾¹æ¡†é»‘è‰²æŒ‰é’®ï¼›3-å•å®çº¿è¾¹æ¡†ç™½è‰²æŒ‰é’®ï¼›4-å•å®çº¿è¾¹æ¡†é»‘è‰²æŒ‰é’®
 void EasyX::printButton(int style, int left, int top, int right, int bottom, LPCSTR str) {
     switch (style) { // NOLINT(hicpp-multiway-paths-covered)
         case 1:
@@ -945,7 +945,7 @@ void EasyX::printButton(int style, int left, int top, int right, int bottom, LPC
             gettextstyle(&f);
             f.lfHeight = 35;
             f.lfQuality = ANTIALIASED_QUALITY;
-            _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+            _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
             settextstyle(&f);
             settextcolor(myBLACK);
             setbkcolor(myWHITE);
@@ -962,7 +962,7 @@ void EasyX::printButton(int style, int left, int top, int right, int bottom, LPC
             gettextstyle(&f);
             f.lfHeight = 35;
             f.lfQuality = ANTIALIASED_QUALITY;
-            _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+            _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
             settextstyle(&f);
             settextcolor(myWHITE);
             setbkcolor(myBLACK);
@@ -979,7 +979,7 @@ void EasyX::printButton(int style, int left, int top, int right, int bottom, LPC
             gettextstyle(&f);
             f.lfHeight = 35;
             f.lfQuality = ANTIALIASED_QUALITY;
-            _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+            _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
             settextstyle(&f);
             settextcolor(myBLACK);
             setbkcolor(myWHITE);
@@ -992,7 +992,7 @@ void EasyX::printButton(int style, int left, int top, int right, int bottom, LPC
             gettextstyle(&f);
             f.lfHeight = 35;
             f.lfQuality = ANTIALIASED_QUALITY;
-            _tcscpy_s(f.lfFaceName, "Î¢ÈíÑÅºÚ");
+            _tcscpy_s(f.lfFaceName, "å¾®è½¯é›…é»‘");
             settextstyle(&f);
             settextcolor(myWHITE);
             setbkcolor(myBLACK);

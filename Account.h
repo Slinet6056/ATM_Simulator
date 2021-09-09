@@ -1,4 +1,4 @@
-#ifndef ATM_SIMULATOR_ACCOUNT_H
+ï»¿#ifndef ATM_SIMULATOR_ACCOUNT_H
 #define ATM_SIMULATOR_ACCOUNT_H
 
 #include <string>
@@ -7,47 +7,47 @@
 using std::string;
 using std::vector;
 
-//¸ÃÀàÓÃÓÚ´¢´æµ¥¸öÓÃ»§µÄ»ù±¾ĞÅÏ¢ºÍ½»Ò×¼ÇÂ¼£¬Ìá¹©·½·¨ÓÃÓÚÔö¼Ó²»Í¬ÀàĞÍµÄ½»Ò×¼ÇÂ¼
+//è¯¥ç±»ç”¨äºå‚¨å­˜å•ä¸ªç”¨æˆ·çš„åŸºæœ¬ä¿¡æ¯å’Œäº¤æ˜“è®°å½•ï¼Œæä¾›æ–¹æ³•ç”¨äºå¢åŠ ä¸åŒç±»å‹çš„äº¤æ˜“è®°å½•
 class Account {
 public:
-    //»ù±¾ĞÅÏ¢
-    string id;                                                       //¿¨ºÅ
-    string name;                                                     //ĞÕÃû
-    string password;                                                 //ÃÜÂë
-    double balance{0};                                               //ÕË»§Óà¶î
-    int wrongPasswordLeft{3};                                        //»¹¿ÉÊäÈë´íÎóÃÜÂë´ÎÊı
+    //åŸºæœ¬ä¿¡æ¯
+    string id;                                                       //å¡å·
+    string name;                                                     //å§“å
+    string password;                                                 //å¯†ç 
+    double balance{0};                                               //è´¦æˆ·ä½™é¢
+    int wrongPasswordLeft{3};                                        //è¿˜å¯è¾“å…¥é”™è¯¯å¯†ç æ¬¡æ•°
 
-    //µ¥±Ê½»Ò×¼ÇÂ¼
+    //å•ç¬”äº¤æ˜“è®°å½•
     struct Transaction {
-        string transactionId;                                        //½»Ò×±àºÅ
-        string transactionTime;                                      //½»Ò×Ê±¼ä
-        int transactionType;                                         //½»Ò×ÀàĞÍ 1-´æ¿î 2-È¡¿î 3-×ªÈë 4-×ª³ö
-        double transactionAmount;                                    //½»Ò×½ğ¶î
-        string counterpartyAccount;                                  //×ªÕË¶Ô·½ÕËºÅ Èô´æÈ¡¿îÔòÎª"this"
+        string transactionId;                                        //äº¤æ˜“ç¼–å·
+        string transactionTime;                                      //äº¤æ˜“æ—¶é—´
+        int transactionType;                                         //äº¤æ˜“ç±»å‹ 1-å­˜æ¬¾ 2-å–æ¬¾ 3-è½¬å…¥ 4-è½¬å‡º
+        double transactionAmount;                                    //äº¤æ˜“é‡‘é¢
+        string counterpartyAccount;                                  //è½¬è´¦å¯¹æ–¹è´¦å· è‹¥å­˜å–æ¬¾åˆ™ä¸º"this"
     };
 
-    vector<Transaction> transactionHistory;                          //ÀúÊ·½»Ò×¼ÇÂ¼
+    vector<Transaction> transactionHistory;                          //å†å²äº¤æ˜“è®°å½•
 
-    //ÀàµÄÄ¬ÈÏ¹¹Ôìº¯Êı
+    //ç±»çš„é»˜è®¤æ„é€ å‡½æ•°
     Account() = default;
 
-    //Ìá¹©¿¨ºÅ¡¢ĞÕÃûºÍÃÜÂëµÄÀà¹¹Ôìº¯Êı£¬Ò»°ãÎª´´½¨ĞÂÕËºÅÊ±Ê¹ÓÃ
+    //æä¾›å¡å·ã€å§“åå’Œå¯†ç çš„ç±»æ„é€ å‡½æ•°ï¼Œä¸€èˆ¬ä¸ºåˆ›å»ºæ–°è´¦å·æ—¶ä½¿ç”¨
     Account(string &id, string &name, string &password) : id(id), name(name), password(password) {}
 
-    //Ìá¹©È«²¿ĞÅÏ¢µÄÀà¹¹Ôìº¯Êı£¬Ò»°ãÎª´Ó±¾µØÎÄ¼ş¶ÁÈ¡ÕË»§ĞÅÏ¢Ê±Ê¹ÓÃ
+    //æä¾›å…¨éƒ¨ä¿¡æ¯çš„ç±»æ„é€ å‡½æ•°ï¼Œä¸€èˆ¬ä¸ºä»æœ¬åœ°æ–‡ä»¶è¯»å–è´¦æˆ·ä¿¡æ¯æ—¶ä½¿ç”¨
     Account(string &id, string &name, string &password, double &balance, int &wrongPasswordLeft, vector<Transaction> &transactionHistory) :
             id(id), name(name), password(password), balance(balance), wrongPasswordLeft(wrongPasswordLeft), transactionHistory(transactionHistory) {}
 
-    //Ôö¼ÓÒ»Ìõ´æ¿î½»Ò×¼ÇÂ¼£¬²ÎÊı·Ö±ğÎª´æ¿î½ğ¶î¡¢½»Ò×±àºÅ£¨ÓÃÊ±¼ä´Á´úÌæ£©¡¢½»Ò×Ê±¼ä
+    //å¢åŠ ä¸€æ¡å­˜æ¬¾äº¤æ˜“è®°å½•ï¼Œå‚æ•°åˆ†åˆ«ä¸ºå­˜æ¬¾é‡‘é¢ã€äº¤æ˜“ç¼–å·ï¼ˆç”¨æ—¶é—´æˆ³ä»£æ›¿ï¼‰ã€äº¤æ˜“æ—¶é—´
     void deposit(double amount, const string &timestamp, const string &currTime);
 
-    //Ôö¼ÓÒ»ÌõÈ¡¿î½»Ò×¼ÇÂ¼£¬²ÎÊı·Ö±ğÎªÈ¡¿î½ğ¶î¡¢½»Ò×±àºÅ£¨ÓÃÊ±¼ä´Á´úÌæ£©¡¢½»Ò×Ê±¼ä
+    //å¢åŠ ä¸€æ¡å–æ¬¾äº¤æ˜“è®°å½•ï¼Œå‚æ•°åˆ†åˆ«ä¸ºå–æ¬¾é‡‘é¢ã€äº¤æ˜“ç¼–å·ï¼ˆç”¨æ—¶é—´æˆ³ä»£æ›¿ï¼‰ã€äº¤æ˜“æ—¶é—´
     void withdrawal(double amount, const string &timestamp, const string &currTime);
 
-    //Ôö¼ÓÒ»Ìõ×ªÕËÊÕ¿î½»Ò×¼ÇÂ¼£¨×ªÈëÕË»§µ÷ÓÃ£©£¬²ÎÊı·Ö±ğÎª×ªÕË½ğ¶î¡¢¶Ô·½ÕËºÅ¡¢½»Ò×±àºÅ£¨ÓÃÊ±¼ä´Á´úÌæ£©¡¢½»Ò×Ê±¼ä
+    //å¢åŠ ä¸€æ¡è½¬è´¦æ”¶æ¬¾äº¤æ˜“è®°å½•ï¼ˆè½¬å…¥è´¦æˆ·è°ƒç”¨ï¼‰ï¼Œå‚æ•°åˆ†åˆ«ä¸ºè½¬è´¦é‡‘é¢ã€å¯¹æ–¹è´¦å·ã€äº¤æ˜“ç¼–å·ï¼ˆç”¨æ—¶é—´æˆ³ä»£æ›¿ï¼‰ã€äº¤æ˜“æ—¶é—´
     void transferIn(double amount, const string &counterpartyAccount, const string &timestamp, const string &currTime);
 
-    //Ôö¼ÓÒ»Ìõ×ªÕË¸¶¿î½»Ò×¼ÇÂ¼£¨×ª³öÕË»§µ÷ÓÃ£©£¬²ÎÊı·Ö±ğÎª×ªÕË½ğ¶î¡¢¶Ô·½ÕËºÅ¡¢½»Ò×±àºÅ£¨ÓÃÊ±¼ä´Á´úÌæ£©¡¢½»Ò×Ê±¼ä
+    //å¢åŠ ä¸€æ¡è½¬è´¦ä»˜æ¬¾äº¤æ˜“è®°å½•ï¼ˆè½¬å‡ºè´¦æˆ·è°ƒç”¨ï¼‰ï¼Œå‚æ•°åˆ†åˆ«ä¸ºè½¬è´¦é‡‘é¢ã€å¯¹æ–¹è´¦å·ã€äº¤æ˜“ç¼–å·ï¼ˆç”¨æ—¶é—´æˆ³ä»£æ›¿ï¼‰ã€äº¤æ˜“æ—¶é—´
     void transferOut(double amount, const string &counterpartyAccount, const string &timestamp, const string &currTime);
 };
 
