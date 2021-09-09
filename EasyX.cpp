@@ -1,14 +1,17 @@
 #include "EasyX.h"
 
+//类的构造函数
 EasyX::EasyX() {
     initgraph(400, 600);
 }
 
+//绘制登录界面
 void EasyX::showSignInMenu() {
+    //清空窗口显示
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //主界面标题
+    //绘制主界面标题
     gettextstyle(&f);
     f.lfHeight = 100;
     f.lfQuality = ANTIALIASED_QUALITY;
@@ -19,15 +22,19 @@ void EasyX::showSignInMenu() {
     r = {0, 0, 400, 300};
     drawtext("A T M", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //登录按钮
+    //绘制登录按钮
     printButton(1, 120, 310, 280, 370, "登  录");
 
-    //退出按钮
+    //绘制退出按钮
     printButton(1, 120, 400, 280, 460, "退  出");
 }
 
+//获取登录界面用户选择
 int EasyX::getSignInMenuSelection() {
-    vector<bool> buttonDown(2, false);
+    vector<bool> buttonDown(2, false);                               //记录各个按钮是否按下
+
+    //获取鼠标操作，按钮被按下后变黑，鼠标松开后按钮变白并返回编号，当且仅当在同一个按钮上按下后松开才视为有效操作
+    //若在按钮上按下鼠标后移动到程序窗口外松开，将引发显示错误，可通过在固定时间后重置按钮颜色解决，该问题有待修复
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
@@ -59,11 +66,13 @@ int EasyX::getSignInMenuSelection() {
     }
 }
 
+//绘制主菜单，参数分别为当前用户姓名、是否为管理员账户
 void EasyX::showMainMenu(const string &name, bool isAdmin) {
+    //清空窗口显示
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //标题
+    //绘制标题
     if (isAdmin) {
         gettextstyle(&f);
         f.lfHeight = 100;
@@ -86,21 +95,25 @@ void EasyX::showMainMenu(const string &name, bool isAdmin) {
         drawtext(("您好，" + name).c_str(), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
     }
 
-    //账户管理按钮
+    //绘制账户管理按钮
     printButton(1, 25, 310, 185, 370, "账户管理");
 
-    //金额操作按钮
+    //绘制金额操作按钮
     printButton(1, 215, 310, 375, 370, "金额操作");
 
-    //信息查询按钮
+    //绘制信息查询按钮
     printButton(1, 25, 400, 185, 460, "信息查询");
 
-    //退出登录按钮
+    //绘制退出登录按钮
     printButton(1, 215, 400, 375, 460, "退出登录");
 }
 
+//获取主菜单用户选择
 int EasyX::getMainMenuSelection() {
-    vector<bool> buttonDown(4, false);
+    vector<bool> buttonDown(4, false);                               //记录各个按钮是否按下
+
+    //获取鼠标操作，按钮被按下后变黑，鼠标松开后按钮变白并返回编号，当且仅当在同一个按钮上按下后松开才视为有效操作
+    //若在按钮上按下鼠标后移动到程序窗口外松开，将引发显示错误，可通过在固定时间后重置按钮颜色解决，该问题有待修复
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
@@ -150,11 +163,13 @@ int EasyX::getMainMenuSelection() {
     }
 }
 
+//绘制账户管理模块菜单，参数用于判断是否为管理员账户
 void EasyX::showAccountMenu(bool isAdmin) {
+    //清空窗口显示
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //标题
+    //绘制标题
     gettextstyle(&f);
     f.lfHeight = 60;
     f.lfQuality = ANTIALIASED_QUALITY;
@@ -165,29 +180,33 @@ void EasyX::showAccountMenu(bool isAdmin) {
     r = {0, 0, 400, 300};
     drawtext("账户管理", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //新建账户（管理员）或升级账户（用户）按钮
+    //绘制新建账户（管理员）或升级账户（用户）按钮
     if (isAdmin) {
         printButton(1, 25, 310, 185, 370, "新建账户");
     } else {
         printButton(1, 25, 310, 185, 370, "升级账户");
     }
 
-    //删除账户（管理员）或注销账户（用户）按钮
+    //绘制删除账户（管理员）或注销账户（用户）按钮
     if (isAdmin) {
         printButton(1, 215, 310, 375, 370, "删除账户");
     } else {
         printButton(1, 215, 310, 375, 370, "注销账户");
     }
 
-    //修改密码按钮
+    //绘制修改密码按钮
     printButton(1, 25, 400, 185, 460, "修改密码");
 
-    //返回按钮
+    //绘制返回按钮
     printButton(1, 215, 400, 375, 460, "返  回");
 }
 
+//获取账户管理模块菜单用户选择，参数用于判断是非为管理员账户
 int EasyX::getAccountMenuSelection(bool isAdmin) {
-    vector<bool> buttonDown(4, false);
+    vector<bool> buttonDown(4, false);                               //记录各个按钮是否按下
+
+    //获取鼠标操作，按钮被按下后变黑，鼠标松开后按钮变白并返回编号，当且仅当在同一个按钮上按下后松开才视为有效操作
+    //若在按钮上按下鼠标后移动到程序窗口外松开，将引发显示错误，可通过在固定时间后重置按钮颜色解决，该问题有待修复
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
@@ -253,11 +272,13 @@ int EasyX::getAccountMenuSelection(bool isAdmin) {
     }
 }
 
+//绘制金额操作模块菜单
 void EasyX::showTransactionMenu() {
+    //清空窗口显示
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //标题
+    //绘制标题
     gettextstyle(&f);
     f.lfHeight = 60;
     f.lfQuality = ANTIALIASED_QUALITY;
@@ -268,21 +289,25 @@ void EasyX::showTransactionMenu() {
     r = {0, 0, 400, 300};
     drawtext("金额操作", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //存款按钮
+    //绘制存款按钮
     printButton(1, 25, 310, 185, 370, "存  款");
 
-    //取款按钮
+    //绘制取款按钮
     printButton(1, 215, 310, 375, 370, "取  款");
 
-    //转账按钮
+    //绘制转账按钮
     printButton(1, 25, 400, 185, 460, "转  账");
 
-    //返回按钮
+    //绘制返回按钮
     printButton(1, 215, 400, 375, 460, "返  回");
 }
 
+//获取金额操作模块菜单用户选择
 int EasyX::getTransactionMenuSelection() {
-    vector<bool> buttonDown(4, false);
+    vector<bool> buttonDown(4, false);                               //记录各个按钮是否按下
+
+    //获取鼠标操作，按钮被按下后变黑，鼠标松开后按钮变白并返回编号，当且仅当在同一个按钮上按下后松开才视为有效操作
+    //若在按钮上按下鼠标后移动到程序窗口外松开，将引发显示错误，可通过在固定时间后重置按钮颜色解决，该问题有待修复
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
@@ -332,11 +357,13 @@ int EasyX::getTransactionMenuSelection() {
     }
 }
 
+//绘制信息查询模块菜单
 void EasyX::showInformationMenu() {
+    //清空窗口显示
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //标题
+    //绘制标题
     gettextstyle(&f);
     f.lfHeight = 60;
     f.lfQuality = ANTIALIASED_QUALITY;
@@ -347,18 +374,22 @@ void EasyX::showInformationMenu() {
     r = {0, 0, 400, 300};
     drawtext("信息查询", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //余额查询按钮
+    //绘制余额查询按钮
     printButton(1, 25, 310, 185, 370, "余额查询");
 
-    //交易记录按钮
+    //绘制交易记录按钮
     printButton(1, 215, 310, 375, 370, "交易记录");
 
-    //返回按钮
+    //绘制返回按钮
     printButton(1, 120, 400, 280, 460, "返  回");
 }
 
+//获取信息查询模块菜单用户选择
 int EasyX::getInformationMenuSelection() {
-    vector<bool> buttonDown(3, false);
+    vector<bool> buttonDown(3, false);                               //记录各个按钮是否按下
+
+    //获取鼠标操作，按钮被按下后变黑，鼠标松开后按钮变白并返回编号，当且仅当在同一个按钮上按下后松开才视为有效操作
+    //若在按钮上按下鼠标后移动到程序窗口外松开，将引发显示错误，可通过在固定时间后重置按钮颜色解决，该问题有待修复
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
@@ -399,11 +430,13 @@ int EasyX::getInformationMenuSelection() {
     }
 }
 
+//绘制数字输入面板（用于用户输入卡号、密码、金额）
 void EasyX::showNumberInputPanel() {
+    //清空窗口显示
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //绘制输入框
+    //绘制输入显示框
     setfillcolor(myWHITE);
     solidroundrect(20, 50, 380, 140, 25, 25);
     setlinecolor(myBLACK);
@@ -411,7 +444,7 @@ void EasyX::showNumberInputPanel() {
     setbkcolor(myWHITE);
     roundrect(21, 51, 379, 139, 25, 25);
 
-    //绘制0~9数字按钮以及确定退格键
+    //绘制0~9数字按钮、小数点按钮、确定退格键以及“X”按钮（目前并未使用，未来可用于输入身份证号码或作为返回键使用）
     printButton(3, 30, 190, 130, 250, "1");
     printButton(3, 150, 190, 250, 250, "2");
     printButton(3, 270, 190, 370, 250, "3");
@@ -428,9 +461,16 @@ void EasyX::showNumberInputPanel() {
     printButton(3, 210, 490, 370, 550, "确定");
 }
 
+//输入数字，参数分别为输入模式（MODE_ID / MODE_PASSWORD / MODE_AMOUNT）、未输入时候窗口中的提示文字
+//功能并不完善，不同模式下被禁用的按键与可用的按键没有显示上的区分，有待改进
 string EasyX::inputNumber(int type, LPCSTR prompt) {
-    string ans;
-    char selectedNum;
+    string ans;                                                      //用于储存用户输入的内容，变量名似乎不是很贴切
+    char selectedNum;                                                //用于接收getNumberSelection函数返回的用户所按按键编号
+
+    //根据输入模式对用户的输入进行限制，同时调用showNumber函数管理面板显示屏上的内容，最终返回输入结果
+    //卡号输入模式：只允许输入数字，长度不允许超过19位
+    //密码输入模式：只允许输入数字，长度必须为6位才可点击确定，同时面板显示屏上以圆点代替数字，不显示真实密码
+    //金额输入模式：允许输入数字和小数点，长度不允许超过8位，在某些情况下禁用部分按键以确保输入正确的数字格式
     switch (type) { // NOLINT(hicpp-multiway-paths-covered)
         case 1:
             showNumber(50, prompt);
@@ -500,11 +540,13 @@ string EasyX::inputNumber(int type, LPCSTR prompt) {
     return {};
 }
 
+//绘制错误窗口，两个参数为窗口中显示的两行文字（第二行字号略小于第一行）
 void EasyX::error(LPCSTR errorMsg1, LPCSTR errorMsg2) {
+    //清空窗口显示
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //标题
+    //绘制标题
     gettextstyle(&f);
     f.lfHeight = 100;
     f.lfQuality = ANTIALIASED_QUALITY;
@@ -515,7 +557,7 @@ void EasyX::error(LPCSTR errorMsg1, LPCSTR errorMsg2) {
     r = {0, 0, 400, 200};
     drawtext("错误", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //错误信息文本1
+    //绘制错误信息文本1
     gettextstyle(&f);
     f.lfHeight = 50;
     f.lfQuality = ANTIALIASED_QUALITY;
@@ -526,7 +568,7 @@ void EasyX::error(LPCSTR errorMsg1, LPCSTR errorMsg2) {
     r = {0, 200, 400, 300};
     drawtext(errorMsg1, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //错误信息文本2
+    //绘制错误信息文本2
     gettextstyle(&f);
     f.lfHeight = 45;
     f.lfQuality = ANTIALIASED_QUALITY;
@@ -537,10 +579,13 @@ void EasyX::error(LPCSTR errorMsg1, LPCSTR errorMsg2) {
     r = {0, 300, 400, 350};
     drawtext(errorMsg2, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //确定按钮
+    //绘制确定按钮
     printButton(1, 120, 460, 280, 520, "确  定");
 
-    bool buttonDown = false;
+    bool buttonDown = false;                                         //记录确定按钮是否被按下
+
+    //获取鼠标操作，按钮被按下后变黑，鼠标松开后按钮变白并返回编号，当且仅当在同一个按钮上按下后松开才视为有效操作
+    //若在按钮上按下鼠标后移动到程序窗口外松开，将引发显示错误，可通过在固定时间后重置按钮颜色解决，该问题有待修复
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
@@ -563,11 +608,13 @@ void EasyX::error(LPCSTR errorMsg1, LPCSTR errorMsg2) {
     }
 }
 
+//绘制提示窗口，两个参数为窗口中显示的两行文字（第二行字号略小于第一行）
 void EasyX::tip(LPCSTR tipMsg1, LPCSTR tipMsg2) {
+    //清空窗口显示
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //标题
+    //绘制标题
     gettextstyle(&f);
     f.lfHeight = 100;
     f.lfQuality = ANTIALIASED_QUALITY;
@@ -578,7 +625,7 @@ void EasyX::tip(LPCSTR tipMsg1, LPCSTR tipMsg2) {
     r = {0, 0, 400, 200};
     drawtext("提示", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //提示信息文本1
+    //绘制提示信息文本1
     gettextstyle(&f);
     f.lfHeight = 50;
     f.lfQuality = ANTIALIASED_QUALITY;
@@ -589,7 +636,7 @@ void EasyX::tip(LPCSTR tipMsg1, LPCSTR tipMsg2) {
     r = {0, 200, 400, 300};
     drawtext(tipMsg1, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //提示信息文本2
+    //绘制提示信息文本2
     gettextstyle(&f);
     f.lfHeight = 45;
     f.lfQuality = ANTIALIASED_QUALITY;
@@ -600,10 +647,13 @@ void EasyX::tip(LPCSTR tipMsg1, LPCSTR tipMsg2) {
     r = {0, 300, 400, 350};
     drawtext(tipMsg2, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //确定按钮
+    //绘制确定按钮
     printButton(1, 120, 460, 280, 520, "确  定");
 
-    bool buttonDown = false;
+    bool buttonDown = false;                                         //记录确定按钮是否按下
+
+    //获取鼠标操作，按钮被按下后变黑，鼠标松开后按钮变白并返回编号，当且仅当在同一个按钮上按下后松开才视为有效操作
+    //若在按钮上按下鼠标后移动到程序窗口外松开，将引发显示错误，可通过在固定时间后重置按钮颜色解决，该问题有待修复
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
@@ -626,11 +676,13 @@ void EasyX::tip(LPCSTR tipMsg1, LPCSTR tipMsg2) {
     }
 }
 
+//绘制确认窗口，两个参数为窗口中显示的两行文字（第二行字号略小于第一行）
 int EasyX::confirm(LPCSTR confirmMsg1, LPCSTR confirmMsg2) {
+    //清空窗口显示
     setbkcolor(BKCOLOR);
     cleardevice();
 
-    //标题
+    //绘制标题
     gettextstyle(&f);
     f.lfHeight = 100;
     f.lfQuality = ANTIALIASED_QUALITY;
@@ -641,7 +693,7 @@ int EasyX::confirm(LPCSTR confirmMsg1, LPCSTR confirmMsg2) {
     r = {0, 0, 400, 200};
     drawtext("确认", &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //提示信息文本1
+    //绘制提示信息文本1
     gettextstyle(&f);
     f.lfHeight = 50;
     f.lfQuality = ANTIALIASED_QUALITY;
@@ -652,7 +704,7 @@ int EasyX::confirm(LPCSTR confirmMsg1, LPCSTR confirmMsg2) {
     r = {0, 200, 400, 300};
     drawtext(confirmMsg1, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //提示信息文本2
+    //绘制提示信息文本2
     gettextstyle(&f);
     f.lfHeight = 45;
     f.lfQuality = ANTIALIASED_QUALITY;
@@ -663,13 +715,16 @@ int EasyX::confirm(LPCSTR confirmMsg1, LPCSTR confirmMsg2) {
     r = {0, 300, 400, 350};
     drawtext(confirmMsg2, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
-    //取消按钮
+    //绘制取消按钮
     printButton(1, 25, 460, 185, 520, "取  消");
 
-    //确定按钮
+    //绘制确定按钮
     printButton(1, 215, 460, 375, 520, "确  定");
 
-    vector<bool> buttonDown(2, false);
+    vector<bool> buttonDown(2, false);                               //记录取消与确定按钮是否按下
+
+    //获取鼠标操作，按钮被按下后变黑，鼠标松开后按钮变白并返回编号，当且仅当在同一个按钮上按下后松开才视为有效操作
+    //若在按钮上按下鼠标后移动到程序窗口外松开，将引发显示错误，可通过在固定时间后重置按钮颜色解决，该问题有待修复
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
@@ -701,14 +756,19 @@ int EasyX::confirm(LPCSTR confirmMsg1, LPCSTR confirmMsg2) {
     }
 }
 
+//使用弹出式对话框获取用户输入（用于管理员输入卡号、密码、金额），参数为输入对话框中的提示文字
 string EasyX::inputBox(LPCTSTR prompt) {
-    char input[20];
+    char input[20];                                                      //接收输入的内容
     InputBox(input, 20, prompt);
     return input;
 }
 
+//获取用户在数字输入面板中点击的按钮代号
 char EasyX::getNumberSelection() {
-    vector<bool> buttonDown(14, false);
+    vector<bool> buttonDown(14, false);                              //记录各个按钮是否按下
+
+    //获取鼠标操作，按钮被按下后变黑，鼠标松开后按钮变白并返回代号，当且仅当在同一个按钮上按下后松开才视为有效操作
+    //若在按钮上按下鼠标后移动到程序窗口外松开，将引发显示错误，可通过在固定时间后重置按钮颜色解决，该问题有待修复
     while (true) {
         m = GetMouseMsg();
         switch (m.uMsg) {
@@ -848,6 +908,30 @@ char EasyX::getNumberSelection() {
     }
 }
 
+//用于在数字输入面板的显示屏中显示数字（或文字），参数分别为文字字号和要显示的内容
+void EasyX::showNumber(int textHeight, LPCSTR str) {
+    //绘制显示屏外框
+    setfillcolor(myWHITE);
+    solidroundrect(20, 50, 380, 140, 25, 25);
+    setlinecolor(myBLACK);
+    setlinestyle(PS_SOLID, 3);
+    setbkcolor(myWHITE);
+    roundrect(21, 51, 379, 139, 25, 25);
+
+    //绘制显示屏中的文字
+    gettextstyle(&f);
+    f.lfHeight = textHeight;
+    f.lfQuality = ANTIALIASED_QUALITY;
+    _tcscpy_s(f.lfFaceName, "微软雅黑");
+    settextstyle(&f);
+    settextcolor(myBLACK);
+    setbkcolor(myWHITE);
+    r = {20, 50, 380, 140};
+    drawtext(str, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+}
+
+//绘制预设样式的按钮，参数分别为按钮样式编号、按钮左部x坐标、按钮顶部y坐标、按钮右部x坐标、按钮底部y坐标、按钮中的文字
+//按钮编号：1-双实线边框白色按钮；2-双实线边框黑色按钮；3-单实线边框白色按钮；4-单实线边框黑色按钮
 void EasyX::printButton(int style, int left, int top, int right, int bottom, LPCSTR str) {
     switch (style) { // NOLINT(hicpp-multiway-paths-covered)
         case 1:
@@ -916,23 +1000,4 @@ void EasyX::printButton(int style, int left, int top, int right, int bottom, LPC
             drawtext(str, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
             break;
     }
-}
-
-void EasyX::showNumber(int textHeight, LPCSTR str) {
-    setfillcolor(myWHITE);
-    solidroundrect(20, 50, 380, 140, 25, 25);
-    setlinecolor(myBLACK);
-    setlinestyle(PS_SOLID, 3);
-    setbkcolor(myWHITE);
-    roundrect(21, 51, 379, 139, 25, 25);
-
-    gettextstyle(&f);
-    f.lfHeight = textHeight;
-    f.lfQuality = ANTIALIASED_QUALITY;
-    _tcscpy_s(f.lfFaceName, "微软雅黑");
-    settextstyle(&f);
-    settextcolor(myBLACK);
-    setbkcolor(myWHITE);
-    r = {20, 50, 380, 140};
-    drawtext(str, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 }
