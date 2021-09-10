@@ -29,6 +29,7 @@
 #define ERR_AMOUNTLIMITEXCEED -7                                     //用户进行存取款和转账时单笔金额超过上限
 #define ERR_INSUFFICIENTBALANCE -8                                   //取款与转账时账户余额不足
 #define ERR_ZEROAMOUNT -9                                            //存款取款和转账金额为零
+#define ERR_SELFTRANSFER -10                                         //向自己转账
 
 using std::string;
 using std::vector;

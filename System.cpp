@@ -377,6 +377,7 @@ int System::transfer() {
         toId_copy = toId;
         toId = MD5(toId).toStr();
         if (!accountIndex.count(toId)) return ERR_INVALIDID;
+        if (toId_copy == currAccountId) return ERR_SELFTRANSFER;
 
         amount_str = easyX.inputNumber(MODE_AMOUNT, "请输入转账金额");
         if (stod(amount_str) == 0) return ERR_ZEROAMOUNT;
@@ -707,6 +708,8 @@ void System::transactionMenu() {
                         easyX.error("未登录账户");
                     } else if (res == ERR_INVALIDID) {
                         easyX.error("对方账户不存在");
+                    } else if (res == ERR_SELFTRANSFER) {
+                        easyX.error("不可向自己转账");
                     } else if (res == ERR_ZEROAMOUNT) {
                         easyX.error("转账金额不能为0");
                     } else if (res == ERR_AMOUNTLIMITEXCEED) {
