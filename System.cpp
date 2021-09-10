@@ -551,7 +551,7 @@ int System::accountMenu() {
         if (isAdmin) {
             switch (accountMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
                 case 1: {
-                    //获取新建账户操作结果
+                    //获取管理员新建账户操作结果
                     int res = signUp();
                     if (res == ERR_INVALIDID) {
                         easyX.error("账号已存在");
@@ -559,7 +559,7 @@ int System::accountMenu() {
                     break;
                 }
                 case 2: {
-                    //获取删除账户操作结果
+                    //获取管理员删除账户操作结果
                     int res = deleteAccount();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
@@ -569,7 +569,7 @@ int System::accountMenu() {
                     break;
                 }
                 case 3: {
-                    //获取修改密码操作结果
+                    //获取管理员修改密码操作结果
                     int res = changePassword();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
@@ -591,7 +591,7 @@ int System::accountMenu() {
                     easyX.tip("请联系管理员QQ", "492829253");
                     break;
                 case 2: {
-                    //获取注销账户操作结果
+                    //获取用户注销账户操作结果
                     int res = deleteAccount();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
@@ -603,7 +603,7 @@ int System::accountMenu() {
                     break;
                 }
                 case 3: {
-                    //获取修改密码操作结果
+                    //获取用户修改密码操作结果
                     int res = changePassword();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
@@ -636,7 +636,7 @@ void System::transactionMenu() {
         if (isAdmin) {
             switch (transactionMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
                 case 1: {
-                    //获取存款操作结果
+                    //获取管理员存款操作结果
                     int res = deposit();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
@@ -646,7 +646,7 @@ void System::transactionMenu() {
                     break;
                 }
                 case 2: {
-                    //获取取款操作结果
+                    //获取管理员取款操作结果
                     int res = withdrawal();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
@@ -658,7 +658,7 @@ void System::transactionMenu() {
                     break;
                 }
                 case 3: {
-                    //获取转账操作结果
+                    //获取管理员转账操作结果
                     int res = transfer();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
@@ -676,7 +676,7 @@ void System::transactionMenu() {
         } else {
             switch (transactionMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
                 case 1: {
-                    //获取存款操作结果
+                    //获取用户存款操作结果
                     int res = deposit();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
@@ -688,7 +688,7 @@ void System::transactionMenu() {
                     break;
                 }
                 case 2: {
-                    //获取取款操作结果
+                    //获取用户取款操作结果
                     int res = withdrawal();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
@@ -702,7 +702,7 @@ void System::transactionMenu() {
                     break;
                 }
                 case 3: {
-                    //获取转账操作结果
+                    //获取用户转账操作结果
                     int res = transfer();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
@@ -738,7 +738,7 @@ void System::informationMenu() {
         if (isAdmin) {
             switch (informationMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
                 case 1: {
-                    //获取显示余额操作结果
+                    //获取管理员显示余额操作结果
                     int res = showBalance();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
@@ -748,7 +748,7 @@ void System::informationMenu() {
                     break;
                 }
                 case 2: {
-                    //获取交易记录查询操作结果
+                    //获取管理员交易记录查询操作结果
                     int res = showTransactionHistory();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
@@ -762,7 +762,7 @@ void System::informationMenu() {
         } else {
             switch (informationMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
                 case 1: {
-                    //获取显示余额操作结果
+                    //获取用户显示余额操作结果
                     int res = showBalance();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
@@ -772,7 +772,7 @@ void System::informationMenu() {
                     break;
                 }
                 case 2: {
-                    //获取显示交易历史记录操作结果
+                    //获取用户显示交易历史记录操作结果
                     int res = showTransactionHistory();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
