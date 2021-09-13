@@ -236,7 +236,8 @@ int System::deposit() {
         string amount_str;
         amount_str = easyX.inputNumber(MODE_AMOUNT, "请输入存款金额");
         if (stod(amount_str) == 0) return ERR_ZEROAMOUNT;
-        if (stod(amount_str) > 10000) return ERR_AMOUNTLIMITEXCEED;
+        if (stod(amount_str) > 10000) return ERR_SINGLEAMOUNTLIMITEXCEED;
+        if (stod(amount_str) + getDailyAmount(1) > 100000) return ERR_DAILYAMOUNTLIMITEXCEED;
 
         //确认是否存款
         res = easyX.confirm("存款金额", (amount_str + "元").c_str());
@@ -298,7 +299,8 @@ int System::withdrawal() {
         string amount_str;
         amount_str = easyX.inputNumber(MODE_AMOUNT, "请输入取款金额");
         if (stod(amount_str) == 0) return ERR_ZEROAMOUNT;
-        if (stod(amount_str) > 5000) return ERR_AMOUNTLIMITEXCEED;
+        if (stod(amount_str) > 5000) return ERR_SINGLEAMOUNTLIMITEXCEED;
+        if (stod(amount_str) + getDailyAmount(2) > 20000) return ERR_DAILYAMOUNTLIMITEXCEED;
 
         //检查是否余额不足
         if (stod(amount_str) > currAccount->balance) return ERR_INSUFFICIENTBALANCE;
@@ -381,7 +383,7 @@ int System::transfer() {
 
         amount_str = easyX.inputNumber(MODE_AMOUNT, "请输入转账金额");
         if (stod(amount_str) == 0) return ERR_ZEROAMOUNT;
-        if (stod(amount_str) > 50000) return ERR_AMOUNTLIMITEXCEED;
+        if (stod(amount_str) + getDailyAmount(4) > 50000) return ERR_DAILYAMOUNTLIMITEXCEED;
 
         //检查是否余额不足
         if (stod(amount_str) > currAccount->balance) return ERR_INSUFFICIENTBALANCE;
@@ -680,8 +682,10 @@ void System::transactionMenu() {
                     int res = deposit();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
-                    } else if (res == ERR_AMOUNTLIMITEXCEED) {
+                    } else if (res == ERR_SINGLEAMOUNTLIMITEXCEED) {
                         easyX.error("超出单次存款金额上限", "上限为10000元");
+                    } else if (res == ERR_DAILYAMOUNTLIMITEXCEED) {
+                        easyX.error("超出当日存款金额上限", "上限为100000元");
                     } else if (res == ERR_ZEROAMOUNT) {
                         easyX.error("存款金额不能为0");
                     }
@@ -692,8 +696,10 @@ void System::transactionMenu() {
                     int res = withdrawal();
                     if (res == ERR_NOTSIGNIN) {
                         easyX.error("未登录账户");
-                    } else if (res == ERR_AMOUNTLIMITEXCEED) {
+                    } else if (res == ERR_SINGLEAMOUNTLIMITEXCEED) {
                         easyX.error("超出单次取款金额上限", "上限为5000元");
+                    } else if (res == ERR_DAILYAMOUNTLIMITEXCEED) {
+                        easyX.error("超出当日取款金额上限", "上限为20000元");
                     } else if (res == ERR_INSUFFICIENTBALANCE) {
                         easyX.error("余额不足");
                     } else if (res == ERR_ZEROAMOUNT) {
@@ -712,8 +718,8 @@ void System::transactionMenu() {
                         easyX.error("不可向自己转账");
                     } else if (res == ERR_ZEROAMOUNT) {
                         easyX.error("转账金额不能为0");
-                    } else if (res == ERR_AMOUNTLIMITEXCEED) {
-                        easyX.error("超出单次转账金额上限", "上限为50000");
+                    } else if (res == ERR_DAILYAMOUNTLIMITEXCEED) {
+                        easyX.error("超出当日转账金额上限", "上限为50000元");
                     } else if (res == ERR_INSUFFICIENTBALANCE) {
                         easyX.error("余额不足");
                     }
@@ -785,6 +791,25 @@ void System::informationMenu() {
             }
         }
     }
+}
+
+double System::getDailyAmount(int type) {
+    //防止未登录用户账号而调用该函数意外发生
+    if (!currAccount) return -1;
+
+    //获取当前日期
+    string today = getCurrentTime().substr(0, 10);
+
+    //函数的返回值，当日特定类型的交易总额
+    double ans = 0;
+
+    for (const auto &account: currAccount->transactionHistory) {
+        if (account.transactionTime.substr(0, 10) == today && account.transactionType == type) {
+            ans += account.transactionAmount;
+        }
+    }
+
+    return ans;
 }
 
 //获取时间戳

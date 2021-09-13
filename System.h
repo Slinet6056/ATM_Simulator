@@ -26,10 +26,11 @@
 #define ERR_CARDLOCKED -4                                            //账户以锁定
 #define ERR_SAMEPASSWORD -5                                          //修改密码时新密码与原密码相同
 #define ERR_DIFFERENTPASSWORD -6                                     //用户修改密码时两次输入的密码不一致
-#define ERR_AMOUNTLIMITEXCEED -7                                     //用户进行存取款和转账时单笔金额超过上限
-#define ERR_INSUFFICIENTBALANCE -8                                   //取款与转账时账户余额不足
-#define ERR_ZEROAMOUNT -9                                            //存款取款和转账金额为零
-#define ERR_SELFTRANSFER -10                                         //向自己转账
+#define ERR_SINGLEAMOUNTLIMITEXCEED -7                               //用户进行存取款和转账时单笔金额超过上限
+#define ERR_DAILYAMOUNTLIMITEXCEED -8                                //用户进行存取款和转账时每日金额超过上限
+#define ERR_INSUFFICIENTBALANCE -9                                   //取款与转账时账户余额不足
+#define ERR_ZEROAMOUNT -10                                           //存款取款和转账金额为零
+#define ERR_SELFTRANSFER -11                                         //向自己转账
 
 using std::string;
 using std::vector;
@@ -108,6 +109,8 @@ private:
 
     //调用EasyX类的方法显示信息查询菜单，点击按钮可以进行相应的操作，并处理各种可能发生的错误
     void informationMenu();
+
+    double getDailyAmount(int type);
 
     //获取时间戳
     static string getTimestamp();
