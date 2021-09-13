@@ -31,6 +31,7 @@
 #define ERR_INSUFFICIENTBALANCE -9                                   //取款与转账时账户余额不足
 #define ERR_ZEROAMOUNT -10                                           //存款取款和转账金额为零
 #define ERR_SELFTRANSFER -11                                         //向自己转账
+#define ERR_NOTWHOLEHUNDRED -12                                      //存款与取款金额不是一百整数倍
 
 using std::string;
 using std::vector;

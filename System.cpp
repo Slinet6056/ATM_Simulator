@@ -238,6 +238,7 @@ int System::deposit() {
         if (stod(amount_str) == 0) return ERR_ZEROAMOUNT;
         if (stod(amount_str) > 10000) return ERR_SINGLEAMOUNTLIMITEXCEED;
         if (stod(amount_str) + getDailyAmount(1) > 100000) return ERR_DAILYAMOUNTLIMITEXCEED;
+        if ((int) (stod(amount_str) / 100) * 100 != stod(amount_str)) return ERR_NOTWHOLEHUNDRED;
 
         //确认是否存款
         res = easyX.confirm("存款金额", (amount_str + "元").c_str());
@@ -301,6 +302,7 @@ int System::withdrawal() {
         if (stod(amount_str) == 0) return ERR_ZEROAMOUNT;
         if (stod(amount_str) > 5000) return ERR_SINGLEAMOUNTLIMITEXCEED;
         if (stod(amount_str) + getDailyAmount(2) > 20000) return ERR_DAILYAMOUNTLIMITEXCEED;
+        if ((int) (stod(amount_str) / 100) * 100 != stod(amount_str)) return ERR_NOTWHOLEHUNDRED;
 
         //检查是否余额不足
         if (stod(amount_str) > currAccount->balance) return ERR_INSUFFICIENTBALANCE;
@@ -688,6 +690,8 @@ void System::transactionMenu() {
                         easyX.error("超出当日存款金额上限", "上限为100000元");
                     } else if (res == ERR_ZEROAMOUNT) {
                         easyX.error("存款金额不能为0");
+                    } else if (res == ERR_NOTWHOLEHUNDRED) {
+                        easyX.error("存款金额错误", "需为100整数倍");
                     }
                     break;
                 }
@@ -704,6 +708,8 @@ void System::transactionMenu() {
                         easyX.error("余额不足");
                     } else if (res == ERR_ZEROAMOUNT) {
                         easyX.error("取款金额不能为0");
+                    } else if (res == ERR_NOTWHOLEHUNDRED) {
+                        easyX.error("取款金额错误", "需为100整数倍");
                     }
                     break;
                 }
