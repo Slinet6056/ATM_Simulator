@@ -444,7 +444,7 @@ void EasyX::showNumberInputPanel() {
     setbkcolor(myWHITE);
     roundrect(21, 51, 379, 139, 25, 25);
 
-    //绘制0~9数字按钮、小数点按钮、确定退格键以及“X”按钮（目前并未使用，未来可用于输入身份证号码或作为返回键使用）
+    //绘制0~9数字按钮、小数点按钮、退格、取消和确定键
     printButton(3, 30, 190, 130, 250, "1");
     printButton(3, 150, 190, 250, 250, "2");
     printButton(3, 270, 190, 370, 250, "3");
@@ -456,8 +456,8 @@ void EasyX::showNumberInputPanel() {
     printButton(3, 270, 340, 370, 400, "9");
     printButton(3, 30, 415, 130, 475, ".");
     printButton(3, 150, 415, 250, 475, "0");
-    printButton(3, 270, 415, 370, 475, "X");
-    printButton(3, 30, 490, 190, 550, "退格");
+    printButton(3, 270, 415, 370, 475, "←");
+    printButton(3, 30, 490, 190, 550, "取消");
     printButton(3, 210, 490, 370, 550, "确定");
 }
 
@@ -485,6 +485,8 @@ string EasyX::inputNumber(int type, LPCSTR prompt) {
                     } else {
                         showNumber(40, ans.c_str());
                     }
+                } else if (selectedNum == 'r') {
+                    return "return";
                 }
             }
             return ans;
@@ -507,6 +509,8 @@ string EasyX::inputNumber(int type, LPCSTR prompt) {
                             display += "  ·";
                         showNumber(80, display.c_str());
                     }
+                } else if (selectedNum == 'r') {
+                    return "return";
                 }
             }
             return ans;
@@ -533,6 +537,8 @@ string EasyX::inputNumber(int type, LPCSTR prompt) {
                     } else {
                         showNumber(50, ("CNY " + ans).c_str());
                     }
+                } else if (selectedNum == 'r') {
+                    return "return";
                 }
             }
             return ans;
@@ -759,8 +765,12 @@ int EasyX::confirm(LPCSTR confirmMsg1, LPCSTR confirmMsg2) {
 //使用弹出式对话框获取用户输入（用于管理员输入卡号、密码、金额），参数为输入对话框中的提示文字
 string EasyX::inputBox(LPCTSTR prompt) {
     char input[20];                                                      //接收输入的内容
-    InputBox(input, 20, prompt);
-    return input;
+    bool res = InputBox(input, 20, prompt, "输入", nullptr, 0, 0, false);
+    if (res) {
+        return input;
+    } else {
+        return "return";
+    }
 }
 
 //获取用户在数字输入面板中点击的按钮代号
@@ -808,10 +818,10 @@ char EasyX::getNumberSelection() {
                     printButton(4, 150, 415, 250, 475, "0");
                 } else if (m.x > 270 && m.y > 415 && m.x < 370 && m.y < 475) {
                     buttonDown[10] = true;
-                    printButton(4, 270, 415, 370, 475, "X");
+                    printButton(4, 270, 415, 370, 475, "←");
                 } else if (m.x > 30 && m.y > 490 && m.x < 190 && m.y < 550) {
                     buttonDown[12] = true;
-                    printButton(4, 30, 490, 190, 550, "退格");
+                    printButton(4, 30, 490, 190, 550, "取消");
                 } else if (m.x > 210 && m.y > 490 && m.x < 370 && m.y < 550) {
                     buttonDown[13] = true;
                     printButton(4, 210, 490, 370, 550, "确定");
@@ -886,15 +896,15 @@ char EasyX::getNumberSelection() {
                     }
                 } else if (buttonDown[10]) {
                     buttonDown[10] = false;
-                    printButton(3, 270, 415, 370, 475, "X");
+                    printButton(3, 270, 415, 370, 475, "←");
                     if (m.x > 270 && m.y > 415 && m.x < 370 && m.y < 475) {
-                        return 'X';
+                        return 'b';
                     }
                 } else if (buttonDown[12]) {
                     buttonDown[12] = false;
-                    printButton(3, 30, 490, 190, 550, "退格");
+                    printButton(3, 30, 490, 190, 550, "取消");
                     if (m.x > 30 && m.y > 490 && m.x < 190 && m.y < 550) {
-                        return 'b';
+                        return 'r';
                     }
                 } else if (buttonDown[13]) {
                     buttonDown[13] = false;

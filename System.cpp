@@ -26,8 +26,11 @@ int System::signIn() {
     string id, id_copy, password;
 
     id = easyX.inputNumber(MODE_ID, "请输入卡号");
-    if (id == adminId) {
+    if (id == "return") {
+        return CANCEL;
+    } else if (id == adminId) {
         password = easyX.inputNumber(MODE_PASSWORD, "请输入密码");
+        if (password == "return") return CANCEL;
         if (password != adminPassword) return ERR_WRONGPASSWORD;
         isAdmin = true;
 
@@ -38,6 +41,7 @@ int System::signIn() {
         if (!accountIndex[id]->wrongPasswordLeft) return ERR_CARDLOCKED;
 
         password = easyX.inputNumber(MODE_PASSWORD, "请输入密码");
+        if (password == "return") return CANCEL;
         password = MD5(password).toStr();
 
         //若密码输入错误，则减少一次机会
@@ -79,12 +83,15 @@ int System::signUp() {
     string id, name, password;
 
     id = EasyX::inputBox("卡号：");
+    if (id == "return") return CANCEL;
     id = MD5(id).toStr();
     if (accountIndex.count(id)) return ERR_INVALIDID;
 
     name = EasyX::inputBox("姓名：");
+    if (name == "return") return CANCEL;
 
     password = EasyX::inputBox("密码：");
+    if (password == "return") return CANCEL;
     password = MD5(password).toStr();
 
     //成功增加一个新账号
@@ -105,6 +112,7 @@ int System::changePassword() {
         string id, newPassword;
 
         id = EasyX::inputBox("卡号：");
+        if (id == "return") return CANCEL;
         id = MD5(id).toStr();
         if (!accountIndex.count(id)) return ERR_INVALIDID;
 
@@ -115,6 +123,7 @@ int System::changePassword() {
         accountIndex[id]->wrongPasswordLeft = 3;
 
         newPassword = EasyX::inputBox("新密码：");
+        if (newPassword == "return") return CANCEL;
         newPassword = MD5(newPassword).toStr();
         if (newPassword == accountIndex[id]->password) return ERR_SAMEPASSWORD;
 
@@ -128,7 +137,9 @@ int System::changePassword() {
         string newPassword, confirmPassword;
 
         newPassword = easyX.inputNumber(MODE_PASSWORD, "请输入新密码");
+        if (newPassword == "return") return CANCEL;
         confirmPassword = easyX.inputNumber(MODE_PASSWORD, "确认新密码");
+        if (confirmPassword == "return") return CANCEL;
 
         if (newPassword != confirmPassword) return ERR_DIFFERENTPASSWORD;
 
@@ -155,6 +166,7 @@ int System::deleteAccount() {
         string id, id_copy;
 
         id = EasyX::inputBox("卡号：");
+        if (id == "return") return CANCEL;
         id_copy = id;
         id = MD5(id).toStr();
         if (!accountIndex.count(id)) return ERR_INVALIDID;
@@ -175,6 +187,7 @@ int System::deleteAccount() {
         string password;
 
         password = easyX.inputNumber(MODE_PASSWORD, "请输入密码");
+        if (password == "return") return CANCEL;
         password = MD5(password).toStr();
         if (password != currAccount->password) return ERR_WRONGPASSWORD;
 
@@ -211,10 +224,12 @@ int System::deposit() {
         string id, amount_str;
 
         id = EasyX::inputBox("卡号：");
+        if (id == "return") return CANCEL;
         id = MD5(id).toStr();
         if (!accountIndex.count(id)) return ERR_INVALIDID;
 
         amount_str = EasyX::inputBox("存款金额：");
+        if (amount_str == "return") return CANCEL;
 
         //存款金额最多只显示两位小数
         double amount = stod(amount_str);
@@ -235,6 +250,7 @@ int System::deposit() {
         //格式在输入的时候就已控制，故不需要再调整
         string amount_str;
         amount_str = easyX.inputNumber(MODE_AMOUNT, "请输入存款金额");
+        if (amount_str == "return") return CANCEL;
         if (stod(amount_str) == 0) return ERR_ZEROAMOUNT;
         if (stod(amount_str) > 10000) return ERR_SINGLEAMOUNTLIMITEXCEED;
         if (stod(amount_str) + getDailyAmount(1) > 100000) return ERR_DAILYAMOUNTLIMITEXCEED;
@@ -270,10 +286,12 @@ int System::withdrawal() {
         string id, amount_str;
 
         id = EasyX::inputBox("卡号：");
+        if (id == "return") return CANCEL;
         id = MD5(id).toStr();
         if (!accountIndex.count(id)) return ERR_INVALIDID;
 
         amount_str = EasyX::inputBox("取款金额：");
+        if (amount_str == "return") return CANCEL;
 
         //将string类型的取款金额转化为double类型
         double amount = stod(amount_str);
@@ -299,6 +317,7 @@ int System::withdrawal() {
         //格式在输入的时候就已控制，故不需要再调整
         string amount_str;
         amount_str = easyX.inputNumber(MODE_AMOUNT, "请输入取款金额");
+        if (amount_str == "return") return CANCEL;
         if (stod(amount_str) == 0) return ERR_ZEROAMOUNT;
         if (stod(amount_str) > 5000) return ERR_SINGLEAMOUNTLIMITEXCEED;
         if (stod(amount_str) + getDailyAmount(2) > 20000) return ERR_DAILYAMOUNTLIMITEXCEED;
@@ -338,16 +357,19 @@ int System::transfer() {
         string fromId, fromId_copy, toId, toId_copy, amount_str;
 
         fromId = EasyX::inputBox("付款卡号：");
+        if (fromId == "return") return CANCEL;
         fromId_copy = fromId;
         fromId = MD5(fromId).toStr();
         if (!accountIndex.count(fromId)) return ERR_INVALIDID;
 
         toId = EasyX::inputBox("收款卡号：");
+        if (toId == "return") return CANCEL;
         toId_copy = toId;
         toId = MD5(toId).toStr();
         if (!accountIndex.count(toId)) return ERR_INVALIDID;
 
         amount_str = EasyX::inputBox("转账金额：");
+        if (amount_str == "return") return CANCEL;
 
         //将string类型的转账金额转化为double类型
         double amount = stod(amount_str);
@@ -378,12 +400,14 @@ int System::transfer() {
         string toId, toId_copy, amount_str;
 
         toId = easyX.inputNumber(1, "请输入对方账户");
+        if (toId == "return") return CANCEL;
         toId_copy = toId;
         toId = MD5(toId).toStr();
         if (!accountIndex.count(toId)) return ERR_INVALIDID;
         if (toId_copy == currAccountId) return ERR_SELFTRANSFER;
 
         amount_str = easyX.inputNumber(MODE_AMOUNT, "请输入转账金额");
+        if (amount_str == "return") return CANCEL;
         if (stod(amount_str) == 0) return ERR_ZEROAMOUNT;
         if (stod(amount_str) + getDailyAmount(4) > 50000) return ERR_DAILYAMOUNTLIMITEXCEED;
 
@@ -421,6 +445,7 @@ int System::showBalance() {
         //用于接收管理员输入的卡号
         string id;
         id = EasyX::inputBox("卡号：");
+        if (id == "return") return CANCEL;
         id = MD5(id).toStr();
         if (!accountIndex.count(id)) return ERR_INVALIDID;
 
@@ -448,6 +473,7 @@ int System::showTransactionHistory() {
         //用于接收管理员输入的卡号
         string id;
         id = EasyX::inputBox("卡号：");
+        if (id == "return") return CANCEL;
         id = MD5(id).toStr();
         if (!accountIndex.count(id)) return ERR_INVALIDID;
 
@@ -516,7 +542,7 @@ void System::mainMenu() {
         }
 
         mainMenuSelection = easyX.getMainMenuSelection();
-        switch (mainMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
+        switch (mainMenuSelection) {
             case 1: {
                 //获取账户管理模块返回的结果
                 int res = accountMenu();
@@ -540,6 +566,8 @@ void System::mainMenu() {
                 }
                 break;
             }
+            default:
+                break;
         }
     }
 }
@@ -553,7 +581,7 @@ int System::accountMenu() {
 
         accountMenuSelection = easyX.getAccountMenuSelection(isAdmin);
         if (isAdmin) {
-            switch (accountMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
+            switch (accountMenuSelection) {
                 case 1: {
                     //获取管理员新建账户操作结果
                     int res = signUp();
@@ -584,12 +612,11 @@ int System::accountMenu() {
                     }
                     break;
                 }
-                case 4:
-                    //点击返回键，等下面到while判断的时候就跳出循环返回了
+                default:
                     break;
             }
         } else {
-            switch (accountMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
+            switch (accountMenuSelection) {
                 case 1:
                     //其实用户的这个升级账户按钮是凑数的，想不出其他功能了
                     easyX.tip("请联系管理员QQ", "492829253");
@@ -618,8 +645,7 @@ int System::accountMenu() {
                     }
                     break;
                 }
-                case 4:
-                    //点击返回键，马上到while判断的时候就跳出循环返回了
+                default:
                     break;
             }
         }
@@ -638,7 +664,7 @@ void System::transactionMenu() {
 
         transactionMenuSelection = easyX.getTransactionMenuSelection();
         if (isAdmin) {
-            switch (transactionMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
+            switch (transactionMenuSelection) {
                 case 1: {
                     //获取管理员存款操作结果
                     int res = deposit();
@@ -673,12 +699,11 @@ void System::transactionMenu() {
                     }
                     break;
                 }
-                case 4:
-                    //点击返回键，等下面到while判断的时候就跳出循环返回啦
+                default:
                     break;
             }
         } else {
-            switch (transactionMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
+            switch (transactionMenuSelection) {
                 case 1: {
                     //获取用户存款操作结果
                     int res = deposit();
@@ -731,8 +756,7 @@ void System::transactionMenu() {
                     }
                     break;
                 }
-                case 4:
-                    //点击返回键，马上到while判断的时候就跳出循环返回啦
+                default:
                     break;
             }
         }
@@ -748,7 +772,7 @@ void System::informationMenu() {
 
         informationMenuSelection = easyX.getInformationMenuSelection();
         if (isAdmin) {
-            switch (informationMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
+            switch (informationMenuSelection) {
                 case 1: {
                     //获取管理员显示余额操作结果
                     int res = showBalance();
@@ -767,12 +791,11 @@ void System::informationMenu() {
                     }
                     break;
                 }
-                case 3:
-                    //点击返回键，等下面到while判断的时候就跳出循环返回
+                default:
                     break;
             }
         } else {
-            switch (informationMenuSelection) { // NOLINT(hicpp-multiway-paths-covered)
+            switch (informationMenuSelection) {
                 case 1: {
                     //获取用户显示余额操作结果
                     int res = showBalance();
@@ -791,8 +814,7 @@ void System::informationMenu() {
                     }
                     break;
                 }
-                case 3:
-                    //点击返回键……
+                default:
                     break;
             }
         }
